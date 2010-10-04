@@ -221,7 +221,7 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 	} else {
 		$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s ORDER BY RAND() LIMIT 0,%d',array($section['difficulty'],$quizId,$section['type'],$section['number'] )), ARRAY_A );
 		$moreQuestions = $section['number'] - sizeof($difficultyQuestions);	
-		$questions = array_merge($questions,$moreQuestions);
+		$questions = array_merge($questions,$difficultyQuestions);
 	}
 	
 	if ( $moreQuestions ){		
