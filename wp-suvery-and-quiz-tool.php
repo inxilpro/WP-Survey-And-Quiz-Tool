@@ -6,7 +6,7 @@ Plugin URI:
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.0.1
+Version: 1.0.2
  */
 
 
@@ -54,23 +54,24 @@ define( 'WPSQT_CONTACT_EMAIL'      , 'iain.cambridge@fubra.com' );
 define( 'WPSQT_FROM_EMAIL'         , 'wpst-no-reply@fubra.com' );
 
 // start a session
-if (!session_id())
+if ( !session_id() )
 	session_start();
 
 	
+register_activation_hook(__FILE__, 'wpsqt_main_install'); 
 /**
  * Installation function creates all the
  * tables required for the plugin. 
  * 
  * @uses wpdb
  */	
-function wpsqt_install(){    
+function wpsqt_main_install(){    
     
 	global $wpdb;
 	
-	set_option('wpsqt_version','1.0.1');
+	update_option('wpsqt_version','1.0.2');
 	if ( !get_option('wpsqt_number_of_items') ){
-		set_option('wpsqt_number_of_items',5);
+		update_option('wpsqt_number_of_items',5);
 	}
 	// Results table
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_RESULTS_TABLE."` (
@@ -134,7 +135,6 @@ function wpsqt_install(){
 	
 }
 
-register_activation_hook(__FILE__, 'wpsqt_install'); 
 
 
 /**
@@ -337,7 +337,7 @@ function wpsqt_daily_mail(){
 	wpsqt_functions_send_mail($results);
 	
 }
-add_action('daily_mail', 'wpsqt_daily_mail');
+add_action( 'daily_mail' , 'wpsqt_daily_mail' );
 
 /**
  * Does a SQL query to select from the last hour.
@@ -368,4 +368,20 @@ function wpsqt_main_admin_help_page(){
 	
 	require_once WPSQT_DIR.'/pages/admin/misc/help.php';
 }
+
+/**
+ * 
+ * Enter description here ...
+ */
+
+function wpsqt_check_tables(){
+	
+	global $wpdb;
+	
+	if ( !$wpdb->get_var("show tables like '".WPSQT_RESULTS_TABLE."'") ){
+		wpsqt_main_install();
+	}
+}
+
+add_action('plugins_loaded','wpsqt_check_tables');
 ?>
