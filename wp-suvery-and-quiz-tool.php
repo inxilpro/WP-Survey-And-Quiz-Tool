@@ -6,7 +6,7 @@ Plugin URI:
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.0.2
+Version: 1.0.3
  */
 
 
@@ -69,7 +69,7 @@ function wpsqt_main_install(){
     
 	global $wpdb;
 	
-	update_option('wpsqt_version','1.0.2');
+	update_option('wpsqt_version','1.0.3');
 	if ( !get_option('wpsqt_number_of_items') ){
 		update_option('wpsqt_number_of_items',5);
 	}

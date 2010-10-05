@@ -39,7 +39,11 @@ function wpsqt_site_quiz_show($quizName){
 	
 	$_SESSION['wpsqt']['current_step'] = $step;
 	$_SESSION['wpsqt']['current_name'] = $quizName;
-	 
+
+	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['status'] != 'enabled' ){
+		print 'Quiz is not enabled';
+		return;
+	}
 	
 	$sectionKey = ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' ) ? $step - 1 : $step;
 	

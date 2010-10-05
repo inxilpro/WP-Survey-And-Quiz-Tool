@@ -47,12 +47,17 @@ function wpsqt_admin_questions_addnew(){
 		$questionDifficulty = trim( $_POST['difficulty'] );
 		$questionValue      = (int) $_POST['points'];
 		$quizId             = (int) $_GET['quizid'];
-		$sectionId          = (isset($POST['section'])) ? intval($_POST['section']) : 0;
+		$sectionId          = (isset($_POST['section'])) ? intval($_POST['section']) : 0;
 		$errrorArray = array();
 		
 		if ( empty($questionText) ){
 			$errorArray[] = 'Need a question to ask';
+		}	
+			
+		if ( empty($sectionId) || $sectionId == 0 ){				
+			$errorArray[] = 'A question has to be assigned to a section!';			
 		}
+		
 		$correctCount = 0;
 		$sectionType = 'textarea';
 		// Run though multiple choice answers
@@ -90,9 +95,6 @@ function wpsqt_admin_questions_addnew(){
 				$errorArray[] = 'Can only have one valid answer for this type of question';
 			}
 
-			if ( empty($sectionId) || $sectionId == 0 ){
-				$errorArray[] = 'A question has to be assigned to a section!';
-			}
 		}
 		
 		if ( empty($errorArray) ){			

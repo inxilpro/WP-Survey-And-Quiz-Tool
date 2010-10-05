@@ -123,7 +123,7 @@ function wpsqt_admin_quiz_list(){
 	
 	require_once WPSQT_DIR.'/includes/functions.php';
 	
-	$itemsPerPage = 20;
+	$itemsPerPage = get_option('wpsqt_number_of_items');
 	$currentPage = wpsqt_functions_pagenation_pagenumber();	
 	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
 	
