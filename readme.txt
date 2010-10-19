@@ -61,6 +61,10 @@ Editable options for survey sections are
 
 == ChangeLog == 
 
+= 1.1.1 =
+* Fixed missing require_once in quizzes
+* Added ability to have custom templates.
+
 = 1.1 = 
 * Seperated Surveys and Quizes into two completely seperate sections.
 * Added WPSQT_VERSION constant

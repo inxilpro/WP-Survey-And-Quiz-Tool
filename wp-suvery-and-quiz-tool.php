@@ -518,4 +518,24 @@ function wpsqt_check_tables(){
 }
 
 add_action('plugins_loaded','wpsqt_check_tables');
+
+/**
+ * Allows users to use custom page views to change layouts and user interaction.
+ * 
+ * @param $file
+ * @param $vars
+ *  
+ * @uses wpdb
+ * 
+ * @since 1.1.1
+ */
+
+function wpsqt_page_display($file){
+	
+	if ( file_exists(WPSQT_DIR.'/pages/custom/'.$file) ){
+		return WPSQT_DIR.'/pages/custom/'.$file;
+	}
+	return WPSQT_DIR.'/pages/'.$file;
+	
+}
 ?>

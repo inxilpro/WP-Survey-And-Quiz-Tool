@@ -106,8 +106,8 @@ function wpsqt_admin_quiz_form($edit = false){
 		$quizId = (int) $_GET['quizid'];
 		$quizDetails = $wpdb->get_row('SELECT name,display_result,type,status,notification_type,take_details,use_wp_user FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
 	}
-	
-	require_once WPSQT_DIR.'/pages/admin/quiz/create.php';
+
+	require_once wpsqt_page_display('admin/quiz/create.php');
 	return;								  
 }
 
@@ -137,8 +137,8 @@ function wpsqt_admin_quiz_list(){
 	$quizList = array_slice($rawQuizList , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof($rawQuizList);
 	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
-	
-	require_once WPSQT_DIR.'/pages/admin/quiz/index.php';
+
+	require_once wpsqt_page_display('admin/quiz/index.php');
 }
 
 /**
@@ -263,8 +263,8 @@ function wpsqt_admin_quiz_sections(){
 										 , ARRAY_A );
 			
 	}
-	
-	require_once WPSQT_DIR.'/pages/admin/quiz/sections.php';
+
+	require_once wpsqt_page_display('admin/quiz/sections.php');
 	
 }
 
@@ -286,7 +286,7 @@ function wpsqt_admin_quiz_delete(){
 	global $wpdb;
 
 	if ( !isset($_GET['quizid']) || !ctype_digit($_GET['quizid']) ){
-		include_once WPSQT_DIR.'/pages/general/error.php';
+		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
 	$quizId = (int) $_GET['quizid'];
@@ -294,7 +294,7 @@ function wpsqt_admin_quiz_delete(){
 	if ( empty($_POST) ){
 		// Make sure they mean it.
 		$quizName = $wpdb->get_var('SELECT name FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId);
-		include_once WPSQT_DIR.'/pages/admin/quiz/delete.php';
+		require_once wpsqt_page_display('admin/quiz/delete.php');
 		return;	
 	}
 	elseif ( isset($_POST['confirm']) && $_POST['confirm'] == 'Yes' ){
@@ -304,10 +304,10 @@ function wpsqt_admin_quiz_delete(){
 		$wpdb->query('DELETE FROM '.WPSQT_SECTION_TABLE.' WHERE quizid = '.$quizId);
 		
 		$message = 'Quiz deleted successfully!';
-		require_once WPSQT_DIR.'/pages/general/message.php';
+		require_once wpsqt_page_display('general/message.php');
 	}
 	else {		
-		require_once WPSQT_DIR.'/pages/general/error.php';
+		require_once wpsqt_page_display('general/error.php');
 	}
 	
 }

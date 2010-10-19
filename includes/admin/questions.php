@@ -24,7 +24,7 @@ function wpsqt_admin_questions_addnew(){
 	
 	if ( !isset($_GET['quizid']) || !ctype_digit($_GET['quizid']) ){
 		$message = 'No quizid provided.';
-		include_once WPSQT_DIR.'/pages/general/message.php';
+		require_once wpsqt_page_display('general/message.php');
 		return;
 	}
 	
@@ -140,7 +140,8 @@ function wpsqt_admin_questions_addnew(){
 		
 	}
 	
-	include_once WPSQT_DIR.'/pages/admin/questions/form.php';
+	
+	require_once wpsqt_page_display('admin/questions/form.php');
 	return;	
 }
 
@@ -170,8 +171,8 @@ function wpsqt_admin_questions_show_list(){
 	$questions = array_slice($rawQuestions , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof($rawQuestions);
 	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
-		
-	include_once WPSQT_DIR.'/pages/admin/questions/index.php';
+
+	require_once wpsqt_page_display('admin/questions/index.php');
 	return;	
 	
 }
@@ -191,7 +192,7 @@ function wpsqt_admin_questions_edit(){
 	global $wpdb;
 	
 	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
-		include_once WPSQT_DIR.'/pages/general/error.php';
+		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
 	
@@ -219,8 +220,8 @@ function wpsqt_admin_questions_edit(){
 		}
 	
 	}
-	
-	include_once WPSQT_DIR.'/pages/admin/questions/form.php';
+
+	require_once wpsqt_page_display('admin/questions/form.php');
 	return;	
 }
 
@@ -242,7 +243,7 @@ function wpsqt_admin_questions_delete(){
 	global $wpdb;
 	
 	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
-		include_once WPSQT_DIR.'/pages/general/error.php';
+		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
 	
@@ -251,18 +252,18 @@ function wpsqt_admin_questions_delete(){
 	if ( empty($_POST) ){
 		// Make sure they mean it.
 		$questionText = $wpdb->get_var('SELECT text FROM '.WPSQT_QUESTION_TABLE.' WHERE id = '.$questionId);
-		include_once WPSQT_DIR.'/pages/admin/questions/delete.php';
+		require_once wpsqt_page_display('admin/questions/delete.php');
 		return;	
 	}
 	elseif ( $_POST['confirm'] == 'No' ){
 		$message = 'Question not deleted';
-		include_once WPSQT_DIR.'/pages/general/message.php';
+		require_once wpsqt_page_display('general/message.php');
 	}
 	elseif ( $_POST['confirm'] == 'Yes' ){		
 		$wpdb->query('DELETE FROM '.WPSQT_QUESTION_TABLE.' WHERE id = '.$questionId);
 		$wpdb->query('DELETE FROM '.WPSQT_ANSWER_TABLE.' WHERE questionid = '.$questionId);
 		$message = 'Question succesfully deleted';
-		include_once WPSQT_DIR.'/pages/general/message.php';
+		require_once wpsqt_page_display('general/message.php');
 		return;	
 	}
 }

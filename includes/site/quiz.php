@@ -55,7 +55,7 @@ function wpsqt_site_quiz_show($quizName){
 	
 	
 	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' &&  $step <= 1 ){		
-		require_once WPSQT_DIR.'/includes/site/Cha';
+		require_once WPSQT_DIR.'/includes/site/shared.php';
 		
 		switch ($step){			
 			case 1:
@@ -74,7 +74,7 @@ function wpsqt_site_quiz_show($quizName){
 	
 	// Check to see if we have a step higher than is possible. 
 	if ( $sectionKey > $numberOfSectons ){
-		require_once WPSQT_DIR.'/pages/general/error.php';
+		wpsqt_page_display('general/error.php');
 		return;
 	} else {
 		// Handle marking previous sections questions
@@ -138,7 +138,7 @@ function wpsqt_site_quiz_show($quizName){
 		if ( !isset($_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey]['questions']) ){
 			$_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey]['questions'] = wpsqt_site_quiz_fetch_questions($sectionKey);
 		}
-		require_once WPSQT_DIR.'/pages/site/quiz/section.php';
+		require_once wpsqt_page_display('site/quiz/section.php');
 	}
 	
 	return;
@@ -203,7 +203,7 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 	$questionDetails['count'] = 0;
 	
 	foreach ( $questions as $question ){
-		wpsqt_site_quiz_question_sort($question, $questionDetails);
+		require_once wpsqt_site_quiz_question_sort($question, $questionDetails);
 	}
 	
 	return $questionDetails['output'];
@@ -297,7 +297,7 @@ function wpsqt_site_quiz_finish(){
 	   	wp_mail($emailAddress,'WPSQT Notification',$emailMessage,$headers);
 	}
 	
-	require_once WPSQT_DIR.'/pages/site/quiz/finished.php';
+	require_once wpsqt_page_display('site/quiz/finished.php');
 	
 }
 

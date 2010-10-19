@@ -36,7 +36,7 @@ function wpsqt_admin_results_show_list(){
 	$numberOfItems = sizeof($rawResults);
 	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
 	
-	require_once WPSQT_DIR.'/pages/admin/results/index.php';
+	require_once wpsqt_page_display('admin/results/index.php');
 }
 
 /**
@@ -62,7 +62,7 @@ function wpsqt_admin_results_quiz_mark(){
 	global $wpdb;
 	
 	if ( !isset($_GET['resultid']) || !ctype_digit($_GET['resultid']) ){
-		require_once WPSQT_DIR.'/pages/general/error.php';
+		require_once wpsqt_page_display('general/error.php');
 	}
 	
 	$resultId = (int) $_GET['resultid'];
@@ -115,7 +115,8 @@ function wpsqt_admin_results_quiz_mark(){
     	$timeTaken .= $seconds.' Seconds';
     }
     $timeTaken = trim($timeTaken);
-	require_once WPSQT_DIR.'/pages/admin/results/mark.php';
+    
+   require_once wpsqt_page_display('admin/results/mark.php');
 	
 }
 
@@ -135,20 +136,20 @@ function wpsqt_admin_results_delete_result(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['resultid']) || !ctype_digit($_GET['resultid']) ){
-		require_once WPSQT_DIR.'/pages/general/error.php';
+	if ( !isset($_GET['resultid']) || !ctype_digit($_GET['resultid']) ){  
+	    require_once wpsqt_page_display('general/error.php');
 	}
 	
 	$resultId = (int)$_GET['resultid'];
 	
 	if ( empty($_POST) ){
-		$personName = $wpdb->get_var('SELECT person_name FROM '.WPSQT_RESULTS_TABLE.' WHERE id = '.$resultId);
-		include_once WPSQT_DIR.'/pages/admin/results/delete.php';
+		$personName = $wpdb->get_var('SELECT person_name FROM '.WPSQT_RESULTS_TABLE.' WHERE id = '.$resultId);  
+	    require_once wpsqt_page_display('admin/results/mark.php');
 	}
 	elseif ( isset($_POST['confirm']) && $_POST['confirm'] == 'Yes' ){
 		$wpdb->query('DELETE FROM '.WPSQT_RESULTS_TABLE.' WHERE id = '.$resultId);
-		$message = 'Result succesfully deleted';
-		include_once WPSQT_DIR.'/pages/general/message.php';
+		$message = 'Result succesfully deleted';  
+	    require_once wpsqt_page_display('general/message.php');
 	}
 	
 }

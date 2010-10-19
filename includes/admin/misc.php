@@ -45,8 +45,10 @@ function wpsqt_admin_options_main(){
 		}
 				
 	} 
-		
-	require_once WPSQT_DIR.'/pages/admin/misc/options.php';
+	
+	$vars = compact($errorArray);
+	
+	wpsqt_page_display('admin/misc/options.php');
 	
 }
 
@@ -115,8 +117,8 @@ function wpsqt_admin_misc_contact_main(){
 		}
 		
 	}
-		
-	require_once WPSQT_DIR.'/pages/admin/misc/contact.php';
+	
+	require_once wpsqt_page_display('admin/misc/contact.php');
 		
 }
 
