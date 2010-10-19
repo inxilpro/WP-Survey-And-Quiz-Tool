@@ -14,10 +14,10 @@ if ( !isset($rowCount) ){
 }
 
 if ( empty($validData) ){
-	$validData = array(array('name' => '', 'difficulty' => '', 'type' => '', 'number' => ''));
+	$validData = array(array('name' => '', 'difficulty' => 'medium', 'type' => '', 'number' => ''));
 }
 ?>
-<script type="text/javascript" src="/wp-content/plugins/wp-survey-and-quiz-tool/javascript/quiz_section.php?rowcount=<?php echo $rowCount; ?>"></script>
+<script type="text/javascript" src="<? echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/quiz_section.php?rowcount=<?php echo sizeof($validData); ?>"></script>
 
 <div class="wrap">
 
@@ -52,7 +52,10 @@ if ( empty($validData) ){
 				<tbody>	
 					<?php foreach ($validData as $key => $data) {?>			
 					<tr>
-						<td><input type="text" name="section_name[<?php echo $key; ?>]" value="<?php echo $data['name']; ?>" size="30" id="name_<?php echo $key; ?>" /></td>
+						<td>
+							<input type="hidden" name="sectionid[<?php echo $key; ?>]" value="<?php echo $data['id']; ?>" />
+							<input type="text" name="section_name[<?php echo $key; ?>]" value="<?php echo $data['name']; ?>" size="30" id="name_<?php echo $key; ?>" />
+						</td>
 						<td>
 							<select name="type[<?php echo $key; ?>]" id="type_<?php echo $key; ?>">
 								<option></option>
@@ -62,7 +65,6 @@ if ( empty($validData) ){
 						</td>
 						<td>
 							<select name="difficulty[<?php echo $key; ?>]" id="difficulty_<?php echo $key; ?>">
-								<!-- <?php echo $data['difficulty']; ?> -->
 								<option></option>
 								<option value="easy"<?php if ($data['difficulty'] == 'easy'){?> selected="yes"<?php }?>>Easy</option>
 								<option value="medium"<?php if ($data['difficulty'] == 'medium'){?> selected="yes"<?php }?>>Medium</option>
@@ -72,6 +74,7 @@ if ( empty($validData) ){
 						</td>
 						<td><input type="text" name="number[<?php echo $key; ?>]" value="<?php echo $data['number']; ?>" size="10" id="number_<?php echo $key; ?>" /></td>
 					</tr>
+					
 					<?php } ?>
 				</tbody>
 		</table>
@@ -89,7 +92,7 @@ if ( empty($validData) ){
 	
 	<ul>
 		<li><strong>Easy</strong> - All questions will be ranked as easy</li>
-		<li><strong>Medium</strong> - All questions will be ranked as medium</li>
+		<li><strong>Medium</strong> - All questions will be ranked as medium - Suggested</li>
 		<li><strong>Hard</strong> - All questions will be ranked as hard</li>
 		<li><strong>Mixed</strong> - An even number of questions from all sections, unless total number of questions is not dividable by 3. Then it will random which difiiculty gets the most/least.</li>
 	</ul>

@@ -1,11 +1,16 @@
 <h1><?php echo $_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey]['name']; ?></h1>
 
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-<input type="hidden" name="step" value="<?php echo ($_POST['step']+1); ?>">
+<input type="hidden" name="step" value="<?php echo ( $_SESSION['wpsqt']['current_step']+1); ?>">
 <?php foreach ($_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey]['questions'] as $question) { ?>
 	
 	<div class="wpst_question">
-		<?php echo stripslashes($question['text']); ?>
+		<?php echo stripslashes($question['text']);
+		
+			if ( !empty($question['additional']) ){
+			?>
+			<p><?php echo $question['additional']; ?></p>
+			<?php } ?>
 		
 		<?php if ($question['type'] != 'textarea' && isset($question['answers']) ){?>
 			<ul>
@@ -15,11 +20,7 @@
 				</li>
 			<?php } ?>
 			</ul>
-		<?php } else {
-			if ( !empty($question['additional']) ){
-			?>
-			<p><?php echo $question['additional']; ?></p>
-			<?php } ?>
+		<?php } else { ?>
 		<p><textarea rows="6" cols="50" name="answers[<?php echo $question['id']; ?>][]"></textarea></p>
 		<?php }?>	
 	</div>

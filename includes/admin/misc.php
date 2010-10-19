@@ -70,6 +70,8 @@ function wpsqt_admin_options_main(){
 
 function wpsqt_admin_misc_contact_main(){	
 	
+	global $wp_version;
+	
 	if ( !empty($_POST) ){
 		$errorArray = array();
 		if ( !isset($_POST['email']) || empty($_POST['email'])){
@@ -99,6 +101,9 @@ function wpsqt_admin_misc_contact_main(){
    			$headers = 'From: WPSQT Contact Form <'.WPSQT_FROM_EMAIL.'>' . "\r\n";
    			$headers .= 'Reply-To: '.trim($_POST['name']).' <'.$_POST['email'].'>\r\n';
    			$message = 'From: '.trim($_POST['name']).' <'.$_POST['email'].'>'.PHP_EOL;
+   			$message .= 'WPSQT Version: '.WPSQT_VERSION.PHP_EOL;
+   			$message .= 'PHP Version: '.PHP_VERSION.PHP_EOL;
+   			$message .= 'WordPress Version: '.$wp_version.PHP_EOL;
    			$message .= 'Message: '.htmlentities($_POST['message']).PHP_EOL;
    			
 			if ( !wp_mail(WPSQT_CONTACT_EMAIL,$_POST['reason'], $message, $headers) ){

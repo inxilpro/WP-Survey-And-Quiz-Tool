@@ -34,7 +34,7 @@
 			<?php 
 				if ( empty($results) ){
 					?><tr>
-						<td colspan="8"><center>No new results to be marked!</center></td>
+						<td colspan="8"><center><?php _e( 'No new results to be marked!' , 'wp-survey-and-quiz-tool' ); ?></center></td>
 					  </tr>
 					<?php 
 				}

@@ -36,6 +36,7 @@
 				<li><a href="#edit_a_section">How to edit a section?</a></li>
 				<li><a href="#delete_a_section">How to delete a section?</a></li>
 				<li><a href="#how_many_sections">How many sections can I have?</a></li>
+				<li><a href="#number_of_questions">A quiz section doesn't always show the correct number of questions whys this?</a></li>				
 			</ol>
 		</li>
 	</ol>
@@ -81,6 +82,10 @@
 		<h4>How many question can I have?</h4>	
 		<p>You can have as many as you would like. If you have issues create new questions please report this to us.</p>
 		
+		<a name="extra_html"></a>
+		<h4>Is it possible to have html for the questions?</h4>
+		<p>HTML is enabled for the <strong>`<em>additional</em>`</strong> field but not the actual question question.</p>
+		
 	<h3>Marking</h3>
 		
 		<a name="mark_result"></a>
@@ -116,3 +121,7 @@
 		<a name="how_many_sections"></a>
 		<h4>How many sections can I have?</h4>
 		<p>You can have as many as you would like. If you have issues create new sections please report this to us.</p>
+	
+		<a name="number_of_questions"></a>
+		<h4>A quiz section doesn't always show the correct number of questions whys this?</h4>
+		<p>You will have set the difficulty to mixed. If you have set all your questions to the same difficulty please change the section difficulty to match. This is only to be used when there is an even number of questions for each difficulty and is advised to only be used when there are more questions than the question number.</p>

@@ -28,7 +28,8 @@ function wpsqt_site_quiz_show($quizName){
 	
 	$step = ( isset($_REQUEST['step']) && ctype_digit($_REQUEST['step']) ) ? intval($_REQUEST['step']) : 0;	
 	
-	if ( $step == 0 ){		
+	if ( $step == 0 ){	
+		if (isset($_SESSION['wpsqt'][$quizName])) unset($_SESSION['wpsqt'][$quizName]);	
 		$_SESSION['wpsqt'][$quizName] = array();
 		$_SESSION['wpsqt'][$quizName]['start'] = microtime(true);
 		$_SESSION['wpsqt'][$quizName]['quiz_details'] = $wpdb->get_row( $wpdb->prepare('SELECT * FROM '.WPSQT_QUIZ_TABLE.' WHERE name like %s', array($quizName) ), ARRAY_A );
@@ -45,19 +46,32 @@ function wpsqt_site_quiz_show($quizName){
 		return;
 	}
 	
+	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['use_wp_user'] == 'yes' && !is_user_logged_in() ){
+		print 'You have to be logged in to do this quiz';
+		return;
+	}
+	
 	$sectionKey = ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' ) ? $step - 1 : $step;
 	
 	
-	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' && $step == 0 ){		 
-		 wpsqt_site_quiz_take_details(false);
-		 return;
-	} elseif ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' && $step == 1 ){		 
-		 if ( !wpsqt_site_quiz_take_details(true) ){
-		 	return;
-		 }	
-	}
+	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' &&  $step <= 1 ){		
+		require_once WPSQT_DIR.'/includes/site/Cha';
+		
+		switch ($step){			
+			case 1:
+				 if ( !wpsqt_site_shared_take_details(true) ){
+		 			return;
+				 }	
+				break;
+			default:
+				wpsqt_site_shared_take_details(false);
+				return;
+				break;		
+		}		
+	} 
 	
 	$numberOfSectons = sizeof($_SESSION['wpsqt'][$quizName]['quiz_sections']);
+	
 	// Check to see if we have a step higher than is possible. 
 	if ( $sectionKey > $numberOfSectons ){
 		require_once WPSQT_DIR.'/pages/general/error.php';
@@ -115,7 +129,7 @@ function wpsqt_site_quiz_show($quizName){
 				
 		}// END if isset($_POST['answers'])
 		
-		if ( $sectionKey == $numberOfSectons ){			
+		if ( ($sectionKey+1) == $numberOfSectons ){			
 			$_SESSION['wpsqt'][$quizName]['finish'] = microtime(true);
 			wpsqt_site_quiz_finish();
 			return;	
@@ -129,57 +143,6 @@ function wpsqt_site_quiz_show($quizName){
 	
 	return;
 	
-}
-
-/**
- * Simply function to  display contact and to
- * take and check data to ensure it is provided.
- * 
- * @param boolean $collectDetails
- *
- * @uses pages/site/quiz/contact.php
- * 
- * @return boolean True if collectDetails is true and there is no errors. Else returns false and displays the contact page.
- * 
- * @since 0.1
- */
-
-function wpsqt_site_quiz_take_details($collectDetails = false){
-	
-	$quizName = $_SESSION['wpsqt']['current_name'];
-	
-	if ($collectDetails == true ){
-
-		$errors = array();
-		if ( !isset($_POST['user_name']) || empty($_POST['user_name']) ){
-			$errors[] = 'Name required';
-		}	
-		if ( !isset($_POST['email']) || !is_email($_POST['email']) ){
-			$errors[] = 'Valid email required';
-		}	
-		if ( !isset($_POST['phone']) || empty($_POST['phone']) ){
-			$errors[] = 'Phone required';
-		}		
-		if ( !isset($_POST['address']) || empty($_POST['address']) ){
-			$errors[] = 'Address required';
-		}
-		if ( !isset($_POST['notes']) || empty($_POST['notes']) ){
-			$errors[] = 'Experience required';
-		}
-			
-		if ( empty($errors) ){
-			$_SESSION['wpsqt'][$quizName]['person']['name']    = (string) $_POST['user_name'];
-			$_SESSION['wpsqt'][$quizName]['person']['email']   = (string) $_POST['email'];
-			$_SESSION['wpsqt'][$quizName]['person']['phone']   = (string) $_POST['phone'];
-			$_SESSION['wpsqt'][$quizName]['person']['address'] = (string) $_POST['address'];
-			$_SESSION['wpsqt'][$quizName]['person']['notes']   = (string) $_POST['notes'];
-			$_SESSION['wpsqt'][$quizName]['person']['heard']   = (string) $_POST['heard'];
-			return true;
-		}
-	}
-	
-	require_once WPSQT_DIR.'/pages/site/quiz/contact.php';
-	return false;
 }
 
 /**
@@ -217,19 +180,19 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 			if ($i == $randomized){
 				$thisLimit += $reminder;	
 			}
-			$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s ORDER BY RAND() LIMIT 0,%d',array($difficulty,$quizId,$section['type'],$thisLimit)), ARRAY_A );
+			$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY RAND() LIMIT 0,%d',array($difficulty,$quizId,$section['type'],$section['id'] ,$thisLimit)), ARRAY_A );
 			$moreQuestions += $thisLimit - sizeof($difficulty);
 			$questions = array_merge($questions,$difficultyQuestions);
 		}	
 			
 	} else {
-		$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s ORDER BY RAND() LIMIT 0,%d',array($section['difficulty'],$quizId,$section['type'],$section['number'] )), ARRAY_A );
+		$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY RAND() LIMIT 0,%d',array($section['difficulty'],$quizId,$section['type'],$section['id'] ,$section['number'] )), ARRAY_A );
 		$moreQuestions = $section['number'] - sizeof($difficultyQuestions);	
 		$questions = array_merge($questions,$difficultyQuestions);
 	}
 	
-	if ( $moreQuestions ){		
-		$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE quizid = %d AND section_type = %s ORDER BY RAND() LIMIT 0,%d',array( $quizId , $section['type'] , $moreQuestions )), ARRAY_A );
+	if ( $moreQuestions > 0 ){		
+		$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE quizid = %d AND section_type = %s AND sectionid = %d ORDER BY RAND() LIMIT 0,%d',array( $quizId , $section['type'] , $section['id'] , $moreQuestions )), ARRAY_A );
 		$moreQuestions = $section['number'] - sizeof($difficultyQuestions);	
 		$questions = array_merge($questions,$difficultyQuestions);
 	}
@@ -292,28 +255,34 @@ function wpsqt_site_quiz_question_sort($origQuestion,&$questionDetails){
 function wpsqt_site_quiz_finish(){
 	
 	global $wpdb;
-	
 	$quizName =$_SESSION['wpsqt']['current_name'];
+	
+	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['use_wp_user'] == 'yes'){
+		$objUser = wp_get_current_user();
+		$result['person']['name'] = $objUser->user_login;		
+		$_SESSION['wpsqt'][$quizName]['person']['email'] = $objUser->user_email;
+	} 
+
+	$personName = (isset($_SESSION['wpsqt'][$quizName]['person']['name'])) ? $_SESSION['wpsqt'][$quizName]['person']['name'] :  'Anonymous';	
+		
 	$timeTaken = $_SESSION['wpsqt'][$quizName]['finish'] - $_SESSION['wpsqt']['start'];
 	$wpdb->query( $wpdb->prepare('INSERT INTO `'.WPSQT_RESULTS_TABLE.'` (person_name,ipaddress,person,sections,timetaken,quizid) VALUES (%s,%s,%s,%s,%d,%d)', 
-	array($_SESSION['wpsqt'][$quizName]['person']['name'],$_SERVER['REMOTE_ADDR'],serialize($_SESSION['wpsqt'][$quizName]['person']),serialize($_SESSION['wpsqt'][$quizName]['quiz_sections']),$timeTaken,$_SESSION['wpsqt'][$quizName]['quiz_details']['id']) ) );
+	array($personName,$_SERVER['REMOTE_ADDR'],serialize($_SESSION['wpsqt'][$quizName]['person']),serialize($_SESSION['wpsqt'][$quizName]['quiz_sections']),$timeTaken,$_SESSION['wpsqt'][$quizName]['quiz_details']['id']) ) );
 	
 	$totalQuestions = 0;
 	$correctAnswers = 0;
 	$canAutoMark = true;
 	
-	foreach ($_SESSION['wpsqt'][$quizName]['quiz_sections'] as $quizSection){		
-		
+	foreach ( $_SESSION['wpsqt'][$quizName]['quiz_sections'] as $quizSection ){		
 		if ( $quizSection['type'] == 'textarea' ){
 			$canAutoMark = false;
 			break;
 		}
 		
-		if ( isset($quizSection['stats']['correct']) ){		
-			$correctAnswers + $quizSection['stats']['correct'];
-			$totalQuestions += ($quizSection['stats']['correct'] + $quizSection['stats']['incorrect']);
+		if ( isset($quizSection['stats']['correct']) ){	
+			$correctAnswers += $quizSection['stats']['correct'];			
+			$totalQuestions += sizeof($quizSection['questions']);
 		}
-		
 	}
 	$emailAddress = get_option('wpsqt_contact_email');
 	

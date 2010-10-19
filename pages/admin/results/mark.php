@@ -26,14 +26,35 @@ $hardPoints = 0;
 		<h3>User Details</h3>
 		<div class="person">
 			<ul>
+			   <?php if (isset($result['person']['name'])){ ?>
 				<li><b><u>Name</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['name']))); ?></li>
+			   <?php } 
+			   		if (isset($result['person']['email'])){
+			   ?>	
 				<li><b><u>Email</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['email']))); ?></li>
+			   <?php }
+				     if (isset($result['person']['phone'])){
+				?>
 				<li><b><u>Phone</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['phone']))); ?></li>
+				<?php }
+					  if (isset($result['person']['heard'])){
+				?>
 				<li><b><u>Heard Of</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['heard']))); ?></li>
+				<?php }
+					  if (isset($result['ipaddress'])){
+				?>
 				<li><b><u>IP Address</u></b> - <?php echo $result['ipaddress']; ?></li>
 				<li><b><u>Hostname</u></b> - <?php echo gethostbyaddr($result['ipaddress']); ?></li> 
+				<?php }
+					  if (isset($result['person']['address'])){
+				?>
 				<li><b><u>Address</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['address'])))); ?></li>
+				<?php }
+					  if (isset($result['person']['notes'])){
+				?>
 				<li><b><u>Notes</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['notes'])))); ?></li>
+				<?php }
+				?>
 				<li><b><u>Timetaken</u></b> - <?php echo $timeTaken; ?></li>
 			</ul>
 		</div>
@@ -85,7 +106,7 @@ $hardPoints = 0;
 		<option value="Accepted" <?php if ($result['status'] == 'Accepted'){?> selected="yes"<?php } ?>>Accepted</option>
 	</select>
 	
-	<script type="text/javascript" src="/wp-content/plugins/wp-survey-and-quiz-tool/javascript/mark.php?mark=<?php echo $hardPoints; ?>"></script>
+	<script type="text/javascript" src="<? echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/mark.php?mark=<?php echo $hardPoints; ?>"></script>
 	
 	<input type="hidden" name="overall_mark" id="overall_mark" value="<?php echo $currentPoints; ?>" />
 	<input type="hidden" name="total_mark" id="total_mark" value="<?php echo $totalPoints; ?>" />

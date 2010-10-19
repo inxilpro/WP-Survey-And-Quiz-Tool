@@ -3,7 +3,7 @@ if ( !isset($rowCount) ){
 	$rowCount = 1;
 }
 ?>
-<script type="text/javascript" src="/wp-content/plugins/wp-survey-and-quiz-tool/javascript/question_form.php?rowcount=<?php echo $rowCount; ?>"></script>
+<script type="text/javascript" src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/question_form.php?rowcount=<?php echo $rowCount; ?>"></script>
 
 <div class="wrap">
 
@@ -75,7 +75,7 @@ if ( !isset($rowCount) ){
 					</select>
 					</td>
 				</tr>
-				<tr class="additional"<?php if ( isset($answers) ) { ?> style="display: none;"<?php } ?>>
+				<tr>
 					<th scope="row">Additional Text</th>
 					<td>
 						<textarea name="additional" cols="40" rows="6"><?php if ( isset($questionAdditional) ){ echo $questionAdditional; } ?></textarea>

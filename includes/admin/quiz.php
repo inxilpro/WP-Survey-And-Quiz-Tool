@@ -65,7 +65,7 @@ function wpsqt_admin_quiz_form($edit = false){
 		elseif ( $_POST['display_result'] != 'yes' && $_POST['display_result'] != 'no' ){
 			$errorArray[] = 'Display result isn\'t an acceptable value';
 		}
-		
+	
 		// Check display result
 		if ( !isset($_POST['take_details']) || empty($_POST['take_details']) ){
 			$errorArray[] = 'Take details can\'t be empty';
@@ -73,32 +73,38 @@ function wpsqt_admin_quiz_form($edit = false){
 		elseif ( $_POST['take_details'] != 'yes' && $_POST['take_details'] != 'no' ){
 			$errorArray[] = 'Take details isn\'t an acceptable value';
 		}
+		
+		// Check display result
+		if ( !isset($_POST['use_wp_user']) || empty($_POST['use_wp_user']) ){
+			$errorArray[] = 'Use Wordpress User Details can\'t be empty';
+		}
+		elseif ( $_POST['use_wp_user'] != 'yes' && $_POST['use_wp_user'] != 'no' ){
+			$errorArray[] = 'Use Wordpress User Details isn\'t an acceptable value';
+		}
 				
 	}
 	
 	if ( !empty($_POST) && empty($errorArray) ){
 		if ( $edit == false ){			
-			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,type,status,notification_type,take_details)  VALUES (%s,%s,%s,%s,%s,%s)',
-									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['type'],$_POST['status'],$_POST['notification_type'],$_POST['take_details']) ) );
+			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,type,status,notification_type,take_details,use_wp_user)  VALUES (%s,%s,%s,%s,%s,%s,%s)',
+									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['type'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user']) ) );
 			$successMessage = 'Quiz inserted';
 		}
 		else{
-			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,type=%s,status=%s,notification_type=%s,take_details=%s WHERE id = %d',
-									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['type'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_GET['quizid'] )));
+			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,type=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s WHERE id = %d',
+									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['type'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'] , $_GET['quizid'] )) );
 			$successMessage = 'Quiz updated';
 		}
 		
-		if ( $_POST['notification_type'] != 'instant' ){
-			
-			$functionName = ( $_POST['notification_type'] == 'hourly' ) ? 'hourly_mail' : 'daily_mail' ;
-			
+		if ( $_POST['notification_type'] != 'instant' ){			
+			$functionName = ( $_POST['notification_type'] == 'hourly' ) ? 'hourly_mail' : 'daily_mail' ;			
 			wp_schedule_event(time(), $_POST['notification_type'] , $functionName);
 		}
 	}	
 	
 	if ( $edit == true && ctype_digit($_GET['quizid']) ){
 		$quizId = (int) $_GET['quizid'];
-		$quizDetails = $wpdb->get_row('SELECT name,display_result,type,status,notification_type,take_details FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
+		$quizDetails = $wpdb->get_row('SELECT name,display_result,type,status,notification_type,take_details,use_wp_user FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
 	}
 	
 	require_once WPSQT_DIR.'/pages/admin/quiz/create.php';
@@ -186,38 +192,76 @@ function wpsqt_admin_quiz_sections(){
 		    	   // Section type can only be multiple or textarea.
 		    	   || ( $_POST['type'][$i] != 'multiple' && $_POST['type'][$i] != 'textarea' )
 		    	 ){
-		    	  	continue;
+		    	  	$status = 'delete';
+		    	 } else {
+		    	 	$status = 'input';
 		    	 }
 		    	 
+		    	 $sectionId = (isset($_POST['sectionid'][$i])) ? intval($_POST['sectionid'][$i]) : NULL;
 		    	 // All that, just for this...
 		    	 $validData[] = array( 'name'       => $_POST['section_name'][$i],
 		    	 					   'difficulty' => $_POST['difficulty'][$i],
 		    	 					   'number'     => $_POST['number'][$i],
-		    	 					   'type'       => $_POST['type'][$i] );
+		    	 					   'type'       => $_POST['type'][$i],
+		    						   'id'         => $sectionId,
+		    	 					   'status'     => $status );
 		    }
 		    
-		    if ( !empty($validData) ){
+			if ( !empty($validData) ){
+				
 		    	// Generate SQL query
-			    $insertSql = 'INSERT INTO `'.WPSQT_SECTION_TABLE.'` (quizid,name,type,number,difficulty) VALUES ';	
-			    foreach ($validData as $key => $data) {
-			    	$insertSql .= "(". $wpdb->escape($_GET['quizid']) .",'".
-			    					   $wpdb->escape($data['name']) ."','".
-			    					   $wpdb->escape($data['type']) ."','".
-			    					   $wpdb->escape($data['number']) ."','".
-			    					   $wpdb->escape($data['difficulty']) ."')" ;
-					if ( $key != (sizeof($validData) - 1)){
-						$insertSql .= ',';
-					}
-			    }
+			    $insertSql = 'INSERT INTO `'.WPSQT_SECTION_TABLE.'` (quizid,name,type,number,difficulty) VALUES ';
+			    $insertSqlParts = array();
+			    $insert = false;	
 			    
-			    $wpdb->query( 'DELETE FROM `'.WPSQT_SECTION_TABLE.'` WHERE quizid = '.$wpdb->escape($_GET['quizid']) );
-			    $wpdb->query($insertSql);
+				foreach ($validData as $key => $data) {
+					
+				    if ( $data['status'] == 'input' ){
+				    	// OMG so hacky! :'(
+				    	
+				    	if ( isset($data['id']) && !empty($data['id']) ){
+				    		// Updates as is a current secton
+				    		$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_SECTION_TABLE.'
+				    									  SET name=%s,
+				    									  type=%s,
+				    									  number=%d,
+				    									  difficulty=%s 
+				    									  WHERE id = %d',
+				    		array($data['name'],$data['type'],$data['number'],$data['difficulty'],$data['id'])) );
+				    		continue;
+				    	} 
+				    	// New section therefore insert
+				    	// turns the insert flag to true.
+				    	$insert = true;	
+					    $insertSqlParts[] = "(". $wpdb->escape($_GET['quizid']) .",'".
+					    						 $wpdb->escape($data['name']) ."','".
+					    					     $wpdb->escape($data['type']) ."','".
+					    					     $wpdb->escape($data['number']) ."','".
+					    					     $wpdb->escape($data['difficulty']) ."')";
+				    } else {
+				    	// Delete it and questions related to it.
+				    	if ( isset($data['id']) ){			    		
+				    		$wpdb->query('DELETE FROM '.WPSQT_SECTION_TABLE.' WHERE id = '.$data['id']);
+				    		$wpdb->query('DELETE FROM '.WPSQT_QUESTION_TABLE.' WHERE sectionid = '.$data['id']);			    		
+				    	}
+			   		}						
+			    } 
+			
+			    if ( $insert == true ){
+			    	$insertSql .= implode(',',$insertSqlParts);
+			    	$wpdb->query($insertSql);
+			    }
+
 			    $successMessage = 'Sections updated!';
-		    } 		    
-		}
-		else {			
-			$validData = $wpdb->get_results('SELECT name,type,number,difficulty FROM '.WPSQT_SECTION_TABLE.' WHERE quizid = '.$wpdb->escape($_GET['quizid']), ARRAY_A );
+		    }
+		    	    
 		}	
+			
+		$validData = $wpdb->get_results('SELECT id,name,type,number,difficulty
+										 FROM '.WPSQT_SECTION_TABLE.'
+										 WHERE quizid = '.$wpdb->escape($_GET['quizid'])
+										 , ARRAY_A );
+			
 	}
 	
 	require_once WPSQT_DIR.'/pages/admin/quiz/sections.php';

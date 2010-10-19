@@ -67,9 +67,18 @@
 				<tr>
 					<th scope="row">Contact Details Form</th>
 					<td>
-						<select id="status" name="take_details">
+						<select id="take_details" name="take_details">
 							<option value="no"<?php if ( !isset($quizDetails['take_details']) ||  $quizDetails['take_details'] == 'no' ){?> selected="selected"<?php }?>>No</option>
 							<option value="yes"<?php if ( isset($quizDetails['take_details']) && $quizDetails['take_details'] == 'yes' ){?> selected="selected"<?php }?>>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Use Wordpress User Details</th>
+					<td>
+						<select id="use_wp_user" name="use_wp_user">
+							<option value="no"<?php if ( !isset($quizDetails['use_wp_user']) ||  $quizDetails['use_wp_user'] == 'no' ){?> selected="selected"<?php }?>>No</option>
+							<option value="yes"<?php if ( isset($quizDetails['use_wp_user']) && $quizDetails['use_wp_user'] == 'yes' ){?> selected="selected"<?php }?>>Yes</option>
 						</select>
 					</td>
 				</tr>

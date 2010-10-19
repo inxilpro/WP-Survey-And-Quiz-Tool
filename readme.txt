@@ -1,17 +1,17 @@
 === WP Survey And Quiz Tool ===
 Contributors: Fubra
-Tags: Quiz,test,exam,survey,results,email
+Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.0.3
+Stable tag: 1.1
 Requires At Least: 2.9.2
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
 
 == Description ==
 
-This plugin is designed to allow wordpress blog owners to create their own quizzes and surveys.
+This plugin is designed to allow wordpress blog owners to create their own quizzes and surveys. Shows survey results using google charts.
 
-Editable options for quizes and surveys are
+Editable options for quizes are
 
 * Take users contact details
 * Completion notification (Instant, Batched - hourly or daily or not at all)
@@ -25,6 +25,17 @@ Editable options for quiz sections are
 * Number of Questions
 * Name
 
+Editable options for surveys
+
+* Name
+* Take users contact details
+
+Editable options for survey sections are
+
+* Type - Multiple choice or scalable 1-10 
+* Number of questions 
+* Name
+
 == Installation ==
 
 1. Upload `wp-survey-and-quiz-tool` folder to `/wp-content/plugins/` directory
@@ -36,7 +47,8 @@ Editable options for quiz sections are
 7. Fill out details.
 8. Go back to Quiz/Surveys click edit questions
 9. Click add questions and proceed.
-10. Create new page and insert shortcode [wpsqt_page name=""] with name having the quiz name of the quiz you wish to have on the page 
+10. Create new page and insert shortcode [wpsqt_quiz name=""] with name having the quiz name of the quiz you wish to have on the page 
+10. OR Create new page and insert shortcode [wpsqt_survey name=""] with name having the survey name of the survey you wish to have on the page 
   
 == Screenshots ==
 
@@ -45,8 +57,22 @@ Editable options for quiz sections are
 3. Question List
 4. Create question form
 5. Results list
+6. Survey results
 
 == ChangeLog == 
+
+= 1.1 = 
+* Seperated Surveys and Quizes into two completely seperate sections.
+* Added WPSQT_VERSION constant
+* Added wordpress install information to contact form.
+* Added Google Charts display for survey results.
+* Added shortcode for surveys wpsqt_survey
+* Added additional text ability to multiple choice questions.
+* Fixed admin javascript linking issues.
+* Fixed display resuts aways returning 0 corect
+* Fixed questions showing up in sections the weren't assigned to.
+* Fixed questions being delinked from sections on updating sections.
+* Changed sortcode for quizzies to wpsqt_page to wpsqt_quiz
 
 = 1.0.3 =
 * Fixed faulty validation in questions creation.
@@ -60,6 +86,10 @@ Editable options for quiz sections are
 * Fixed error in display non mixed sections
 
 == Upgrade Notice ==
+
+= 1.1 =
+
+Bugfixes, better survey ability and quiz tweaks.
 
 = 1.0.3 =
 Yet another bug fix release!
@@ -91,3 +121,11 @@ Not within the plugin it's self thou your hosting provider may set mysql limits 
 = Is this plugin compatible with Multisite? = 
 
 Yes it has been tested and shown to be functional on a multisite install.
+
+= A quiz section doesn't always show the correct number of questions whys this? =
+
+You will have set the difficulty to mixed. This is only to be used when there is an even number of questions for each difficulty and is advised to only be used when there are more questions than the question number.
+
+= Is it possible to have html for the questions? = 
+
+HTML is enabled for the `additional` field but not the actual question question.

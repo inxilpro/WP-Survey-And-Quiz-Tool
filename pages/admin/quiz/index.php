@@ -7,7 +7,7 @@
 	
 	<div class="tablenav">
 		<div class="alignleft">
-			<a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=create" class="button-secondary" title="Add New Quiz">Add New Quiz</a>
+			<a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=create" class="button-secondary" title="Add New Quiz"><?php _e('Add New Quiz','wp-survey-and-quiz-tool'); ?></a>
 		</div>
 	
 		<div class="tablenav-pages">
@@ -46,7 +46,7 @@
 			if ( empty($quizList) ){
 				?>
 				<tr>
-					<td colspan="7"><div style="text-align: center;">No quizes or surveys yet!</div></td>
+					<td colspan="7"><div style="text-align: center;"><?php _e('No quizes or surveys yet!','wp-survey-and-quiz-tool')?></div></td>
 				</tr>
 				<?php 
 			}
@@ -69,7 +69,7 @@
 	
 	<div class="tablenav">
 		<div class="alignleft">
-			<a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=create" class="button-secondary" title="Add New Quiz">Add New Quiz</a>
+			<a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=create" class="button-secondary" title="Add New Quiz"><?php _e('Add New Quiz','wp-survey-and-quiz-tool'); ?></a>
 		</div>
 	
 		<div class="tablenav-pages">
