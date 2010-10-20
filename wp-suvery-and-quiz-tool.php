@@ -6,9 +6,9 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.1.2
+Version: 1.1.3
 */
-
+// TODO fix database layout in install........
 //TODO: Add internationalization ability.
 
 /*
@@ -57,7 +57,7 @@ define( 'WPSQT_PAGE_HELP'            , 'wpsqt-menu-help'    );
 define( 'WPSQT_PAGE_SURVEY'          , 'wpsqt-menu-survey'  );
 define( 'WPSQT_CONTACT_EMAIL'        , 'iain.cambridge@fubra.com' );
 define( 'WPSQT_FROM_EMAIL'           , 'wpst-no-reply@fubra.com' );
-define( 'WPSQT_VERSION'              , '1.1' );
+define( 'WPSQT_VERSION'              , '1.1.3' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -121,6 +121,7 @@ function wpsqt_main_install(){
 				  `status` varchar(255) NOT NULL DEFAULT 'disabled',
 				  `notification_type` varchar(255) NOT NULL DEFAULT 'none',
 				  `take_details` varchar(3) NOT NULL DEFAULT 'no',
+ 				  `use_wp_user` varchar(3) NOT NULL DEFAULT 'no',
 				  PRIMARY KEY (`id`)
 				  ) ENGINE=MyISAM;");
 	
@@ -514,6 +515,12 @@ function wpsqt_check_tables(){
 		return;
 	}
 	
+	$oldVersion = get_option('wpsqt_version');
+	
+	// Simple way of checking if an it's an update or not.
+	if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
+		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `use_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+	}
 	
 }
 

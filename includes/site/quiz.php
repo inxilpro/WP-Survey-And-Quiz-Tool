@@ -129,7 +129,7 @@ function wpsqt_site_quiz_show($quizName){
 				
 		}// END if isset($_POST['answers'])
 		
-		if ( ($sectionKey+1) == $numberOfSectons ){			
+		if ( $sectionKey == $numberOfSectons ){			
 			$_SESSION['wpsqt'][$quizName]['finish'] = microtime(true);
 			wpsqt_site_quiz_finish();
 			return;	
@@ -203,7 +203,7 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 	$questionDetails['count'] = 0;
 	
 	foreach ( $questions as $question ){
-		require_once wpsqt_site_quiz_question_sort($question, $questionDetails);
+		wpsqt_site_quiz_question_sort($question, $questionDetails);
 	}
 	
 	return $questionDetails['output'];

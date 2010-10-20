@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires At Least: 2.9.2
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -60,6 +60,11 @@ Editable options for survey sections are
 6. Survey results
 
 == ChangeLog == 
+
+= 1.1.3 = 
+* Fixed table creation error for quiz table
+* Fixed options page not showing up.
+* Fixed last quiz section not appering.
 
 = 1.1.2 =
 * All files actually uploaded this time

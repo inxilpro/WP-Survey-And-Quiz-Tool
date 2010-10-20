@@ -48,7 +48,7 @@ function wpsqt_admin_options_main(){
 	
 	$vars = compact($errorArray);
 	
-	wpsqt_page_display('admin/misc/options.php');
+	require_once wpsqt_page_display('admin/misc/options.php');
 	
 }
 
