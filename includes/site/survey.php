@@ -38,6 +38,8 @@ function wpsqt_site_survey_show($surveyName){
 		
 	$_SESSION['wpsqt']['current_step'] = $step;
 	$_SESSION['wpsqt']['current_name'] = $surveyName;
+	$_SESSION['wpsqt']['current_id']   = $_SESSION['wpsqt'][$surveyName]['survey_details']['id'];
+	$_SESSION['wpsqt']['current_type'] = 'survey';
 	$sectionKey = ( $_SESSION['wpsqt'][$surveyName]['survey_details']['take_details'] == 'yes' ) ? $step - 1 : $step;
 	$_SESSION['wpsqt']['section_key']  = $sectionKey;
 

@@ -39,6 +39,11 @@
 				<li><a href="#number_of_questions">A quiz section doesn't always show the correct number of questions whys this?</a></li>				
 			</ol>
 		</li>
+		<li>Customization
+			<ol>
+				<li><a href="#change_layout">Can I change the quiz layout/style?</a></li>
+			</ol>
+		</li>
 	</ol>
 	
 	
@@ -125,3 +130,9 @@
 		<a name="number_of_questions"></a>
 		<h4>A quiz section doesn't always show the correct number of questions whys this?</h4>
 		<p>You will have set the difficulty to mixed. If you have set all your questions to the same difficulty please change the section difficulty to match. This is only to be used when there is an even number of questions for each difficulty and is advised to only be used when there are more questions than the question number.</p>
+		
+	<h3>Customization</h3>
+	
+		<a name="change_layout"></a>
+		<h4>Can I change the quiz layout/style?</h4>
+		<p>You can change the look of the quiz and surveys with ease by creating a new directory in the pages/custom directory. The custom directory naming schema is quiz-$quid_id for quizzes and survey-$survey_id. So for example if you wish to create custom layouts for a quiz with the id 3 it would be 'quiz-3'.</p>

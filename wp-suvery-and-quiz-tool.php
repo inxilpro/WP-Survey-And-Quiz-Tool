@@ -57,7 +57,7 @@ define( 'WPSQT_PAGE_HELP'            , 'wpsqt-menu-help'    );
 define( 'WPSQT_PAGE_SURVEY'          , 'wpsqt-menu-survey'  );
 define( 'WPSQT_CONTACT_EMAIL'        , 'iain.cambridge@fubra.com' );
 define( 'WPSQT_FROM_EMAIL'           , 'wpst-no-reply@fubra.com' );
-define( 'WPSQT_VERSION'              , '1.1.3' );
+define( 'WPSQT_VERSION'              , '1.1.4' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -530,7 +530,6 @@ add_action('plugins_loaded','wpsqt_check_tables');
  * Allows users to use custom page views to change layouts and user interaction.
  * 
  * @param $file
- * @param $vars
  *  
  * @uses wpdb
  * 
@@ -539,10 +538,28 @@ add_action('plugins_loaded','wpsqt_check_tables');
 
 function wpsqt_page_display($file){
 	
-	if ( file_exists(WPSQT_DIR.'/pages/custom/'.$file) ){
-		return WPSQT_DIR.'/pages/custom/'.$file;
+	$quizPath = ( isset($_SESSION['wpsqt']['current_id'])
+				 && ctype_digit($_SESSION['wpsqt']['current_id']) ) ?
+				  $_SESSION['wpsqt']['current_type'].'-'.$_SESSION['wpsqt']['current_id'].'/' : '';
+			
+	if ( file_exists(WPSQT_DIR.'/pages/custom/'.$quizPath.$file) ){
+		return WPSQT_DIR.'/pages/custom/'.$quizPath.$file;
 	}
 	return WPSQT_DIR.'/pages/'.$file;
 	
 }
+
+/**
+ * Adds the print.css to the admin section.
+ * 
+ * @since 1.1.4
+ */
+
+function wpsqt_admin_css() {
+	$siteurl = get_option('siteurl');
+	$url = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/css/print.css';
+	echo "<link rel='stylesheet' type='text/css' media='print' href='$url' />\n";
+}
+add_action('admin_head', 'wpsqt_admin_css');
+
 ?>

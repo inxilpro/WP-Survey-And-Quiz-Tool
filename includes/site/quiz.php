@@ -40,6 +40,8 @@ function wpsqt_site_quiz_show($quizName){
 	
 	$_SESSION['wpsqt']['current_step'] = $step;
 	$_SESSION['wpsqt']['current_name'] = $quizName;
+	$_SESSION['wpsqt']['current_id']   = $_SESSION['wpsqt'][$quizName]['quiz_details']['id'];
+	$_SESSION['wpsqt']['current_type'] = 'quiz';
 
 	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['status'] != 'enabled' ){
 		print 'Quiz is not enabled';
