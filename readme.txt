@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.1.4.real
+Stable tag: 1.2
 Requires At Least: 2.9.2
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -61,6 +61,23 @@ Editable options for survey sections are
 
 == ChangeLog == 
 
+= 1.2 = 
+* Removed redunant type from quiz creation and configution form.
+* Fixed SQL error on surveys results table.
+* Fixed notice and warnings appear when sections are missing results.
+* Fixed mixed questions not always showing correct number of questions.
+* Fixed user info aways being anonymous when using WordPress user info.
+* Fixed warning of undeclared varaible in options page.
+* Fixed wrong filepath for survey create file
+* Fixed typo in survey list `configure quiz` changed to `configure survey`
+* Fixed survey edit and creation options not being in form
+* Added custom forms
+* Added order by option on to quiz and survey sections
+* Added ability to view results for single quizes.
+* Added email link on result link name.
+* Added html enabled question answers
+* Added email notifications on percentage right
+
 = 1.1.4 = 
 * Increased customization ability for single quizzes and surveys.
 * Added print.css to admin to allow for easy print off of results.
@@ -102,6 +119,9 @@ Editable options for survey sections are
 * Fixed error in display non mixed sections
 
 == Upgrade Notice ==
+
+= 1.2 = 
+Bug fixes and new features!!!
 
 = 1.1.2 = 
 All files actually added this time!

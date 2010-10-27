@@ -4,6 +4,9 @@
 	<h2>WP Survey And Quiz Tool - Results</h2>
 	
 	<div class="tablenav">
+		<div class="alignleft">
+			Showing results for <?php echo $showingResultsFor; ?>.
+		</div>
 		<div class="tablenav-pages">
 		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
 		</div>
@@ -44,11 +47,13 @@
 				}
 				else{
 					
-					foreach($results as $result){ ?>
+					foreach($results as $result){ 
+						$result['person'] = unserialize($result['person']);
+						?>
 			<tr>
 				<td><?php echo $result['id']; ?></td>
 				<td><?php echo $result['name']; ?></td>
-				<td><?php echo htmlentities($result['person_name']); ?></td>
+				<td><?php if (isset($result['person']['email'])){ ?><a href="mailto:<?php echo $result['person']['email']; ?>"><? }  echo htmlentities($result['person_name']);  if (isset($result['person']['email'])){ ?></a><?php } ?></td>
 				<td><?php echo $result['ipaddress']; ?></td>
 				<td><?php echo $result['timestamp']; ?></td>
 				<td><font color="<?php echo ($result['status'] != 'Unviewed') ? ($result['status'] == 'Accepted') ? '#00FF00' : '#FF0000' : '#000000'; ?>"><?php echo $result['status']; ?></font></td>
@@ -67,6 +72,11 @@
 	</table>
 	
 	<div class="tablenav">
+		<?php if (isset($quizId)) {?>
+		<div class="alignleft">
+			 <a href="<?php echo $_SERVER['REQUEST_URI']; ?>&quiz_csv=yes">Export as CSV</a>.
+		</div>
+		<?php } ?>
 		<div class="tablenav-pages">
 		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
 		</div>

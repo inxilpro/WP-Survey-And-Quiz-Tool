@@ -4,6 +4,9 @@
 	<h2>WP Survey And Quiz Tool - Survey Results</h2>
 	
 	<div class="tablenav">
+		<div class="alignleft">
+			Showing results for <?php echo $showingResultsFor; ?>.
+		</div>
 			
 		<div class="tablenav-pages">
 		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
@@ -49,6 +52,12 @@
 
 	<div class="tablenav">
 	
+		<?php if (isset($surveyId)) {?>
+		<div class="alignleft">
+			 <a href="<?php echo $_SERVER['REQUEST_URI']; ?>&survey_csv=yes">Export as CSV</a>.
+		</div>
+		<?php } ?>
+		
 		<div class="tablenav-pages">
 		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
 		</div>		

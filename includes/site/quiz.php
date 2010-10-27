@@ -167,6 +167,7 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 	$section  = $_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey];
 	$moreQuestions = 0;
 	$questions = array();
+	$orderBy = ($section['orderby'] == 'random') ? 'RAND()' : 'id '.strtoupper($section['orderby']);
 	
 	if ( $section['difficulty'] == "mixed" ){
 		// If mixed them select an equal number of each difficulty,
@@ -175,30 +176,38 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 		$reminder  = $section['number'] % 3;
 		$eachLimit = intval( $section['number'] / 3 );
 		$randomized = intval(mt_rand(1, 3));
-		
 		$i = 1;
 		foreach ( array('easy','medium','hard') as $difficulty){
 			$thisLimit = $eachLimit;	
 			if ($i == $randomized){
 				$thisLimit += $reminder;	
 			}
-			$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY RAND() LIMIT 0,%d',array($difficulty,$quizId,$section['type'],$section['id'] ,$thisLimit)), ARRAY_A );
-			$moreQuestions += $thisLimit - sizeof($difficulty);
+			$difficultyQuestions = $wpdb->get_results( 
+											$wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY '.$orderBy.' LIMIT 0,%d',
+											array($difficulty,$quizId,$section['type'],$section['id'] ,$thisLimit))
+									, ARRAY_A );
+			$moreQuestions += $thisLimit - sizeof($difficultyQuestions);
 			$questions = array_merge($questions,$difficultyQuestions);
+			$i++;
 		}	
 			
 	} else {
-		$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY RAND() LIMIT 0,%d',array($section['difficulty'],$quizId,$section['type'],$section['id'] ,$section['number'] )), ARRAY_A );
+		$difficultyQuestions = $wpdb->get_results( 
+										$wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY '.$orderBy.' LIMIT 0,%d',
+										array($section['difficulty'],$quizId,$section['type'],$section['id'] ,$section['number'] ))
+								, ARRAY_A );
 		$moreQuestions = $section['number'] - sizeof($difficultyQuestions);	
 		$questions = array_merge($questions,$difficultyQuestions);
 	}
 	
 	if ( $moreQuestions > 0 ){		
-		$difficultyQuestions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE quizid = %d AND section_type = %s AND sectionid = %d ORDER BY RAND() LIMIT 0,%d',array( $quizId , $section['type'] , $section['id'] , $moreQuestions )), ARRAY_A );
+		$difficultyQuestions = $wpdb->get_results( 
+										$wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE quizid = %d AND section_type = %s AND sectionid = %d ORDER BY '.$orderBy.' LIMIT 0,%d',
+										array( $quizId , $section['type'] , $section['id'] , $moreQuestions ))
+								, ARRAY_A );
 		$moreQuestions = $section['number'] - sizeof($difficultyQuestions);	
 		$questions = array_merge($questions,$difficultyQuestions);
 	}
-	
 	$questionDetails = array();
 	$questionDetails['output'] = array();
 	$questionDetails['section_type'] = $section['type'];
@@ -261,7 +270,7 @@ function wpsqt_site_quiz_finish(){
 	
 	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['use_wp_user'] == 'yes'){
 		$objUser = wp_get_current_user();
-		$result['person']['name'] = $objUser->user_login;		
+		$_SESSION['wpsqt'][$quizName]['person']['name'] = $objUser->user_login;		
 		$_SESSION['wpsqt'][$quizName]['person']['email'] = $objUser->user_email;
 	} 
 
@@ -286,10 +295,22 @@ function wpsqt_site_quiz_finish(){
 			$totalQuestions += sizeof($quizSection['questions']);
 		}
 	}
+	
+	$percentRight = ( $correctAnswers / $totalQuestions ) * 100;	
 	$emailAddress = get_option('wpsqt_contact_email');
 	
 	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant' && is_email($emailAddress) ){
+		$emailTrue = true;
+	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-100' && is_email($emailAddress) && $percentRight == 100) {
+		$emailTrue = true;	
+	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-75' && is_email($emailAddress) && $percentRight > 75){
+		$emailTrue = true;
+	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-50' && is_email($emailAddress) && $percentRight > 50){
+		$emailTrue = true;
+	}
 	
+	if ( isset($emailTrue) ){	
+		
 		$emailSubject  = 'There is a new quiz to be marked';
 		$emailMessage  = 'There is a new quiz to be marked'.PHP_EOL.PHP_EOL;
 		$emailMessage .= 'Person Name :'.$_SESSION['wpsqt'][$quizName]['person']['name'].PHP_EOL;

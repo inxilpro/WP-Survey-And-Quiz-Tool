@@ -43,10 +43,10 @@ function wpsqt_admin_options_main(){
 			update_option('wpsqt_contact_email',$_POST['email']);
 			$successMessage = 'Successfully updated';
 		}
+		$vars = compact($errorArray);
 				
 	} 
 	
-	$vars = compact($errorArray);
 	
 	require_once wpsqt_page_display('admin/misc/options.php');
 	

@@ -27,19 +27,13 @@
 					<td><input id="quiz_name" maxlength="255" size="50" name="quiz_name" value="<?php if ( isset($quizDetails['name']) ) { echo stripcslashes($quizDetails['name']); } ?>" /></td>
 				</tr>
 				<tr>
-					<th scope="row">Type</th>
-					<td>
-						<select name="type" id="type">
-							<option value="quiz"<?php if ( !isset($quizDetails['type']) ||  $quizDetails['type'] == 'quiz' ){?> selected="selected"<?php }?>>Quiz</option>
-							<option value="survey"<?php if ( isset($quizDetails['type']) &&  $quizDetails['type'] == 'survey' ){?> selected="selected"<?php }?>>Survey</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
 					<th scope="row">Complete Notification</th>
 					<td>
 						<select id="notification_type" name="notification_type">
 							<option value="instant"<?php if ( !isset($quizDetails['notification_type']) ||  $quizDetails['notification_type'] == 'instant' ){?> selected="selected"<?php }?>>Instant</option>
+							<option value="instant-100"<?php if ( isset($quizDetails['notification_type']) &&   $quizDetails['notification_type'] == 'instant-100' ){?> selected="selected"<?php }?>>Instant if 100% correct</option>
+							<option value="instant-75"<?php if ( isset($quizDetails['notification_type']) &&   $quizDetails['notification_type'] == 'instant-75' ){?> selected="selected"<?php }?>>Instant if 75% correct</option>
+							<option value="instant-50"<?php if ( isset($quizDetails['notification_type']) &&   $quizDetails['notification_type'] == 'instant-50' ){?> selected="selected"<?php }?>>Instant if 50% correct</option>
 							<option value="hourly"<?php if ( isset($quizDetails['notification_type']) &&  $quizDetails['notification_type'] == 'hourly' ){?> selected="selected"<?php }?>>Batched - Hourly</option>
 							<option value="daily"<?php if ( isset($quizDetails['notification_type']) &&  $quizDetails['notification_type'] == 'daily' ){?> selected="selected"<?php }?>>Batched - Daily</option>
 							<option value="none"<?php if ( isset($quizDetails['notification_type']) &&  $quizDetails['notification_type'] == 'none' ){?> selected="selected"<?php }?>>None</option>
@@ -82,6 +76,7 @@
 						</select>
 					</td>
 				</tr>
+				
 			</tbody>
 		</table>
 		

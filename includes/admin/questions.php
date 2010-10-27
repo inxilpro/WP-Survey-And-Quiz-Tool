@@ -71,7 +71,7 @@ function wpsqt_admin_questions_addnew(){
 			else{
 				// Actual answers to process
 				for ( $i = 0; $i < sizeof($_POST['answer']); $i++){	
-					$answerText = htmlentities(trim($_POST['answer'][$i]));	
+					$answerText = trim($_POST['answer'][$i]);	
 					$answerCorrect = trim($_POST['correct'][$i]);					
 					if ( !empty($answerText) && !empty($answerCorrect) ){
 						$answers[] = array('text'    => $answerText,

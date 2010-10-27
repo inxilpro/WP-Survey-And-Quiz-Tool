@@ -24,6 +24,7 @@
 				<th>Results List</th>
 				<th>Edit Questions</th>
 				<th>Edit Sections</th>
+				<th>Edit Form</th>
 				<th>Configure</th>
 				<th>Delete</th>
 			</tr>
@@ -36,6 +37,7 @@
 				<th>Results List</th>
 				<th>Edit Questions</th>
 				<th>Edit Sections</th>
+				<th>Edit Form</th>
 				<th>Configure</th>
 				<th>Delete</th>
 			</tr>
@@ -59,7 +61,8 @@
 				<td><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=list-results&surveyid=<?php echo $survey['id']; ?>" class="button-secondary" title="Single Results">Single Results</a></td>
 				<td><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=questions&surveyid=<?php echo $survey['id']; ?>" class="button-secondary" title="Edit Questions">Edit Questions</a></td>
 				<td><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=sections&surveyid=<?php echo $survey['id']; ?>" class="button-secondary" title="Edit Questions">Edit Sections</a></td>
-				<td><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=configure&surveyid=<?php echo $survey['id']; ?>" class="button-secondary" title="Configure Quiz">Configure Quiz</a></td>
+				<td><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=forms&surveyid=<?php echo $survey['id']; ?>" class="button-secondary" title="Edit Form">Edit Form</a></td>
+				<td><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=configure&surveyid=<?php echo $survey['id']; ?>" class="button-secondary" title="Configure Survey">Configure Survey</a></td>
 				<td><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=delete&surveyid=<?php echo $survey['id']; ?>" class="button-secondary" title="Delete Quiz">Delete</a></td>
 			</tr>
 			<?php } 

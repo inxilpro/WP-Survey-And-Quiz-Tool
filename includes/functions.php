@@ -100,7 +100,10 @@ function wpsqt_functions_pagenation_display($currentPage,$numberOfPages){
 	$returnString = '';
 	$pageUri = wpsqt_functions_generate_uri( array('pageno') );
 	
-	$startNumber = 1;
+	$startNumber = $currentPage -3;
+	if ($startNumber < 1 ){
+		$startNumber = 1;
+	}
 	
 	if ( $currentPage != 1 && $startNumber > 3 ){
 		$startNumber = ($currentPage - 2);		

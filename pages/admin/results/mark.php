@@ -25,45 +25,41 @@ $hardPoints = 0;
 	<?php if (!empty($result['person'])) { ?>
 		<h3>User Details</h3>
 		<div class="person">
-			<ul>
-			   <?php if (isset($result['person']['name'])){ ?>
-				<li><b><u>Name</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['name']))); ?></li>
-			   <?php } 
-			   		if (isset($result['person']['email'])){
-			   ?>	
-				<li><b><u>Email</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['email']))); ?></li>
-			   <?php }
-				     if (isset($result['person']['phone'])){
-				?>
-				<li><b><u>Phone</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['phone']))); ?></li>
-				<?php }
-					  if (isset($result['person']['heard'])){
-				?>
-				<li><b><u>Heard Of</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['heard']))); ?></li>
+		
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<?php foreach($result['person'] as $fieldName => $fieldValue){?>
+				<tr>
+					<th scope="row"><?php echo htmlentities(strip_tags(stripslashes($fieldName))); ?></th>
+					<td><?php echo htmlentities(strip_tags(stripslashes($fieldValue))); ?></td>
+				</tr>
 				<?php }
 					  if (isset($result['ipaddress'])){
 				?>
-				<li><b><u>IP Address</u></b> - <?php echo $result['ipaddress']; ?></li>
-				<li><b><u>Hostname</u></b> - <?php echo gethostbyaddr($result['ipaddress']); ?></li> 
-				<?php }
-					  if (isset($result['person']['address'])){
-				?>
-				<li><b><u>Address</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['address'])))); ?></li>
-				<?php }
-					  if (isset($result['person']['notes'])){
-				?>
-				<li><b><u>Notes</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['notes'])))); ?></li>
-				<?php }
-				?>
-				<li><b><u>Timetaken</u></b> - <?php echo $timeTaken; ?></li>
-			</ul>
+				<tr>
+					<th scope="row">IP Address</th>
+					<td><?php echo $result['ipaddress']; ?></td>
+				</tr>
+				<tr>
+					<th scope="row">Hostname</th>
+					<td><?php echo gethostbyaddr($result['ipaddress']); ?></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<th scope="row">Timetaken</th>
+					<td><?php echo $timeTaken; ?></td>
+				</tr>
+			</table>
 		</div>
 	<?php } ?>
 	
 	<?php foreach ( $result['sections'] as $section ){ ?>
 		<h3><?php echo $section['name']; ?></h3>
 		
-		<?php foreach ($section['questions'] as $questionKey => $questionArray){ ?>
+		<?php
+			if (!isset($section['questions'])){
+				continue;
+			}
+			foreach ($section['questions'] as $questionKey => $questionArray){ ?>
 			<h4><?php print stripslashes($questionArray['text']); ?></h4>
 			<?php if ($questionArray['section_type'] == 'multiple'){
 					if ( isset($section['answers'][$questionKey]['mark']) && $section['answers'][$questionKey]['mark'] == 'correct' ){
@@ -76,7 +72,10 @@ $hardPoints = 0;
 				<b><u>Answers</u></b>
 				<p class="answer_given">
 					<ol>
-						<?php foreach ($questionArray['answers'] as $answer){ ?>
+						<?php 
+						
+							foreach ($questionArray['answers'] as $answer){
+						?>
 							  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionKey]['given']) &&  in_array($answer['id'], $section['answers'][$questionKey]['given']) ) ? '#FF0000' :  '#000000' : '#00FF00' ; ?>"><?php echo stripslashes($answer['text']) ?></font><?php if (isset($section['answers'][$questionKey]['given']) && in_array($answer['id'], $section['answers'][$questionKey]['given']) ){ ?> - Given<?php }?></li>
 						<?php } ?>
 					</ol>

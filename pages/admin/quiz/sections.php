@@ -14,7 +14,7 @@ if ( !isset($rowCount) ){
 }
 
 if ( empty($validData) ){
-	$validData = array(array('name' => '', 'difficulty' => 'medium', 'type' => '', 'number' => ''));
+	$validData = array(array('name' => '', 'difficulty' => 'medium', 'type' => '', 'number' => '','orderby' => ''));
 }
 ?>
 <script type="text/javascript" src="<? echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/quiz_section.php?rowcount=<?php echo sizeof($validData); ?>"></script>
@@ -47,6 +47,7 @@ if ( empty($validData) ){
 						<th>Type</th>
 						<th>Difficulty</th>
 						<th>Number Of Questions</th>
+						<th>Order Of Questions</th>
 					</tr>
 				</thead>
 				<tbody>	
@@ -73,6 +74,13 @@ if ( empty($validData) ){
 							</select>
 						</td>
 						<td><input type="text" name="number[<?php echo $key; ?>]" value="<?php echo $data['number']; ?>" size="10" id="number_<?php echo $key; ?>" /></td>
+						<td>
+							<select name="order[<?php echo $key; ?>]">
+								<option value="random"<?php if ($data['orderby'] == 'random'){?> selected="yes"<?php }?>>Random</option>
+								<option value="asc"<?php if ($data['orderby'] == 'asc'){?> selected="yes"<?php }?>>Ascending</option>
+								<option value="desc"<?php if ($data['orderby'] == 'desc'){?> selected="yes"<?php }?>>Descending</option>
+							</select>
+						</td>
 					</tr>
 					
 					<?php } ?>
@@ -85,7 +93,6 @@ if ( empty($validData) ){
 			<input class="button-primary" type="submit" name="Save" value="Save" id="submitbutton" />
 		</p>
 	</form>
-
 		
 	<a name="difficutly_def"></a>
 	<h4>Difficulty Meanings</h4>

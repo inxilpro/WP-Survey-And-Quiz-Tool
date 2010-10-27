@@ -46,18 +46,12 @@ function wpsqt_admin_quiz_form($edit = false){
 			$errorArray[] = 'Notification type can\'t be empty';
 		}
 		elseif ( $_POST['notification_type'] != 'none' &&  $_POST['notification_type'] != 'instant' 
+			 &&  $_POST['notification_type'] != 'instant-100' &&  $_POST['notification_type'] != 'instant-75'  
+			 &&  $_POST['notification_type'] != 'instant-50'
 			 &&  $_POST['notification_type'] != 'daily' &&  $_POST['notification_type'] != 'hourly' ){
 			$errorArray[] = 'Notification type isn\'t an acceptable value';
 		}
-		
-		// Check quiz type
-		if ( !isset($_POST['type']) || empty($_POST['type']) ){
-			$errorArray[] = 'Quiz type can\'t be empty';
-		}
-		elseif ( $_POST['type'] != 'quiz' && $_POST['type'] != 'survey' ){
-			$errorArray[] = 'Quiz type isn\'t an acceptable value';
-		}
-		
+				
 		// Check display result
 		if ( !isset($_POST['display_result']) || empty($_POST['display_result']) ){
 			$errorArray[] = 'Display result on completetion can\'t be empty';
@@ -86,13 +80,13 @@ function wpsqt_admin_quiz_form($edit = false){
 	
 	if ( !empty($_POST) && empty($errorArray) ){
 		if ( $edit == false ){			
-			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,type,status,notification_type,take_details,use_wp_user)  VALUES (%s,%s,%s,%s,%s,%s,%s)',
-									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['type'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user']) ) );
+			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,status,notification_type,take_details,use_wp_user)  VALUES (%s,%s,%s,%s,%s,%s)',
+									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user']) ) );
 			$successMessage = 'Quiz inserted';
 		}
 		else{
-			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,type=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s WHERE id = %d',
-									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['type'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'] , $_GET['quizid'] )) );
+			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s WHERE id = %d',
+									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'] , $_GET['quizid'] )) );
 			$successMessage = 'Quiz updated';
 		}
 		
@@ -104,7 +98,7 @@ function wpsqt_admin_quiz_form($edit = false){
 	
 	if ( $edit == true && ctype_digit($_GET['quizid']) ){
 		$quizId = (int) $_GET['quizid'];
-		$quizDetails = $wpdb->get_row('SELECT name,display_result,type,status,notification_type,take_details,use_wp_user FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
+		$quizDetails = $wpdb->get_row('SELECT name,display_result,status,notification_type,take_details,use_wp_user FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
 	}
 
 	require_once wpsqt_page_display('admin/quiz/create.php');
@@ -133,7 +127,7 @@ function wpsqt_admin_quiz_list(){
 	$currentPage = wpsqt_functions_pagenation_pagenumber();	
 	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
 	
-	$rawQuizList = $wpdb->get_results( 'SELECT id,name,status,type FROM '.WPSQT_QUIZ_TABLE.' ORDER BY id' , ARRAY_A );
+	$rawQuizList = $wpdb->get_results( 'SELECT id,name,status FROM '.WPSQT_QUIZ_TABLE.' ORDER BY id' , ARRAY_A );
 	$quizList = array_slice($rawQuizList , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof($rawQuizList);
 	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
@@ -180,11 +174,16 @@ function wpsqt_admin_quiz_sections(){
 		    		( !isset($_POST['section_name'][$i]) || empty($_POST['section_name'][$i])
 		    	   || !isset($_POST['difficulty'][$i]) || empty($_POST['difficulty'][$i])
 		    	   || !isset($_POST['number'][$i]) || empty($_POST['number'][$i])
-		    	   || !isset($_POST['type'][$i]) || empty($_POST['type'][$i]) )		
+		    	   || !isset($_POST['type'][$i]) || empty($_POST['type'][$i]) 	
+		    	   || !isset($_POST['order'][$i]) || empty($_POST['order'][$i]) ) 		
 		    	       	  	 
 		    	   // Section difficulty can only be easy, medium, mixed or hard.
 				   || ( $_POST['difficulty'][$i] != 'easy' && $_POST['difficulty'][$i] != 'mixed'
 		    	   && $_POST['difficulty'][$i] != 'medium' && $_POST['difficulty'][$i] != 'hard' )
+		    	   
+		    	   // Check that question order is a valid 
+				   || ( $_POST['order'][$i] != 'random' && $_POST['order'][$i] != 'asc'
+				   	 && $_POST['order'][$i] != 'desc' )
 		    	   
                    // Number of questions has to be an integer.
 		    	   || ( !ctype_digit($_POST['number'][$i])  )
@@ -203,6 +202,7 @@ function wpsqt_admin_quiz_sections(){
 		    	 					   'difficulty' => $_POST['difficulty'][$i],
 		    	 					   'number'     => $_POST['number'][$i],
 		    	 					   'type'       => $_POST['type'][$i],
+		    	 					   'order'      => $_POST['order'][$i],
 		    						   'id'         => $sectionId,
 		    	 					   'status'     => $status );
 		    }
@@ -210,7 +210,7 @@ function wpsqt_admin_quiz_sections(){
 			if ( !empty($validData) ){
 				
 		    	// Generate SQL query
-			    $insertSql = 'INSERT INTO `'.WPSQT_SECTION_TABLE.'` (quizid,name,type,number,difficulty) VALUES ';
+			    $insertSql = 'INSERT INTO `'.WPSQT_SECTION_TABLE.'` (`quizid`,`name`,`type`,`number`,`difficulty`,`orderby`) VALUES ';
 			    $insertSqlParts = array();
 			    $insert = false;	
 			    
@@ -225,9 +225,10 @@ function wpsqt_admin_quiz_sections(){
 				    									  SET name=%s,
 				    									  type=%s,
 				    									  number=%d,
-				    									  difficulty=%s 
+				    									  difficulty=%s,
+				    									  orderby=%s 
 				    									  WHERE id = %d',
-				    		array($data['name'],$data['type'],$data['number'],$data['difficulty'],$data['id'])) );
+				    		array($data['name'],$data['type'],$data['number'],$data['difficulty'],$data['order'],$data['id'])) );
 				    		continue;
 				    	} 
 				    	// New section therefore insert
@@ -237,7 +238,8 @@ function wpsqt_admin_quiz_sections(){
 					    						 $wpdb->escape($data['name']) ."','".
 					    					     $wpdb->escape($data['type']) ."','".
 					    					     $wpdb->escape($data['number']) ."','".
-					    					     $wpdb->escape($data['difficulty']) ."')";
+					    					     $wpdb->escape($data['difficulty']) ."','".
+					    					     $wpdb->escape($data['order']) ."')";
 				    } else {
 				    	// Delete it and questions related to it.
 				    	if ( isset($data['id']) ){			    		
@@ -257,7 +259,7 @@ function wpsqt_admin_quiz_sections(){
 		    	    
 		}	
 			
-		$validData = $wpdb->get_results('SELECT id,name,type,number,difficulty
+		$validData = $wpdb->get_results('SELECT id,name,type,number,difficulty,orderby
 										 FROM '.WPSQT_SECTION_TABLE.'
 										 WHERE quizid = '.$wpdb->escape($_GET['quizid'])
 										 , ARRAY_A );

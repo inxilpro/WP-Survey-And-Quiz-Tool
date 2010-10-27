@@ -35,6 +35,13 @@ jQuery(document).ready( function(){
 		html += '\t\t</select>';
 		html += '\t</td>';
 		html += '\t<td><input type="text" name="number['+rowCount+']" value="" size="10" id="number_'+rowCount+'" /></td>';
+		html += '\t	<td>';
+		html += '\t\t<select name="order['+rowCount+']">';
+		html += '\t\t\t<option value="random">Random</option>';
+		html += '\t\t\t<option value="asc">Ascending</option>';
+		html += '\t\t\t<option value="desc">Descending</option>';
+		html += '\t\t\t</select>';
+		html += '\t\t\t</td>';
 		html += '</tr>';
 		
 		rowCount++;

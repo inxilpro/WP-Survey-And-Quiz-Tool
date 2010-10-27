@@ -27,10 +27,12 @@ function wpsqt_admin_results_show_list(){
 	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
 
 	if ( !isset($_GET['quizid']) || !ctype_digit($_GET['quizid']) ){
-		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid ORDER BY r.id DESC',ARRAY_A);
+		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid ORDER BY r.id DESC',ARRAY_A);
+		$showingResultsFor  = 'All quizzes';
 	} else {
 		$quizId = (int) $_GET['quizid'];
-		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_QUESTION_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' ORDER BY r.id DESC',ARRAY_A);
+		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' ORDER BY r.id DESC',ARRAY_A);
+		$showingResultsFor = $wpdb->get_var('SELECT name FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId);
 	}	
 	$results = array_slice($rawResults , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof($rawResults);

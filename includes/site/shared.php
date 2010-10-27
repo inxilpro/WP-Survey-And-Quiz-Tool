@@ -24,7 +24,22 @@
 
 function wpsqt_site_shared_take_details($collectDetails = true){
 	
+	global $wpdb;
 	$quizName = $_SESSION['wpsqt']['current_name'];
+
+	if ($_SESSION['wpsqt']['current_type'] == 'quiz'){			
+		$quizId = $_SESSION['wpsqt'][$quizName]['quiz_details']['id'];
+		$surveyId = 0;		
+	} else {		
+		$surveyId = $_SESSION['wpsqt'][$quizName]['survey_details']['id'];
+		$quizId = 0;
+	}
+	
+	$fields = $wpdb->get_results("SELECT * FROM `".WPSQT_FORM_TABLE."` WHERE quizid = ".$quizId."  AND surveyid = ".$surveyId, ARRAY_A);
+	
+	if ( !empty($fields) ){
+		return wpsqt_site_shared_custom_form($fields);
+	}
 	
 	if ($collectDetails == true ){
 
@@ -57,6 +72,30 @@ function wpsqt_site_shared_take_details($collectDetails = true){
 	}
 	
 	require_once wpsqt_page_display('site/shared/contact.php');
+	return false;
+}
+
+
+function wpsqt_site_shared_custom_form($fields){
+	
+	global $wpdb;
+	$quizName = $_SESSION['wpsqt']['current_name'];
+	
+	foreach ( $fields as $field ){
+		if ($field['required'] == 'yes'){
+			if ( !isset($_POST[$field['name']]) || empty($_POST[$field['name']]) ){
+				$errors[] = $field['name'].' is required';
+			}
+		}
+	}
+	$postDetails = $_POST;
+	unset($postDetails['step']);
+	if ( empty($errors) ){
+		$_SESSION['wpsqt'][$quizName]['person'] = $postDetails;
+		return true;
+	}
+	
+	require_once wpsqt_page_display('site/shared/custom-form.php');
 	return false;
 }
 

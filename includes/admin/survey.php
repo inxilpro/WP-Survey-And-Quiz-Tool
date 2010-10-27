@@ -73,16 +73,25 @@ function wpsqt_admin_survey_create($edit = false){
 		
 		// check if there is any errors if not insert into table
 		if ( empty($errorArray) ){
-			
-			if ( false !== $wpdb->query($wpdb->prepare('INSERT INTO '.WPSQT_SURVEY_TABLE.' (name) VALUES (%s) ',
-										array($surveyDetails['name']))) ) {
-				$successMessage = 'Survey successfully added';
+			if ( $edit === false ){
+				if ( false !== $wpdb->query($wpdb->prepare('INSERT INTO '.WPSQT_SURVEY_TABLE.' (name,status,take_details) VALUES (%s,%s,%s) ',
+											array($surveyDetails['name'],$_POST['status'],$_POST['take_details']))) ) {
+					
+							$successMessage = 'Survey successfully added';
+				}
+			} else {
+				
+				$wpdb->query(
+					$wpdb->prepare('UPDATE '.WPSQT_SURVEY_TABLE.' SET name=%s,status=%s,take_details=%s WHERE id  = %d',
+									array($_POST['survey_name'],$_POST['status'],$_POST['take_details'],$surveyId) )
+				);
+				$successMessage = 'Survey successfully updated';
 			}
 		}
 		
 	}
 
-	require_once wpsqt_page_display('surveys/create.php');
+	require_once wpsqt_page_display('admin/surveys/create.php');
 }
 
 
@@ -159,6 +168,11 @@ function wpsqt_admin_survey_sections(){
 		   	       	  			   	   
                // Number of questions has to be an integer.
 		   	   || ( !ctype_digit($_POST['number'][$i])  )
+
+		   	   // Check that question order is a valid 
+			   || ( $_POST['order'][$i] != 'random' && $_POST['order'][$i] != 'asc'
+			   && $_POST['order'][$i] != 'desc' )
+		    	   
 		   	   
 		   	   // Section type can only be multiple or textarea.
 		   	   || ( $_POST['type'][$i] != 'multiple' && $_POST['type'][$i] != 'scale' )
@@ -169,16 +183,17 @@ function wpsqt_admin_survey_sections(){
 		     }
 		     $sectionId = (isset($_POST['sectionid'][$i])) ? intval($_POST['sectionid'][$i]) : NULL;
 		   	 // All that, just for this...
-		   	 $validData[] = array( 'name'       => $_POST['section_name'][$i],
-		    	 				   'number'     => $_POST['number'][$i],
-		    	 				   'type'       => $_POST['type'][$i],
-		   	 					   'id'         => $sectionId,
-		   	 					   'status'     => $status);
+		   	 $validData[] = array( 'name'        => $_POST['section_name'][$i],
+		    	 				   'number'      => $_POST['number'][$i],
+		    	 				   'type'        => $_POST['type'][$i],
+		    	 				   'order'       => $_POST['order'][$i],
+		   	 					   'id'          => $sectionId,
+		   	 					   'status'      => $status);
 		}
 		
 		if ( !empty($validData) ){
 		    // Generate SQL query
-			$insertSql = 'INSERT INTO `'.WPSQT_SURVEY_SECTION_TABLE.'` (surveyid,name,type,number) VALUES ';
+			$insertSql = 'INSERT INTO `'.WPSQT_SURVEY_SECTION_TABLE.'` (surveyid,name,type,number,orderby) VALUES ';
 			$insertSqlParts = array();
 			$insert = false;
 			foreach ($validData as $key => $data) {
@@ -187,16 +202,18 @@ function wpsqt_admin_survey_sections(){
 				    		$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_SURVEY_SECTION_TABLE.'
 				    									  SET name=%s,
 				    									  type=%s,
-				    									  number=%d
+				    									  number=%d,
+				    									  orderby=%s
 				    									  WHERE id = %d',
-				    		array($data['name'],$data['type'],$data['number'],$data['id'])) );
+				    		array($data['name'],$data['type'],$data['number'],$data['order'],$data['id'])) );
 				    		continue;
 				    } 
 				    $insert = true;					
 					$insertSqlParts[] = "(". $wpdb->escape($_GET['surveyid']) .",'".
 					   				 		 $wpdb->escape($data['name']) ."','".
 					   				  		 $wpdb->escape($data['type']) ."','".
-					   				 		 $wpdb->escape($data['number']) ."')" ;
+					   				 		 $wpdb->escape($data['number'])."','".
+					   				 		 $wpdb->escape($data['order']) ."')" ;
 				} else {				
 				    // Delete it and questions related to it.
 				    if ( isset($data['id']) ){			    		
@@ -418,7 +435,7 @@ function wpsqt_admin_survey_result_list(){
 	$results = array_slice( $rawResults , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof( $rawResults );
 	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
-	
+	$showingResultsFor = $wpdb->get_var( 'SELECT name FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '.$surveyId );
 	require_once wpsqt_page_display('admin/surveys/result.list.php');
 }
 

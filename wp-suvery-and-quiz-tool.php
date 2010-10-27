@@ -6,10 +6,12 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.1.4
+Version: 1.2
 */
 
-//TODO: Add internationalization ability.
+//TODO leverage media overlay for questions
+//TODO improve UI for quiz and survey pages 
+//TODO improve form data display in results marking
 
 /*
  * Copyright (C) 2010  Fubra Limited
@@ -38,6 +40,7 @@ define( 'WPSQT_QUIZ_TABLE'             , $wpdb->prefix.'wpsqt_quiz' );
 define( 'WPSQT_SECTION_TABLE'          , $wpdb->prefix.'wpsqt_quiz_sections' );
 define( 'WPSQT_QUESTION_TABLE'         , $wpdb->prefix.'wpsqt_questions' );
 define( 'WPSQT_ANSWER_TABLE'           , $wpdb->prefix.'wpsqt_answer' );
+define( 'WPSQT_FORM_TABLE'             , $wpdb->prefix.'wpsqt_forms' );
 define( 'WPSQT_RESULTS_TABLE'          , $wpdb->prefix.'wpsqt_results' );
 define( 'WPSQT_SURVEY_TABLE'           , $wpdb->prefix.'wpsqt_survey' );
 define( 'WPSQT_SURVEY_SECTION_TABLE'   , $wpdb->prefix.'wpsqt_survey_sections' );
@@ -57,14 +60,14 @@ define( 'WPSQT_PAGE_HELP'            , 'wpsqt-menu-help'    );
 define( 'WPSQT_PAGE_SURVEY'          , 'wpsqt-menu-survey'  );
 define( 'WPSQT_CONTACT_EMAIL'        , 'iain.cambridge@fubra.com' );
 define( 'WPSQT_FROM_EMAIL'           , 'wpst-no-reply@fubra.com' );
-define( 'WPSQT_VERSION'              , '1.1.4' );
+define( 'WPSQT_VERSION'              , '1.2' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
 if ( !session_id() )
 	session_start();
 
-	
+// To anyone reading this, sorry for the terrible, terrible design.	
 register_activation_hook(__FILE__, 'wpsqt_main_install'); 
 /**
  * Installation function creates all the
@@ -73,7 +76,7 @@ register_activation_hook(__FILE__, 'wpsqt_main_install');
  * @uses wpdb
  */	
 function wpsqt_main_install(){    
-    
+   
 	global $wpdb;
 	
 	$oldVersion = get_option('wpsqt_version');
@@ -85,6 +88,9 @@ function wpsqt_main_install(){
 	// Simple way of checking if an it's an update or not.
 	if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
 		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `use_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+		 $wpdb->query("ALTER TABLE `".WPSQT_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
+		 $wpdb->query("ALTER TABLE `".WPSQT_SURVEY_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
+		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` DROP `type` ");
 	}
 	
 	// Results table
@@ -110,6 +116,7 @@ function wpsqt_main_install(){
 				  `type` varchar(255) NOT NULL,
 				  `number` int(11) NOT NULL,
 				  `difficulty` varchar(11) NOT NULL,
+				  `orderby` varchar(255) NOT NULL DEFAULT 'random',
 				  PRIMARY KEY (`id`)
 				  ) ENGINE=MyISAM;");
 	
@@ -192,6 +199,7 @@ function wpsqt_main_install(){
 				  `name` varchar(255) NOT NULL,
 				  `type` varchar(10) NOT NULL,
 				  `number` int(11) NOT NULL,
+				  `orderby` varchar(255) NOT NULL DEFAULT 'random',
 				  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 	
@@ -207,6 +215,15 @@ function wpsqt_main_install(){
 				  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 	
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_FORM_TABLE."` (
+				  `id` int(11) NOT NULL AUTO_INCREMENT,
+				  `name` varchar(255) NOT NULL,
+				  `type` varchar(255) NOT NULL,
+				  `required` varchar(255) NOT NULL,
+				  `quizid` int(11) NOT NULL,
+				  `surveyid` int(11) NOT NULL,
+				  PRIMARY KEY (`id`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 	
 }
 
@@ -225,7 +242,7 @@ function wpsqt_main_admin_menu(){
 	
 	wp_enqueue_script('jquery');
 	add_menu_page('WP Survey And Quiz Tool', 'WP Survey And Quiz Tool', 'manage_options', WPSQT_PAGE_MAIN , 'wpsqt_main_admin_main_page') ;
-	add_submenu_page( 'wpsqt-menu' , 'Quizzies', 'Quizzies', 'manage_options', WPSQT_PAGE_QUIZ , 'wpsqt_main_admin_quiz_page' );
+	add_submenu_page( 'wpsqt-menu' , 'Quizzes', 'Quizzes', 'manage_options', WPSQT_PAGE_QUIZ , 'wpsqt_main_admin_quiz_page' );
 	add_submenu_page( 'wpsqt-menu' , 'Surveys', 'Surveys', 'manage_options', WPSQT_PAGE_SURVEY , 'wpsqt_main_admin_survey_page' );
 	add_submenu_page( 'wpsqt-menu' , 'Questions', 'Questions', 'manage_options', WPSQT_PAGE_QUESTIONS, 'wpsqt_main_admin_questions_page' );
 	add_submenu_page( 'wpsqt-menu' , 'Quiz Results', 'Quiz Results', 'manage_options', WPSQT_PAGE_QUIZ_RESULTS , 'wpsqt_main_admin_quiz_results_page' );
@@ -281,6 +298,9 @@ function wpsqt_main_admin_quiz_page(){
 		wpsqt_admin_quiz_sections();
 	} elseif ( $_REQUEST['action'] == 'delete' ){
 		wpsqt_admin_quiz_delete();
+	} elseif ( $_REQUEST['action'] == 'forms' ){
+		require_once WPSQT_DIR.'/includes/admin/shared.php';
+		wpsqt_admin_shared_forms();
 	} elseif ( $_REQUEST['action'] == 'configure' ){
 		wpsqt_admin_quiz_form(true);
 	} else {
@@ -325,6 +345,9 @@ function wpsqt_main_admin_survey_page(){
 		wpsqt_admin_survey_result_single();
 	} elseif ( $_REQUEST['action'] == 'view-total' ){
 		wpsqt_admin_survey_result_total();
+	} elseif ( $_REQUEST['action'] == 'forms' ){
+		require_once WPSQT_DIR.'/includes/admin/shared.php';
+		wpsqt_admin_shared_forms();
 	}
 	
 }
@@ -510,7 +533,9 @@ function wpsqt_check_tables(){
 	
 	global $wpdb;
 	
-	if ( !$wpdb->get_var("show tables like '".WPSQT_RESULTS_TABLE."'") || !$wpdb->get_var("SHOW TABLES LIKE '".WPSQT_SURVEY_TABLE."'") ){
+	if ( !$wpdb->get_var("SHOW TABLES LIKE '".WPSQT_RESULTS_TABLE."'") 
+	  || !$wpdb->get_var("SHOW TABLES LIKE '".WPSQT_SURVEY_TABLE."'")
+	  || !$wpdb->get_var("SHOW TABLES LIKE '".WPSQT_FORM_TABLE."'") ){
 		wpsqt_main_install();
 		return;
 	}
@@ -520,6 +545,7 @@ function wpsqt_check_tables(){
 	// Simple way of checking if an it's an update or not.
 	if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
 		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `use_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` DROP `type` ");
 	}
 	
 }
@@ -561,5 +587,45 @@ function wpsqt_admin_css() {
 	echo "<link rel='stylesheet' type='text/css' media='print' href='$url' />\n";
 }
 add_action('admin_head', 'wpsqt_admin_css');
+
+/**
+ * Exports results to CSV 
+ * 
+ * @uses wpdb
+ * 
+ * @since 1.2.0
+ */
+
+function wpsqt_csv_export(){
+	
+	global $wpdb;
+	
+	
+	if ( !isset($_GET['quiz_csv']) && !isset($_GET['survey_csv']) ){
+		return;
+	}
+	
+	if ( isset($_GET['quiz_csv']) ){
+		$quizId = (int)$_GET['quizid'];	
+		$results = $wpdb->get_results( 'SELECT * FROM '.WPSQT_RESULTS_TABLE.' WHERE quizid = '.$quizId , ARRAY_A );
+	} else {
+		$surveyId = (int)$_GET['surveyid'];
+		$results = $wpdb->get_results( 'SELECT * FROM '.WPSQT_SURVEY_RESULT_TABLE.' WHERE surveyid = '.$surveyId, ARRAY_A );	
+	}
+	
+	$csvFile = tmpfile();
+	foreach ( $results as $result ){
+		fputcsv($csvFile,$result);		
+	}
+	fseek($csvFile ,0);
+	header("Content-type: application/csv");
+	header("Content-Disposition: attachment; filename=file.csv");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+	print stream_get_contents($csvFile);
+	exit;
+	
+}
+add_action('init', 'wpsqt_csv_export');
 
 ?>
