@@ -6,12 +6,10 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.2
+Version: 1.2.1
 */
 
 //TODO leverage media overlay for questions
-//TODO improve UI for quiz and survey pages 
-//TODO improve form data display in results marking
 
 /*
  * Copyright (C) 2010  Fubra Limited
@@ -60,7 +58,7 @@ define( 'WPSQT_PAGE_HELP'            , 'wpsqt-menu-help'    );
 define( 'WPSQT_PAGE_SURVEY'          , 'wpsqt-menu-survey'  );
 define( 'WPSQT_CONTACT_EMAIL'        , 'iain.cambridge@fubra.com' );
 define( 'WPSQT_FROM_EMAIL'           , 'wpst-no-reply@fubra.com' );
-define( 'WPSQT_VERSION'              , '1.2' );
+define( 'WPSQT_VERSION'              , '1.2.1' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -87,10 +85,7 @@ function wpsqt_main_install(){
 	}
 	// Simple way of checking if an it's an update or not.
 	if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
-		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `use_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
-		 $wpdb->query("ALTER TABLE `".WPSQT_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
-		 $wpdb->query("ALTER TABLE `".WPSQT_SURVEY_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
-		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` DROP `type` ");
+		wpsqt_main_db_upgrade();
 	}
 	
 	// Results table
@@ -242,13 +237,13 @@ function wpsqt_main_admin_menu(){
 	
 	wp_enqueue_script('jquery');
 	add_menu_page('WP Survey And Quiz Tool', 'WP Survey And Quiz Tool', 'manage_options', WPSQT_PAGE_MAIN , 'wpsqt_main_admin_main_page') ;
-	add_submenu_page( 'wpsqt-menu' , 'Quizzes', 'Quizzes', 'manage_options', WPSQT_PAGE_QUIZ , 'wpsqt_main_admin_quiz_page' );
-	add_submenu_page( 'wpsqt-menu' , 'Surveys', 'Surveys', 'manage_options', WPSQT_PAGE_SURVEY , 'wpsqt_main_admin_survey_page' );
-	add_submenu_page( 'wpsqt-menu' , 'Questions', 'Questions', 'manage_options', WPSQT_PAGE_QUESTIONS, 'wpsqt_main_admin_questions_page' );
-	add_submenu_page( 'wpsqt-menu' , 'Quiz Results', 'Quiz Results', 'manage_options', WPSQT_PAGE_QUIZ_RESULTS , 'wpsqt_main_admin_quiz_results_page' );
-	add_submenu_page( 'wpsqt-menu' , 'Options', 'Options', 'manage_options', WPSQT_PAGE_OPTIONS, 'wpsqt_main_admin_options_page' );
-	add_submenu_page( 'wpsqt-menu' , 'Contact' , 'Contact' , 'manage_options' , WPSQT_PAGE_CONTACT , 'wpsqt_main_admin_contact_page' );
-	add_submenu_page( 'wpsqt-menu' , 'Help' , 'Help' , 'manage_options' , WPSQT_PAGE_HELP, 'wpsqt_main_admin_help_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'Quizzes', 'Quizzes', 'manage_options', WPSQT_PAGE_QUIZ , 'wpsqt_main_admin_quiz_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'Surveys', 'Surveys', 'manage_options', WPSQT_PAGE_SURVEY , 'wpsqt_main_admin_survey_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'Questions', 'Questions', 'manage_options', WPSQT_PAGE_QUESTIONS, 'wpsqt_main_admin_questions_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'Quiz Results', 'Quiz Results', 'manage_options', WPSQT_PAGE_QUIZ_RESULTS , 'wpsqt_main_admin_quiz_results_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'Options', 'Options', 'manage_options', WPSQT_PAGE_OPTIONS, 'wpsqt_main_admin_options_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'Contact' , 'Contact' , 'manage_options' , WPSQT_PAGE_CONTACT , 'wpsqt_main_admin_contact_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'Help' , 'Help' , 'manage_options' , WPSQT_PAGE_HELP, 'wpsqt_main_admin_help_page' );
 	
 }
 
@@ -544,8 +539,7 @@ function wpsqt_check_tables(){
 	
 	// Simple way of checking if an it's an update or not.
 	if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
-		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `use_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
-		 $wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` DROP `type` ");
+		wpsqt_main_db_upgrade();
 	}
 	
 }
@@ -615,17 +609,49 @@ function wpsqt_csv_export(){
 	
 	$csvFile = tmpfile();
 	foreach ( $results as $result ){
-		fputcsv($csvFile,$result);		
+		
+		if ($_GET['people'] == 'yes'){
+			// If just contact details
+			$people = unserialize($result['person']);
+			if (!empty($people)){
+				fputcsv($csvFile, $people);
+			}
+			
+		} else {
+			fputcsv($csvFile,$result);				
+		}	
 	}
 	fseek($csvFile ,0);
+	// Print out the data
 	header("Content-type: application/csv");
 	header("Content-Disposition: attachment; filename=file.csv");
 	header("Pragma: no-cache");
 	header("Expires: 0");
 	print stream_get_contents($csvFile);
-	exit;
+	
+	exit; // Because we don't want the rest to load.
 	
 }
 add_action('init', 'wpsqt_csv_export');
 
+/**
+ * Function to comply with DRY for 
+ * upgrading the mysql tables.
+ * 
+ * @uses wpdb
+ * 
+ * @since 1.2.1
+ */
+
+function wpsqt_main_db_upgrade(){
+	
+	global $wpdb;
+		
+	$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `use_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+	$wpdb->query("ALTER TABLE `".WPSQT_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
+	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
+	$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` DROP `type` ");
+	
+	return;
+}
 ?>

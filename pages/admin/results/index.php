@@ -75,6 +75,7 @@
 		<?php if (isset($quizId)) {?>
 		<div class="alignleft">
 			 <a href="<?php echo $_SERVER['REQUEST_URI']; ?>&quiz_csv=yes">Export as CSV</a>.
+			 <br /><a href="<?php echo $_SERVER['REQUEST_URI']; ?>&quiz_csv=yes&people=yes">Export user contact details as CSV</a>.
 		</div>
 		<?php } ?>
 		<div class="tablenav-pages">

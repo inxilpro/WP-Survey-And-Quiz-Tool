@@ -12,27 +12,27 @@
 	
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
-			<th scope="row">Name <font color="#FF0000">*</font></th>
+			<td>Name <font color="#FF0000">*</font></td>
 			<td><input type="text" name="user_name" value="" /></td>
 		</tr>
 		<tr>
-			<th scope="row">E-Mail <font color="#FF0000">*</font></th>
+			<td scope="row">E-Mail <font color="#FF0000">*</font></td>
 			<td><input type="text" name="email" value="" /></td>
 		</tr>
 		<tr>
-			<th scope="row">Phone <font color="#FF0000">*</font></th>
+			<td scope="row">Phone <font color="#FF0000">*</font></td>
 			<td><input type="text" name="phone" value="" /></td>
 		</tr>
 		<tr>
-			<th scope="row">Heard of us from?</th>
+			<td scope="row">Heard of us from?</td>
 			<td><input type="text" name="heard" value="" /></td>
 		</tr>
 		<tr>
-			<th scope="row">Address <font color="#FF0000">*</font></th>
+			<td scope="row">Address <font color="#FF0000">*</font></td>
 			<td><textarea rows="5" cols="30" name="address"></textarea></td>
 		</tr>
 		<tr>
-			<th scope="row">Extra Notes <font color="#FF0000">*</font></th>
+			<td scope="row">Extra Notes <font color="#FF0000">*</font></td>
 			<td><textarea rows="5" cols="30" name="notes"></textarea></td>
 		</tr>
 	</table>

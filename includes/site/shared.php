@@ -61,12 +61,8 @@ function wpsqt_site_shared_take_details($collectDetails = true){
 		}
 			
 		if ( empty($errors) ){
-			$_SESSION['wpsqt'][$quizName]['person']['name']    = (string) $_POST['user_name'];
-			$_SESSION['wpsqt'][$quizName]['person']['email']   = (string) $_POST['email'];
-			$_SESSION['wpsqt'][$quizName]['person']['phone']   = (string) $_POST['phone'];
-			$_SESSION['wpsqt'][$quizName]['person']['address'] = (string) $_POST['address'];
-			$_SESSION['wpsqt'][$quizName]['person']['notes']   = (string) $_POST['notes'];
-			$_SESSION['wpsqt'][$quizName]['person']['heard']   = (string) $_POST['heard'];
+			$_SESSION['wpsqt'][$quizName]['person'] = $_POST;
+			unset($_SESSION['wpsqt'][$quizName]['person']['step']);
 			return true;
 		}
 	}
