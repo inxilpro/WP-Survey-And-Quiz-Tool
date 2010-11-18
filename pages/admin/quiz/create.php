@@ -53,6 +53,16 @@
 					<td>Display the results of the quiz upon the user completing the quiz.</td>
 				</tr>
 				<tr>
+					<th scope="row">Display Review of Results On Completion</th>
+					<td valign="top">
+						<select id="display_result" name="display_review">
+							<option value="no"<?php if ( !isset($quizDetails['display_review']) ||  $quizDetails['display_review'] == 'no' ){?> selected="selected"<?php }?>>No</option>
+							<option value="yes"<?php if ( isset($quizDetails['display_review']) &&  $quizDetails['display_review'] == 'yes' ){?> selected="selected"<?php }?>>Yes</option>
+						</select>
+					</td>
+					<td>Display the review results of the quiz upon the user completing the quiz, requires automarking. Will show the user what answers they gave aswell as what answers are correct.</td>
+				</tr>
+				<tr>
 					<th scope="row">Status</th>
 					<td valign="top">
 						<select id="status" name="status">

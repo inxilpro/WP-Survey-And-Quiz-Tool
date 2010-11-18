@@ -168,23 +168,32 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 	$moreQuestions = 0;
 	$questions = array();
 	$orderBy = ($section['orderby'] == 'random') ? 'RAND()' : 'id '.strtoupper($section['orderby']);
+	if ( $section['number']  !== 0 ){
+		$limit = ' LIMIT  0,';	
+	} else {
+		$limit = '';
+	}
 	
 	if ( $section['difficulty'] == "mixed" ){
 		// If mixed them select an equal number of each difficulty,
 		// unless the number of questions can't be divided by three.
 		// At which point randomly fetch more of one difficulty to make up. 
-		$reminder  = $section['number'] % 3;
-		$eachLimit = intval( $section['number'] / 3 );
-		$randomized = intval(mt_rand(1, 3));
+		if ( $section['number']  !== 0 ){
+			$reminder  = $section['number'] % 3;
+			$eachLimit = intval( $section['number'] / 3 );
+			$randomized = intval(mt_rand(1, 3));
+		} 
 		$i = 1;
 		foreach ( array('easy','medium','hard') as $difficulty){
 			$thisLimit = $eachLimit;	
 			if ($i == $randomized){
 				$thisLimit += $reminder;	
 			}
+			$limit .= ( $section['number']  !== 0 ) ? $thisLimit : '';
+			
 			$difficultyQuestions = $wpdb->get_results( 
-											$wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY '.$orderBy.' LIMIT 0,%d',
-											array($difficulty,$quizId,$section['type'],$section['id'] ,$thisLimit))
+											$wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY '.$orderBy.$limit,
+											array($difficulty,$quizId,$section['type'],$section['id']))
 									, ARRAY_A );
 			$moreQuestions += $thisLimit - sizeof($difficultyQuestions);
 			$questions = array_merge($questions,$difficultyQuestions);
@@ -192,9 +201,11 @@ function wpsqt_site_quiz_fetch_questions($sectionKey){
 		}	
 			
 	} else {
+		
+		$limit .= ( $section['number']  !== 0 ) ? $section['number'] : '';
 		$difficultyQuestions = $wpdb->get_results( 
-										$wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY '.$orderBy.' LIMIT 0,%d',
-										array($section['difficulty'],$quizId,$section['type'],$section['id'] ,$section['number'] ))
+										$wpdb->prepare('SELECT * FROM '.WPSQT_QUESTION_TABLE.' WHERE difficulty = %s AND quizid = %d AND section_type = %s AND sectionid = %d ORDER BY '.$orderBy.$limit,
+										array($section['difficulty'],$quizId,$section['type'],$section['id']  ))
 								, ARRAY_A );
 		$moreQuestions = $section['number'] - sizeof($difficultyQuestions);	
 		$questions = array_merge($questions,$difficultyQuestions);

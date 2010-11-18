@@ -109,7 +109,7 @@ if ( !isset($rowCount) ){
 		
 		<h3>Choices</h3>
 		
-			<table border="0" >
+			<table border="0" id="multi_table">
 				<thead>
 					<tr>
 						<th>Answer</th>

@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.3.1-actual
+Stable tag: 1.3.2
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -66,6 +66,10 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
 
+= 1.3.2 =
+* Fixed new answers not appearing in quiz question form.
+* Added ability to have resulted reviewed for users to see which question they got right and wrong.
+
 = 1.3.1 =
 * Fixed new installs not having a link to where creating new quizzes or surveys
 * Fixed survey questions not updating on editing
@@ -100,11 +104,11 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 * Added ability to customize the from email on emails from the plugin.
 * Added instant email notifications on survey completion.
 * Following features sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
-** Added global email notification template system
-** Added custom email notification template which overrides global if present to Quiz System
-** Added custom email notification template which overrides global if present to Survey System
-** Added notification emails to all users who have a user role
-** Added notification emails group of emails seperated by comma
+* Added global email notification template system
+* Added custom email notification template which overrides global if present to Quiz System
+* Added custom email notification template which overrides global if present to Survey System
+* Added notification emails to all users who have a user role
+* Added notification emails group of emails seperated by comma
 
 = 1.2.1 = 
 * Added ability to export just people's details to csv
@@ -169,6 +173,9 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 * Fixed error in display non mixed sections
 
 == Upgrade Notice ==
+
+= 1.3.2 = 
+Bug fix and new features
 
 = 1.3 =
 Security fix, New user interface and bunch of new features!
