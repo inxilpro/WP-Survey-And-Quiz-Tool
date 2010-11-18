@@ -7,12 +7,10 @@
 	
 	<p>The next step is setting up a quiz or survey for your site.</p>
 	
-	<ol>
-		<li>Create a quiz or survey</li>
-		<li>Create sections for quiz/survey</li>
-		<li>Add Questions</li>
-		<li>Add page</li>
-	</ol>
+	<p>
+		<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=addnew" class="button add-new-h2">Create a Quiz</a>
+		<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=addnew" class="button add-new-h2">Create a Survey</a>
+	</p>
 	
 </div>	
 

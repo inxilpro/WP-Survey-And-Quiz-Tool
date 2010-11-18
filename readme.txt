@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.3
+Stable tag: 1.3.1
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -36,6 +36,8 @@ Editable options for survey sections are
 * Number of questions 
 * Name
 
+Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
+
 == Installation ==
 
 1. Upload `wp-survey-and-quiz-tool` folder to `/wp-content/plugins/` directory
@@ -64,6 +66,12 @@ Editable options for survey sections are
 
 == ChangeLog == 
 
+= 1.3.1 =
+* Fixed new installs not having a link to where creating new quizzes or surveys
+* Fixed survey questions not updating on editing
+* Fixed survey questions multiple choice answers continually readding on editing
+* Added ability to toogle the 'other' field in survey multiple choice questions
+
 = 1.3 = 
 * Fixed division by zero warning.
 * Fixed quiz status always being enabled when editing.
@@ -91,11 +99,12 @@ Editable options for survey sections are
 * Added enabling contact form if custom contact form is submitted.
 * Added ability to customize the from email on emails from the plugin.
 * Added instant email notifications on survey completion.
-* Added global email notification template system - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
-* Added custom email notification template which overrides global if present to Quiz System - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
-* Added custom email notification template which overrides global if present to Survey System - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
-* Added notification emails to all users who have a user role - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
-* Added notification emails group of emails seperated by comma - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
+* Following features sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
+** Added global email notification template system
+** Added custom email notification template which overrides global if present to Quiz System
+** Added custom email notification template which overrides global if present to Survey System
+** Added notification emails to all users who have a user role
+** Added notification emails group of emails seperated by comma
 
 = 1.2.1 = 
 * Added ability to export just people's details to csv

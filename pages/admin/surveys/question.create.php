@@ -58,7 +58,11 @@ if ( !isset($rowCount) ){
 		<div id="multi_form"<?php if ( !isset($answers) ) { ?> style="display: none;"<?php } ?>>
 		
 		<h3>Choices</h3>
-		
+			
+			<p>
+			  <input type="checkbox" name="question_other" <?php if ( isset($questionOther) && $questionOther == 'yes') { ?> checked="yes"<?php } ?> value="yes" id="include_other" /> <label for="include_other">Include an 'other' field that has a text input field to contain the other value</label>
+			</p>
+			
 			<table class="form-table" id="multi_table" >
 				<thead>
 					<tr>

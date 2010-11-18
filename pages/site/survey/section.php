@@ -13,10 +13,13 @@
 				<li>
 					<input type="radio" name="answers[<?php echo $questionKey; ?>]" value="<?php echo $answer['id']; ?>" id="answer_<?php echo $question['id']; ?>_<?php echo $answer['id']; ?>"> <label for="answer_<?php echo $question['id']; ?>_<?php echo $answer['id'];?>"><?php echo stripslashes($answer['text']); ?></label> 
 				</li>
-			<?php } ?>
+			<?php }
+				if ($question['include_other'] == 'yes'){
+				?>
 				<li>
 					<input type="radio" name="answers[<?php echo $questionKey; ?>]" value="0" id="answer_<?php echo $question['id']; ?>_other"> <label for="answer_<?php echo $question['id']; ?>_other">Other</label> <input type="text" name="other[<?php echo $questionKey; ?>]" value="" />
 				</li>
+				<?php } ?>
 			</ul>
 		<?php } else { ?>
 		<p>

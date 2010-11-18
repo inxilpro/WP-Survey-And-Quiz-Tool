@@ -301,7 +301,7 @@ function wpsqt_admin_survey_question_create($edit = false){
 	
 	if ( $edit !== false ){
 		$questionId = (int)$_GET['questionid'];
-		list($questionText,$questionType,$sectionId) = $wpdb->get_row('SELECT text,type,sectionid FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId , ARRAY_N);
+		list($questionText,$questionType,$sectionId,$questionOther) = $wpdb->get_row('SELECT text,type,sectionid,include_other FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId , ARRAY_N);
 		if ( $questionType == 'multiple' ){
 			$answers = $wpdb->get_results('SELECT text FROM '.WPSQT_SURVEY_ANSWERS_TABLE.' WHERE questionid = '.$questionId, ARRAY_A);
 		}
@@ -329,10 +329,12 @@ function wpsqt_admin_survey_question_create($edit = false){
 		if ( empty($errorArray) ){
 			$sectionId = (int) $_POST['section'];
 			
+			$questionOther = ( isset($_POST['question_other']) && $_POST['question_other'] == 'yes' ) ? 'yes' : 'no';
+			
 			if ( $edit === false ){
 				$wpdb->query(
-					 $wpdb->prepare('INSERT INTO `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` (surveyid,text,type,sectionid) VALUES (%d,%s,%s,%d)' ,
-									 array($surveyId,$_POST['question'],$_POST['type'],$sectionId) )
+					 $wpdb->prepare('INSERT INTO `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` (surveyid,text,type,sectionid,include_other) VALUES (%d,%s,%s,%s,%d)' ,
+									 array($surveyId,$_POST['question'],$_POST['type'],$questionOther,$sectionId) )
 				);
 				
 				$questionId = $wpdb->insert_id;
@@ -340,14 +342,14 @@ function wpsqt_admin_survey_question_create($edit = false){
 				$successMessage = 'Question succesfully added!';
 			} else {
 				
-				$questionId = (int) $_GET['id'];
+				$questionId = (int) $_GET['questionid'];
 
 				$wpdb->query(
-					$wpdb->prepare( 'UPDATE `'.WPSQT_SURVEY_ANSWERS_TABLE.'` SET text=%s,type=%s,sectionid=%d WHERE id = %d' ,
-									array($_POST['question'], $_POST['type'],$sectionId,$questionId) )
+					$wpdb->prepare( 'UPDATE `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` SET text=%s,type=%s,include_other=%s,sectionid=%d WHERE id = %d' ,
+									array($_POST['question'], $_POST['type'],$questionOther,$sectionId,$questionId) )
 				);
 				
-				$wpdb->query( 'DELETE FROM `'.WPSQT_SURVEY_ANSWERS_TABLE.'` WHERE surveyid = '.$questionId);
+				$wpdb->query( 'DELETE FROM `'.WPSQT_SURVEY_ANSWERS_TABLE.'` WHERE questionid = '.$questionId);
 				
 				$successMessage = 'Question succesfully updated!';
 			}

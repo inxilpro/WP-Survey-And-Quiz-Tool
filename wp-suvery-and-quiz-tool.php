@@ -61,7 +61,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3' );
+define( 'WPSQT_VERSION'              , '1.3.1' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -611,6 +611,8 @@ function wpsqt_main_db_upgrade(){
 	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_TABLE."` ADD `send_email` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
 	$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `email_template` TEXT NULL DEFAULT NULL ");
 	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_TABLE."` ADD `email_template` TEXT NULL DEFAULT NULL ");
+	// 1.3.1
+	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_QUESTIONS_TABLE."` ADD `include_other` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
 	
 	return;
 }
