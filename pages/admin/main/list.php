@@ -38,8 +38,8 @@
 				</tr>			
 			</tfoot>
 			<tbody>
-				<?php foreach( $results as $result ){ ?>			
-				<tr>
+				<?php foreach( $results as $result ){ ?>	
+				<tr class="<?php if (isset($result['unviewed_count']) && $result['unviewed_count'] !== 0){?>unapproved<?php } else { ?>approved<?php  }?>">
 					<th scope="row"><?php echo $result['id']; ?></th>
 					<td class="column-title">
 						<strong>
@@ -62,7 +62,7 @@
 					<td><font color="<?php if ($result['status'] == 'enabled'){ ?>#00FF00<?php } else { ?>#FF0000<?php }?>"><?php echo ucfirst($result['status']); ?></font></td>
 					<td class="comments column-comments">
 						<div class="post-com-count-wrapper">
-							<a class="post-com-count" title="0 pending" href="<?php echo WPSQT_URL_MAIN;?>&type=<?php echo $result['type']; ?>&action=results&id=<?php echo $result['id']; ?>">
+							<a class="post-com-count" title=" pending" href="<?php echo WPSQT_URL_MAIN;?>&type=<?php echo $result['type']; ?>&action=results&id=<?php echo $result['id']; ?>">
 								<span class="comment-count"><?php echo $result['results']; ?></span>
 							</a>
 						</div>

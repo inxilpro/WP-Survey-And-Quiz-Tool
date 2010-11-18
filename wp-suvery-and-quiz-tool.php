@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.2
+Version: 1.3.3
 */
 
 //TODO leverage media overlay for questions
@@ -61,7 +61,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.2' );
+define( 'WPSQT_VERSION'              , '1.3.3' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -127,6 +127,8 @@ function wpsqt_main_install(){
 				  `notification_type` varchar(255) NOT NULL DEFAULT 'none',
 				  `take_details` varchar(3) NOT NULL DEFAULT 'no',
  				  `use_wp_user` varchar(3) NOT NULL DEFAULT 'no',
+ 				  `display_review` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
+ 				  `email_template` TEXT NULL DEFAULT NULL ,
 				  PRIMARY KEY (`id`)
 				  ) ENGINE=MyISAM;");
 	
@@ -158,6 +160,8 @@ function wpsqt_main_install(){
 				  `name` varchar(255) NOT NULL,
 				  `take_details` varchar(11) NOT NULL,
 				  `status` varchar(11) NOT NULL,
+				  `email_template` TEXT NULL DEFAULT NULL,
+				  `send_email` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
 				  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 	
@@ -167,6 +171,7 @@ function wpsqt_main_install(){
 				  `sectionid` int(11) NOT NULL,
 				  `text` varchar(255) NOT NULL,
 				  `type` varchar(10) NOT NULL,
+				  `include_other` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
 				  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 	
@@ -223,6 +228,8 @@ function wpsqt_main_install(){
 				  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 	
+	// Just incase I forget again
+	wpsqt_main_db_upgrade();
 }
 
 
@@ -615,6 +622,8 @@ function wpsqt_main_db_upgrade(){
 	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_QUESTIONS_TABLE."` ADD `include_other` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
 	// 1.3.2
 	$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `display_review` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+	
+	// REMEMBER TO UPDATE THE INSTALL SQL
 	
 	return;
 }

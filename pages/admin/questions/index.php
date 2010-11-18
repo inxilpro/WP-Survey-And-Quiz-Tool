@@ -57,7 +57,7 @@
 	<div class="tablenav">
 		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&action=question-add&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-add&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
