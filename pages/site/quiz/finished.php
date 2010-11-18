@@ -7,5 +7,5 @@ Can't auto mark this.
 <?php } elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['display_result'] == 'yes') { ?>
 You got <?php echo $correctAnswers; ?> correct out of <?php echo $totalQuestions; ?>. 
 <?php } elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['display_review'] == 'yes'){ 
-	require_once require_once wpsqt_page_display('site/quiz/review.php');	
+	require_once wpsqt_page_display('site/quiz/review.php');	
 } ?>
