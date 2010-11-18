@@ -26,7 +26,7 @@ if ( !isset($rowCount) ){
 	
 	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="question_form">
 		
-		<input type="hidden" name="action" value="<?php echo $_REQUEST['action']; ?>"  />
+		<input type="hidden" name="action" value="<?php echo htmlentities($_REQUEST['action']); ?>"  />
 	
 		<table class="form-table" id="question_form">
 			<tbody>
@@ -95,3 +95,4 @@ if ( !isset($rowCount) ){
 	</form>
 	
 </div>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

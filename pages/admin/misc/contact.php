@@ -19,6 +19,8 @@
 	
 	<p><strong>Please note that using the below form will result in information such as your current wordpress version and plugin version being sent aswell.</strong>
 	
+	<h3>Contact Us About Moving To CatN</h3>
+	
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		
 		<table class="form-table">
@@ -35,6 +37,7 @@
 				<td><select name="reason">
 						<option value="Bug">Bug</option>
 						<option value="Suggestion">Suggestion</option>
+						<option value="Moving to CatN">Moving to CatN</option>
 						<option value="You guys rock">You guys rock</option>
 						<option value="You guys are the suck!!!">You guys are the suck</option>
 				</select></td>
@@ -52,3 +55,4 @@
 	</form>
 	
 </div>	
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

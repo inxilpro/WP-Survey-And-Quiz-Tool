@@ -2,14 +2,14 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.2.1
-Requires At Least: 2.9.2
+Stable tag: 1.3
+Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
 
 == Description ==
 
-This plugin is designed to allow wordpress blog owners to create their own quizzes and surveys. Shows survey results using google charts.
+This plugin is designed to allow wordpress blog owners to create their own quiz, questionaire, test, exam or survey. If you want to ask people a series of questions and record or mark the results, then this plugin can help. Shows survey results using google charts.
 
 Editable options for quizes are
 
@@ -53,13 +53,49 @@ Editable options for survey sections are
 == Screenshots ==
 
 1. Picture of contact details form.
-2. Main Plugin Page
-3. Question List
-4. Create question form
-5. Results list
-6. Survey results
+2. Picture of multiple choice
+3. Picture of free text area
+4. Picture of the main page of the plugin admin section
+5. Question List in Admin section
+6. Edit Question in Admin section
+7. Edit quiz in Admin section
+8. Result list
+9. Very limited mark result page
 
 == ChangeLog == 
+
+= 1.3 = 
+* Fixed division by zero warning.
+* Fixed quiz status always being enabled when editing.
+* Fixed custom forms showing errors upon fresh loading.
+* Fixed result deletion wrong page view error.
+* Fixed questions showing up for the wrong survey section
+* Fixed outdated PHPDoc block for wpsqt_admin_questions_addnew()
+* Fixed outdated documention for how to display a quiz.
+* Fixed non safe names being used for input names in custom contact forms.
+* Fixed custom forms incorrectly saying required information wasn't provided.
+* Fixed Survey and quizzes not displaying after the custom contact form.
+* Fixed names not showing up in instant email notifications.
+* Fixed survey sections not pointing to absolute location of the javascript.
+* Removed reflected XSS in page view code.
+* Removed warnings for non array varibles in survey results.
+* Removed default from email address from email notification.
+* Changed main page from lists of quizzes and results to merged survey and quiz list.
+* Changed help on create quiz question page to next to fields
+* Changed result list to have the same sort of UI that posts&pages lists have.
+* Added tips on what each field means in quiz edit/create form.
+* Added custom page directory field in the edit quiz form.
+* Added back to question lists link on successfull question creation/edit.
+* Added explaination for the custom form page.
+* Added warning if contact forms weren't enabled when viewing contact form
+* Added enabling contact form if custom contact form is submitted.
+* Added ability to customize the from email on emails from the plugin.
+* Added instant email notifications on survey completion.
+* Added global email notification template system - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
+* Added custom email notification template which overrides global if present to Quiz System - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
+* Added custom email notification template which overrides global if present to Survey System - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
+* Added notification emails to all users who have a user role - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
+* Added notification emails group of emails seperated by comma - sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
 
 = 1.2.1 = 
 * Added ability to export just people's details to csv
@@ -124,6 +160,9 @@ Editable options for survey sections are
 * Fixed error in display non mixed sections
 
 == Upgrade Notice ==
+
+= 1.3 =
+Security fix, New user interface and bunch of new features!
 
 = 1.2 = 
 Bug fixes and new features!!!

@@ -12,7 +12,7 @@ if ( empty($validData) ){
 	$validData = array(array('name' => '', 'difficulty' => '', 'type' => '', 'number' => '','orderby' => ''));
 }
 ?>
-<script type="text/javascript" src="/wp-content/plugins/wp-survey-and-quiz-tool/javascript/survey_section.php?rowcount=<?php echo sizeof($validData); ?>"></script>
+<script type="text/javascript" src="<? echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/survey_section.php?rowcount=<?php echo sizeof($validData); ?>"></script>
 
 <div class="wrap">
 
@@ -88,3 +88,4 @@ if ( empty($validData) ){
 		<li><strong>Scale</strong>  - Displays a question with a scale of 1 to 10 for users to select.</li>
 	</ul>
 </div>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

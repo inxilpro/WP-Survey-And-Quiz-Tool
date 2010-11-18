@@ -83,7 +83,7 @@ $hardPoints = 0;
 			<?php } else { 
 				?>				
 				<b><u>Answer Given</u></b>
-				<p class="answer_given" style="background-color : #c0c0c0; border : 1px dashed black; padding : 5px;overflow:auto;height : 200px;"><?php echo nl2br(htmlentities(stripslashes(current($section['answers'][$questionKey]['given'])))); ?></p>
+				<p class="answer_given" style="background-color : #c0c0c0; border : 1px dashed black; padding : 5px;overflow:auto;height : 200px;"><?php if ( isset($section['answers'][$questionKey]['given']) && is_array($section['answers'][$questionKey]['given']) ){ echo nl2br(htmlentities(stripslashes(current($section['answers'][$questionKey]['given'])))); } ?></p>
 				<p><b>Mark</b> <input type="hidden" name="old_mark[<?php echo $questionKey; ?>]" id="old_mark_<?php echo $questionKey; ?>" value="<?php echo (isset($questionArray['mark']) && ctype_digit($questionArray['mark']) ? $questionArray['mark'] : 0 ); ?>" /> <select name="mark[<?php echo $questionKey; ?>]" class="mark" id="current_mark_<?php echo $questionKey; ?>">
 					<?php for( $i = 0; $i <= $questionArray['value']; $i++ ){ 
 							if ( $i != 0) { $totalPoints++; }
@@ -112,3 +112,4 @@ $hardPoints = 0;
 	<p><input class="button-primary" type="submit" value="Submit"></p>
 </div>
 </form>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

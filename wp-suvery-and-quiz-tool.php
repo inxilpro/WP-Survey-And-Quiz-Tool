@@ -6,10 +6,11 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.2.1
+Version: 1.3
 */
 
 //TODO leverage media overlay for questions
+//TODO UPDATE CatN ad page
 
 /*
  * Copyright (C) 2010  Fubra Limited
@@ -56,9 +57,11 @@ define( 'WPSQT_PAGE_OPTIONS'         , 'wpsqt-menu-options' ) ;
 define( 'WPSQT_PAGE_CONTACT'         , 'wpsqt-menu-contact' );
 define( 'WPSQT_PAGE_HELP'            , 'wpsqt-menu-help'    );
 define( 'WPSQT_PAGE_SURVEY'          , 'wpsqt-menu-survey'  );
-define( 'WPSQT_CONTACT_EMAIL'        , 'iain.cambridge@fubra.com' );
-define( 'WPSQT_FROM_EMAIL'           , 'wpst-no-reply@fubra.com' );
-define( 'WPSQT_VERSION'              , '1.2.1' );
+define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
+define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
+
+define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
+define( 'WPSQT_VERSION'              , '1.3' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -226,24 +229,21 @@ function wpsqt_main_install(){
 /**
  * Adds a custom menus to the admin page.
  * Layout
- *   WP Survey And Quiz Tool
- *   -> Quiz/Surveys
- *   -> Questions
- *   -> Results
- *   -> Options
+ *   Quizzes/Survey
+ *  	-> Options
+ *  	-> Contact
+ *  	-> Help
+ *  	-> CatN PHP Experts
  */
 
 function wpsqt_main_admin_menu(){
 	
 	wp_enqueue_script('jquery');
-	add_menu_page('WP Survey And Quiz Tool', 'WP Survey And Quiz Tool', 'manage_options', WPSQT_PAGE_MAIN , 'wpsqt_main_admin_main_page') ;
-	add_submenu_page( WPSQT_PAGE_MAIN , 'Quizzes', 'Quizzes', 'manage_options', WPSQT_PAGE_QUIZ , 'wpsqt_main_admin_quiz_page' );
-	add_submenu_page( WPSQT_PAGE_MAIN , 'Surveys', 'Surveys', 'manage_options', WPSQT_PAGE_SURVEY , 'wpsqt_main_admin_survey_page' );
-	add_submenu_page( WPSQT_PAGE_MAIN , 'Questions', 'Questions', 'manage_options', WPSQT_PAGE_QUESTIONS, 'wpsqt_main_admin_questions_page' );
-	add_submenu_page( WPSQT_PAGE_MAIN , 'Quiz Results', 'Quiz Results', 'manage_options', WPSQT_PAGE_QUIZ_RESULTS , 'wpsqt_main_admin_quiz_results_page' );
+	add_menu_page( 'Quizzes/Surveys', 'Quizzes/Surveys', 'manage_options', WPSQT_PAGE_MAIN , 'wpsqt_main_admin_main_page') ;
 	add_submenu_page( WPSQT_PAGE_MAIN , 'Options', 'Options', 'manage_options', WPSQT_PAGE_OPTIONS, 'wpsqt_main_admin_options_page' );
 	add_submenu_page( WPSQT_PAGE_MAIN , 'Contact' , 'Contact' , 'manage_options' , WPSQT_PAGE_CONTACT , 'wpsqt_main_admin_contact_page' );
 	add_submenu_page( WPSQT_PAGE_MAIN , 'Help' , 'Help' , 'manage_options' , WPSQT_PAGE_HELP, 'wpsqt_main_admin_help_page' );
+	add_submenu_page( WPSQT_PAGE_MAIN , 'CatN PHP Experts' , 'CatN' , 'manage_options' , WPSQT_PAGE_CATN, 'wpsqt_main_catn' );
 	
 }
 
@@ -257,138 +257,94 @@ function wpsqt_main_admin_main_page(){
 	
 	global $wpdb;
 	
-	$results = $wpdb->get_results( 'SELECT r.id,r.timestamp,r.status,r.person_name,r.mark,r.ipaddress,q.name
-									FROM '.WPSQT_RESULTS_TABLE.' AS r 
-									INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid 
-									WHERE r.status = "Unviewed" 
-									ORDER BY r.id ASC 
-									LIMIT 0,10',ARRAY_A);
-	$quizList = $wpdb->get_results( 'SELECT id,name,status,type 
-									 FROM '.WPSQT_QUIZ_TABLE.' 
-									 ORDER BY id DESC 
-									 LIMIT 0,5' , ARRAY_A );
-	require_once WPSQT_DIR.'/pages/admin/main/index.php';
+	$type = (!isset($_GET['type'])) ? 'all' : $_GET['type'];
+	$action = (!isset($_GET['action'])) ? 'list' : $_GET['action'];
 	
-}
-
-
-/**
- * Handles requests for admin pages for the
- * quiz section. The page to be shown is 
- * dictated by the $_GET action variable with
- * the functions being held in a seperate file.
- * 
- * @uses includes/admin/quiz.php
- */
-
-function wpsqt_main_admin_quiz_page(){
+	// Show main page.
+	if ( $action == 'list' ){
+		require_once WPSQT_DIR.'/includes/admin/list.php';
+		wpsqt_list_admin_main($type);
+		return;
+	} elseif ( $action == 'form' ){
+		// To avoid including redunant code, tiny optimization.
+		require_once WPSQT_DIR.'/includes/admin/shared.php';		
+		wpsqt_admin_shared_forms();		
+		return;
+	}
 	
-	require_once WPSQT_DIR.'/includes/admin/quiz.php';
+	// Show quiz page 
+	if ( $type == 'quiz' ){	
 	
-	if ( !isset($_REQUEST['action']) || $_REQUEST['action'] == 'list' ){
-		wpsqt_admin_quiz_list();
-	} elseif ( $_REQUEST['action'] == 'create' ){
-		wpsqt_admin_quiz_form();		
-	} elseif ( $_REQUEST['action'] == 'sections' ){
-		wpsqt_admin_quiz_sections();
-	} elseif ( $_REQUEST['action'] == 'delete' ){
-		wpsqt_admin_quiz_delete();
-	} elseif ( $_REQUEST['action'] == 'forms' ){
-		require_once WPSQT_DIR.'/includes/admin/shared.php';
-		wpsqt_admin_shared_forms();
-	} elseif ( $_REQUEST['action'] == 'configure' ){
-		wpsqt_admin_quiz_form(true);
-	} else {
-		require_once WPSQT_DIR.'/pages/general/error.php';
+		// Nasty hack to implement DRY and require uneeded files.
+		if ( $action == 'results' ){
+			
+			require_once WPSQT_DIR.'/includes/admin/results.php';
+
+			if ( !isset($_GET['subaction']) ){					
+				wpsqt_admin_results_show_list();
+			} elseif ( $_GET['subaction'] == 'mark' ){
+				wpsqt_admin_results_quiz_mark();
+			} elseif ( $_GET['subaction'] == 'delete' ){
+				wpsqt_admin_results_delete_result();
+			} 
+				
+			
+			return;
+		}	
+		
+		require_once WPSQT_DIR.'/includes/admin/quiz.php';		
+		if ($action == 'edit'){
+			wpsqt_admin_quiz_form(true);
+		} elseif ( $action == 'sections' ){
+			wpsqt_admin_quiz_sections();
+		} elseif ( $action == 'addnew' ){
+			wpsqt_admin_quiz_form();
+		}  elseif ( $action == 'delete' ){
+			wpsqt_admin_quiz_delete();
+		} elseif ( $action == 'questions' ){
+			wpsqt_admin_questions_show_list();
+		} elseif ( $action == 'question-edit' ){
+			wpsqt_admin_questions_edit();
+		} elseif ( $action == 'question-add' ){
+			wpsqt_admin_questions_addnew();
+		} elseif ( $action == 'question-delete' ){
+			wpsqt_admin_questions_delete();
+		} 		
+		
+	} elseif ( $type == 'survey' ){ 
+		
+		require_once WPSQT_DIR.'/includes/admin/survey.php';	
+		
+		if ( $action == 'delete' ) {
+			wpsqt_admin_survey_delete();
+		} elseif ( $action == 'sections' ) {			
+			wpsqt_admin_survey_sections();
+		} elseif ( $action == 'addnew' ) {			
+			wpsqt_admin_survey_create();
+		} elseif ( $action == 'questions'){
+			wpsqt_admin_survey_question_list();
+		} elseif ( $action == 'edit' ){
+			wpsqt_admin_survey_create(true);
+		} elseif ( $action == 'results' ){
+			if ( !isset($_GET['subaction']) ){					
+				wpsqt_admin_survey_result_list();
+			} elseif ( $_GET['subaction'] == 'view' ){
+				wpsqt_admin_survey_result_single();
+			} 
+		} elseif ( $action == 'totalresults'){
+			wpsqt_admin_survey_result_total();
+		} elseif ( $action == 'view-single' ){
+			wpsqt_admin_survey_result_single();
+		} elseif ( $_REQUEST['action'] == 'question-create' ){
+			wpsqt_admin_survey_question_create();
+		} elseif ( $_REQUEST['action'] == 'question-delete' ){
+			wpsqt_admin_survey_question_delete();
+		} elseif ( $_REQUEST['action'] == 'question-edit' ){
+			wpsqt_admin_survey_question_create(true);
+		} 
+		
 	}	
 	
-}
-
-/**
- * Handles requests for admin pages for the 
- * survey section. The page to be shown is
- * dictacted by the $_GET action variable with
- * the functions being held in a seperate file.
- * 
- * @uses includes/admin/survey.php
- */
-
-function wpsqt_main_admin_survey_page(){
-	
-	require_once WPSQT_DIR.'/includes/admin/survey.php';
-	if ( !isset($_REQUEST['action']) || $_REQUEST['action'] == 'list' ){
-		wpsqt_admin_survey_list();
-	} elseif ( $_REQUEST['action'] == 'create' ){
-		wpsqt_admin_survey_create();		
-	} elseif ( $_REQUEST['action']  == 'delete' ){
-		wpsqt_admin_survey_delete();
-	} elseif ( $_REQUEST['action'] == 'configure' ){
-		wpsqt_admin_survey_create(true);
-	} elseif ( $_REQUEST['action'] == 'sections' ){
-		wpsqt_admin_survey_sections();
-	} elseif ( $_REQUEST['action'] == 'questions' ){
-		wpsqt_admin_survey_question_list();
-	} elseif ( $_REQUEST['action'] == 'create-question' ){
-		wpsqt_admin_survey_question_create();
-	} elseif ( $_REQUEST['action'] == 'delete-question' ){
-		wpsqt_admin_survey_question_delete();
-	} elseif ( $_REQUEST['action'] == 'edit-question' ){
-		wpsqt_admin_survey_question_create(true);
-	} elseif ( $_REQUEST['action'] == 'list-results' ){
-		wpsqt_admin_survey_result_list();
-	} elseif ( $_REQUEST['action'] == 'view-result' ){
-		wpsqt_admin_survey_result_single();
-	} elseif ( $_REQUEST['action'] == 'view-total' ){
-		wpsqt_admin_survey_result_total();
-	} elseif ( $_REQUEST['action'] == 'forms' ){
-		require_once WPSQT_DIR.'/includes/admin/shared.php';
-		wpsqt_admin_shared_forms();
-	}
-	
-}
-
-/**
- * Handles requests for admin pages for the
- * question section. The page to be shown is 
- * dictated by the $_GET action variable with
- * the functions being held in a seperate file.
- * 
- * @uses includes/admin/questions.php
- */
-
-function wpsqt_main_admin_questions_page(){	
-	require_once WPSQT_DIR.'/includes/admin/questions.php';		
-	if ( !isset($_REQUEST['action']) || $_REQUEST['action'] == 'list' ){
-			wpsqt_admin_questions_show_list();
-	} elseif ( $_REQUEST['action'] == 'addnew' ){
-		wpsqt_admin_questions_addnew();		
-	} elseif ( $_REQUEST['action'] == 'edit' ){
-		wpsqt_admin_questions_edit();
-	} elseif ( $_REQUEST['action'] == 'delete' ){
-		wpsqt_admin_questions_delete();
-	}
-}
-
-
-/**
- * Handles requests for admin pages for the
- * results section. The page to be shown is 
- * dictated by the $_GET action variable with
- * the functions being held in a seperate file.
- * 
- * @uses includes/admin/results.php
- */
-
-function wpsqt_main_admin_quiz_results_page(){	
-	require_once WPSQT_DIR.'/includes/admin/results.php';
-
-	if ( !isset($_REQUEST['action'])  || $_REQUEST['action'] == 'list' ){
-			wpsqt_admin_results_show_list();
-	} elseif ( $_REQUEST['action'] == 'mark' ){
-			wpsqt_admin_results_quiz_mark();
-	} elseif ( $_REQUEST['action'] == 'delete' ){
-			wpsqt_admin_results_delete_result();
-	}
 }
 
 /**
@@ -600,10 +556,10 @@ function wpsqt_csv_export(){
 	}
 	
 	if ( isset($_GET['quiz_csv']) ){
-		$quizId = (int)$_GET['quizid'];	
+		$quizId = (int)$_GET['id'];	
 		$results = $wpdb->get_results( 'SELECT * FROM '.WPSQT_RESULTS_TABLE.' WHERE quizid = '.$quizId , ARRAY_A );
 	} else {
-		$surveyId = (int)$_GET['surveyid'];
+		$surveyId = (int)$_GET['id'];
 		$results = $wpdb->get_results( 'SELECT * FROM '.WPSQT_SURVEY_RESULT_TABLE.' WHERE surveyid = '.$surveyId, ARRAY_A );	
 	}
 	
@@ -651,7 +607,71 @@ function wpsqt_main_db_upgrade(){
 	$wpdb->query("ALTER TABLE `".WPSQT_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
 	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_SECTION_TABLE."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
 	$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` DROP `type` ");
+	// 1.3	
+	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_TABLE."` ADD `send_email` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+	$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `email_template` TEXT NULL DEFAULT NULL ");
+	$wpdb->query("ALTER TABLE `".WPSQT_SURVEY_TABLE."` ADD `email_template` TEXT NULL DEFAULT NULL ");
 	
 	return;
 }
+
+/**
+ * Shows them a CatN advertisement page.
+ * 
+ * @since 1.3.0
+ */
+
+function wpsqt_main_catn(){
+	
+	require_once WPSQT_DIR.'/pages/admin/misc/catn.php';
+}
+
+/**
+ * Checks to see if the system requirments are met. If not 
+ * it displays a error div in the admin section linking 
+ * them to the CatN advertisement. 
+ * 
+ * @since 1.3.0
+ */
+
+function wpsqt_main_requirements(){
+	
+	global $systemRequirments;
+	$systemRequirements = true;
+
+	if ( !extension_loaded('session') ){
+		$systemRequirements = false;
+	} elseif ( !session_id() ){
+		// May be redunant as this code runs at the top of the script.		
+		if ( !session_start() ){
+			$systemRequirements = false;
+		}
+	} elseif ( !extension_loaded('pcre') ){
+		$systemRequirements = false;
+	} elseif ( !preg_match('~^5.~',PHP_VERSION) ){
+		$systemRequirements = false;
+	} elseif ( $systemRequirements == false ){
+		echo '<div class="error">Your hosting doesn\'t meet the mimium requirements of this plugin. <a href="'. get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_CATN.'">Click here</a> to find out about high quality hosting.</div>';		
+	}
+		
+}
+
+/**
+ * Adds the link if the user has agreed to it!
+ * 
+ * @since 1.3.0
+ */
+
+function wpsqt_main_support(){
+	
+	$supportUs = get_option('wpsqt_support_us');
+	
+	if ( $supportUs == 'yes'){
+		echo '<p style="text-align: center;"><a href="http://catn.com/">Get Cloud PHP Hosting on CatN</a></p>';
+	}
+	
+}
+
+add_action('wp_footer', 'wpsqt_main_support');
+
 ?>

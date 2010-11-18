@@ -18,7 +18,7 @@
 	<?php } ?>
 	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="quiz_form">
 		
-		<input type="hidden" name="action" value="<?php echo $_REQUEST['action']; ?>"  />
+		<input type="hidden" name="action" value="<?php echo htmlentities($_REQUEST['action']); ?>"  />
 	
 		<table class="form-table" id="question_form">
 			<tbody>
@@ -44,6 +44,20 @@
 						</select>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row">Send Notification Emails</th>
+					<td>
+						<select id="send_email" name="send_email">
+							<option value="no"<?php if ( !isset($surveyDetails['"send_email"']) ||  $surveyDetails['"send_email"'] == 'no' ){?> selected="selected"<?php }?>>No</option>
+							<option value="yes"<?php if ( isset($surveyDetails['"send_email"']) && $surveyDetails['"send_email"'] == 'yes' ){?> selected="selected"<?php }?>>Yes</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Custom Email Template</th>
+					<td><textarea rows="8" name="email_template" cols="40"><?php if ( isset($surveyDetails['email_template']) ) { echo $surveyDetails['email_template']; } ?></textarea></td>
+					<td valign="top">The template of the email sent on notification. <Strong>If empty default one will be sent.</Strong>. <a href="#template_tokens">Click here</a> to see the tokens for replacement.</td>
+				</tr>
 			</tbody>
 		</table>
 		
@@ -54,3 +68,4 @@
 	</form>
 	
 </div>	
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

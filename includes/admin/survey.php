@@ -51,13 +51,12 @@ function wpsqt_admin_survey_create($edit = false){
 	global $wpdb;
 	
 	if ( $edit == true ){
-		if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){
+		if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
 			wpsqt_page_display('general/error.php');
 			return;			
 		}
 		//
-		$surveyId = (int)$_GET['surveyid'];
-		$surveyDetails = $wpdb->get_row( 'SELECT * FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '. $surveyId , ARRAY_A);
+		$surveyId = (int) $_GET['id'];
 	}
 	
 	if ( !empty($_POST) ){
@@ -74,23 +73,28 @@ function wpsqt_admin_survey_create($edit = false){
 		// check if there is any errors if not insert into table
 		if ( empty($errorArray) ){
 			if ( $edit === false ){
-				if ( false !== $wpdb->query($wpdb->prepare('INSERT INTO '.WPSQT_SURVEY_TABLE.' (name,status,take_details) VALUES (%s,%s,%s) ',
-											array($surveyDetails['name'],$_POST['status'],$_POST['take_details']))) ) {
+				if ( false !== $wpdb->query($wpdb->prepare('INSERT INTO '.WPSQT_SURVEY_TABLE.' (name,status,take_details,send_email,email_template) VALUES (%s,%s,%s,%s,%s) ',
+											array($surveyDetails['name'],$_POST['status'],$_POST['take_details'],$_POST['send_email'],$_POST['email_template']))) ) {
 					
 							$successMessage = 'Survey successfully added';
 				}
+				$surveyId = $wpdb->insert_id;
 			} else {
 				
 				$wpdb->query(
-					$wpdb->prepare('UPDATE '.WPSQT_SURVEY_TABLE.' SET name=%s,status=%s,take_details=%s WHERE id  = %d',
-									array($_POST['survey_name'],$_POST['status'],$_POST['take_details'],$surveyId) )
+					$wpdb->prepare('UPDATE '.WPSQT_SURVEY_TABLE.' SET name=%s,status=%s,take_details=%s,send_email=%s,email_template=%s WHERE id  = %d',
+									array($_POST['survey_name'],$_POST['status'],$_POST['take_details'],$_POST['send_email'],$_POST['email_template'],$surveyId) )
 				);
 				$successMessage = 'Survey successfully updated';
 			}
 		}
 		
+		
+		
 	}
 
+	
+	$surveyDetails = $wpdb->get_row( 'SELECT * FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '. $surveyId , ARRAY_A);
 	require_once wpsqt_page_display('admin/surveys/create.php');
 }
 
@@ -107,7 +111,7 @@ function wpsqt_admin_survey_delete(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
 		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
@@ -145,7 +149,7 @@ function wpsqt_admin_survey_sections(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){		
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){		
 		wpsqt_page_display('general/error.php');
 		return;
 	} 
@@ -232,7 +236,7 @@ function wpsqt_admin_survey_sections(){
 		
 	} 
 	
-	$validData = $wpdb->get_results('SELECT * FROM '.WPSQT_SURVEY_SECTION_TABLE.' WHERE surveyid = '.$wpdb->escape($_GET['surveyid']) , ARRAY_A );
+	$validData = $wpdb->get_results('SELECT * FROM '.WPSQT_SURVEY_SECTION_TABLE.' WHERE surveyid = '.$wpdb->escape($_GET['id']) , ARRAY_A );
 	
 	require_once wpsqt_page_display('admin/surveys/sections.php');
 	
@@ -261,7 +265,7 @@ function wpsqt_admin_survey_question_list(){
 	if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){
 		$rawQuestions = $wpdb->get_results('SELECT id,text,type,surveyid FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' ORDER BY id ASC', ARRAY_A);
 	} else {
-		$rawQuestions = $wpdb->get_results('SELECT id,text,type,surveyid FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE surveyid = '.$wpdb->escape($_GET['surveyid']).' ORDER BY id ASC', ARRAY_A);
+		$rawQuestions = $wpdb->get_results('SELECT id,text,type,surveyid FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE surveyid = '.$wpdb->escape($_GET['id']).' ORDER BY id ASC', ARRAY_A);
 	}
 	$questions = array_slice($rawQuestions , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof($rawQuestions);
@@ -288,15 +292,15 @@ function wpsqt_admin_survey_question_create($edit = false){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
 		require_once wpsqt_page_display('general/error.php');
 		return;		
 	}
 
-	$surveyId = (int)$_GET['surveyid'];
+	$surveyId = (int)$_GET['id'];
 	
 	if ( $edit !== false ){
-		$questionId = (int)$_GET['id'];
+		$questionId = (int)$_GET['questionid'];
 		list($questionText,$questionType,$sectionId) = $wpdb->get_row('SELECT text,type,sectionid FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId , ARRAY_N);
 		if ( $questionType == 'multiple' ){
 			$answers = $wpdb->get_results('SELECT text FROM '.WPSQT_SURVEY_ANSWERS_TABLE.' WHERE questionid = '.$questionId, ARRAY_A);
@@ -384,12 +388,12 @@ function wpsqt_admin_survey_question_delete(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
+	if ( !isset($_GET['questionid']) || !ctype_digit($_GET['questionid']) ){
 		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
 		
-	$questionId = (int) $_GET['id'];
+	$questionId = (int) $_GET['questionid'];
 	
 	if ( empty($_POST) ){
 		// Make sure they mean it.
@@ -421,21 +425,26 @@ function wpsqt_admin_survey_result_list(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
 		require_once wpsqt_page_display('general/error.php');
 		return;		
 	}
 	
 	require_once WPSQT_DIR.'/includes/functions.php';
-	$surveyId = (int)$_GET['surveyid'];
+	$surveyId = (int)$_GET['id'];
 	$itemsPerPage = get_option('wpsqt_number_of_items');
 	$currentPage = wpsqt_functions_pagenation_pagenumber();	
 	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
-	$rawResults = $wpdb->get_results('SELECT id,name,ipaddress FROM '.WPSQT_SURVEY_SINGLE_TABLE.' WHERE surveyid = '.$surveyId.' ORDER BY id DESC', ARRAY_A);
+	$rawResults = $wpdb->get_results('SELECT id,name as person_name,ipaddress FROM '.WPSQT_SURVEY_SINGLE_TABLE.' WHERE surveyid = '.$surveyId.' ORDER BY id DESC', ARRAY_A);
 	$results = array_slice( $rawResults , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof( $rawResults );
 	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
 	$showingResultsFor = $wpdb->get_var( 'SELECT name FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '.$surveyId );
+	
+	
+	define('WPSQT_RESULT_URL', get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN.'&type=survey&action=results&id='.$surveyId );
+	
+	
 	require_once wpsqt_page_display('admin/surveys/result.list.php');
 }
 
@@ -453,12 +462,12 @@ function wpsqt_admin_survey_result_single(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
+	if ( !isset($_GET['subid']) || !ctype_digit($_GET['subid']) ){
 		wpsqt_page_display('general/error.php');
 		return;		
 	}
 	
-	$resultId = (int) $_GET['id'];
+	$resultId = (int) $_GET['subid'];
 	
 	$result = $wpdb->get_row("SELECT surveyid,person,name,results,ipaddress,user_agent 
 							  FROM `".WPSQT_SURVEY_SINGLE_TABLE."`
@@ -484,12 +493,12 @@ function wpsqt_admin_survey_result_total(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
 		require_once wpsqt_page_display('general/error.php');
 		return;		
 	}
 	
-	$surveyId = (int) $_GET['surveyid'];
+	$surveyId = (int) $_GET['id'];
 	// Fetch multiple choice items
 	$results = $wpdb->get_results( 'SELECT sq.id,sq.text AS question,sqa.text AS answer, COUNT(sr.id) AS total,sr.type
 									FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` as sq
@@ -502,13 +511,15 @@ function wpsqt_admin_survey_result_total(){
 		$surveyArray[$result['type']][$result['id']][] = $result;
 	}
 	// Fetch the others
-	foreach( $surveyArray['multiple'] as $questionId => $result){
-		$surveyArray['multiple'][$questionId][] = 
-			$wpdb->get_row('SELECT COUNT(sr.id) AS total,\'Other\' as answer 
-							FROM `'.WPSQT_SURVEY_RESULT_TABLE.'` AS sr 
-							WHERE sr.surveyid = '.$surveyId.' 
-							AND sr.questionid = '.$questionId.' 
-							AND sr.answerid = 0' , ARRAY_A );
+	if ( isset($surveyArray['multiple']) && is_array($surveyArray['multiple']) ){
+		foreach( $surveyArray['multiple'] as $questionId => $result){
+			$surveyArray['multiple'][$questionId][] = 
+				$wpdb->get_row('SELECT COUNT(sr.id) AS total,\'Other\' as answer 
+								FROM `'.WPSQT_SURVEY_RESULT_TABLE.'` AS sr 
+								WHERE sr.surveyid = '.$surveyId.' 
+								AND sr.questionid = '.$questionId.' 
+								AND sr.answerid = 0' , ARRAY_A );
+		}
 	}
 	// Fetch scale items
 	$results = $wpdb->get_results( 'SELECT sq.id,sq.text AS question,sq.type,COUNT(sr.value) as count,

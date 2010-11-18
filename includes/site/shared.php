@@ -72,27 +72,133 @@ function wpsqt_site_shared_take_details($collectDetails = true){
 }
 
 
+/**
+ * Handles the processing of the custom form fields.
+ * 
+ * @uses wpdb
+ * 
+ * @param array $fields
+ * 
+ * @since 1.2
+ */
+
 function wpsqt_site_shared_custom_form($fields){
 	
 	global $wpdb;
 	$quizName = $_SESSION['wpsqt']['current_name'];
 	
-	foreach ( $fields as $field ){
-		if ($field['required'] == 'yes'){
-			if ( !isset($_POST[$field['name']]) || empty($_POST[$field['name']]) ){
-				$errors[] = $field['name'].' is required';
+	if ( !empty($_POST) ){
+		
+		foreach ( $fields as $field ){
+			if ($field['required'] == 'yes'){
+				$fieldName = preg_replace('~[^a-z0-9]~i','',$field['name']);
+				if ( !isset($_POST[$fieldName]) || empty($_POST[$fieldName]) ){
+					$errors[] = $field['name'].' is required';
+				}
 			}
 		}
-	}
-	$postDetails = $_POST;
-	unset($postDetails['step']);
-	if ( empty($errors) ){
-		$_SESSION['wpsqt'][$quizName]['person'] = $postDetails;
-		return true;
+		
+		if ( empty($errors) ){
+			$_SESSION['wpsqt'][$quizName]['person'] = $_POST;
+			unset($_SESSION['wpsqt'][$quizName]['person']['step']);
+			return true;
+		}
+		
 	}
 	
 	require_once wpsqt_page_display('site/shared/custom-form.php');
 	return false;
+}
+
+/**
+ * Handles sending notification emails for the plugin.
+ * 
+ * @uses wpdb
+ * 
+ * @since 1.3.0
+ */
+function wpsqt_site_shared_email(){
+	
+	global $wpdb;
+	
+	$quizName = $_SESSION['wpsqt']['current_name'];
+	$quizId = $_SESSION['wpsqt']['current_id'];
+	$quizDetails = ($_SESSION['wpsqt']['current_type'] == 'quiz') ? $_SESSION['wpsqt'][$quizName]['quiz_details'] : $_SESSION['wpsqt'][$quizName]['survey_details'];
+	$emailTemplate = (empty($quizDetails['email_template'])) ? get_option('wpsqt_email_template'):$quizDetails['email_template'];
+	$fromEmail = ( get_option('wpsqt_from_email') ) ? get_option('wpsqt_from_email') : get_option('admin_email');	
+	$role = get_option('wpsqt_email_role');
+	if ( !empty($role) && $role != 'none' ){
+		$this_role = "'[[:<:]]".$role."[[:>:]]'";
+  		$query = "SELECT * FROM $wpdb->users WHERE ID = ANY (SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'wp_capabilities' AND meta_value RLIKE $this_role) ORDER BY user_nicename ASC LIMIT 10000";
+  		$users = $wpdb->get_results($query,ARRAY_A);
+  		$emailList = array();
+  		foreach($users as $user){
+  			$emailList[] = $user['user_email'];
+  		}
+	}
+	
+	if ( !isset($emailList) || empty($emailList) ){
+		$emailAddress = get_option('wpsqt_contact_email');
+		$emailList = explode(',', $emailAddress);
+	}
+	
+	
+	if ( empty($emailTemplate) ){
+		
+		$emailMessage  = 'There is a new result to view'.PHP_EOL.PHP_EOL;
+		$emailMessage .= 'Person Name :'.$_SESSION['wpsqt'][$quizName]['person']['user_name'].PHP_EOL;
+		$emailMessage .= 'IP Address :'.$_SERVER['REMOTE_ADDR'].PHP_EOL;
+					
+	} else {
+		
+		$emailMessage = str_ireplace( '%USER_NAME%'   , $_SESSION['wpsqt'][$quizName]['person']['user_name'], $emailTemplate);
+		$emailMessage = str_ireplace( '%QUIZ_NAME%'   , $quizName, $emailMessage);
+		$emailMessage = str_ireplace( '%SURVEY_NAME%' , $quizName, $emailMessage);
+		$emailMessage = str_ireplace( '%DATE_EU%'     , date('d-m-Y'),$emailMessage );
+		$emailMessage = str_ireplace( '%DATE_US%'     , date('m-d-Y'),$emailMessage );
+		$emailMessage = str_ireplace( '%DATETIME_EU%' , date('d-m-Y H:i:s'),$emailMessage );
+		$emailMessage = str_ireplace( '%DATETIME_US%' , date('m-d-Y H:i:s'),$emailMessage );
+		$emailMessage = str_ireplace( '%IP_ADDRESS%'   , $_SERVER['REMOTE_ADDR'], $emailMessage );
+		$emailMessage = str_ireplace( '%HOSTNAME%'    , gethostbyaddr($_SERVER['REMOTE_ADDR']) , $emailMessage);
+		$emailMessage = str_ireplace( '%USER_AGENT%'  , $_SERVER['HTTP_USER_AGENT'], $emailMessage);
+		
+		if ( preg_match_all('~%USERMETA_(.*)%~isU',$emailMessage,$matches) ){			
+			foreach( $matches[1] as $match ){				
+				if ( $userMeta = get_user_meta($match) ){
+					$emailMessage = str_replace('%USERMETA_'.$match.'%', $userMeta, $emailMessage);
+				}				
+			}			
+		}
+		$resultUrl = get_bloginfo('url').'/wp-admin/admin.php?page=wpsqt-menu&type='.
+					$_SESSION['wpsqt']['current_type'].'&action=results&id='.$quizId
+					.'&subaction=';
+		$resultUrl .= ($_SESSION['wpsqt']['current_type'] == 'quiz') ? 'mark' : 'view';
+		$resultUrl .= '&subid='.$_SESSION['wpsqt']['result_id'];
+		$emailMessage = str_ireplace('%RESULT_URL%', $resultUrl, $emailMessage);
+	}
+	
+	
+	$emailSubject  = 'There is a new result!';
+	$headers = 'From: WPSQT Bot <'.$fromEmail.'>' . "\r\n";
+
+	foreach( $emailList  as $emailAddress ){
+		wp_mail($emailAddress,'WPSQT Notification',$emailMessage,$headers);
+	}
+		
+}
+
+/**
+ * Handles sending custom notification emails.
+ * 
+ * @uses wpdb
+ * 
+ * @since 1.3.0
+ */
+function wpsqt_site_shared_custom(){
+	
+	
+	$fromEmail = ( get_option('wpsqt_from_email') ) ? get_option('wpsqt_from_email') : get_option('admin_email');
+	
 }
 
 ?>

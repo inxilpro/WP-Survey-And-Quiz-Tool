@@ -1,66 +1,64 @@
 <div class="wrap">
 
 	<div id="icon-tools" class="icon32"></div>
-	<h2>WP Survey And Quiz Tool - Survey Results</h2>
+	<h2>WP Survey And Quiz Tool - Results</h2>
 	
-	<div class="tablenav">
-		<div class="alignleft">
-			Showing results for <?php echo $showingResultsFor; ?>.
-		</div>
+	
+	
+	<form method="post" action="">
+	
+		<div class="tablenav">
+	
+			<ul class="subsubsub">
+				<li>
+					<a href="<?php echo WPSQT_RESULT_URL; ?>" <?php if (isset($filter) && $filter == 'all') { ?>  class="current"<?php } ?> id="all_link">All <span class="count">(<?php echo $numberOfItems; ?>)</span></a>		
+				</li> 
+			</ul>
 			
-		<div class="tablenav-pages">
-		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
+			<div class="tablenav-pages">
+		   		<?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>	
+		   	</div>
 		</div>
-	</div>
-	
-	<table class="widefat">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Ip Adress</th>
-				<th>View</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Ip Adress</th>
-				<th>View</th>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php if ( empty($results) ) { ?>			
-				<tr>
-					<td colspan="4"><div style="text-align: center;">No results yet!</div></td>
-				</tr>
-			<?php }
-				  else {
-				  	
-					foreach ($results as $result) { ?>
-			<tr>
-				<td><?php echo $result['id']; ?></td>
-				<td><?php echo stripslashes($result['name']); ?></td>
-				<td><?php echo stripslashes($result['ipaddress']); ?></td>
-				<td><a href="admin.php?page=<?php echo WPSQT_PAGE_SURVEY; ?>&action=view-result&surveyid=<?php echo $surveyId; ?>&id=<?php echo $result['id']; ?>" class="button-secondary" title="View Result">View</a></td>
-			</tr>
-			<?php } 
-				 }?>
-		</tbody>
-	</table>
-
-	<div class="tablenav">
-	
-		<?php if (isset($surveyId)) {?>
-		<div class="alignleft">
-			 <a href="<?php echo $_SERVER['REQUEST_URI']; ?>&survey_csv=yes">Export as CSV</a>.
-		</div>
-		<?php } ?>
 		
-		<div class="tablenav-pages">
-		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
-		</div>		
-	</div>
-
+		
+		<table class="widefat post fixed" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="manage-column" scope="col" width="25">ID</th>
+					<th class="manage-column column-title" scope="col">Title</th>
+				</tr>			
+			</thead>
+			<tfoot>
+				<tr>
+					<th class="manage-column" scope="col" width="25">ID</th>
+					<th class="manage-column column-title" scope="col">Title</th>
+				</tr>			
+			</tfoot>
+			<tbody>
+				<?php foreach( $results as $result ){ ?>			
+				<tr>
+					<th scope="row"><?php echo $result['id']; ?></th>
+					<td class="column-title">
+						<strong>
+							<a class="row-title" href="<?php echo WPSQT_RESULT_URL; ?>&subaction=mark&subid=<?php echo $result['id']; ?>"><?php echo htmlentities($result['person_name']); ?></a>
+						</strong>
+						<div class="row-actions">
+							<span class="mark"><a href="<?php echo WPSQT_RESULT_URL; ?>&subaction=view&subid=<?php echo $result['id']; ?>">View</a></span>
+							
+						</div>
+					</td>
+				</tr>				
+				<?php } ?>
+			</tbody>
+		</table>
+		
+		<div class="tablenav">
+		
+			<div class="tablenav-pages">			   
+		   		<?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>	
+			</div>
+		</div>
+		
+	</form>
 </div>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

@@ -126,8 +126,8 @@ function wpsqt_site_survey_fetch_questions(){
 	$section       = $_SESSION['wpsqt'][$surveyName]['survey_sections'][$sectionKey];
 	$moreQuestions = 0;
 		
-	$questions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s ORDER BY id ASC LIMIT 0,%d',
-													array($surveyId,$section['type'],$section['number'] )), ARRAY_A );
+	$questions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s AND sectionid = %d ORDER BY id ASC LIMIT 0,%d',
+													array($surveyId,$section['type'],$section['id'],$section['number'] )), ARRAY_A );
 	
 	if ( $section['type'] == 'multiple' ){		
 		for ( $i = 0; $i < sizeof($questions); $i++){
@@ -153,11 +153,19 @@ function wpsqt_site_survey_finish(){
 	$surveyName = $_SESSION['wpsqt']['current_name'];
 	$surveyId   = $_SESSION['wpsqt'][$surveyName]['survey_details']['id'];
 	$person =  ( isset($_SESSION['wpsqt'][$surveyName]['person']) ) ? $_SESSION['wpsqt'][$surveyName]['person'] : array('name'=>'anonymous');
-		
+	$emailTrue = ( $_SESSION['wpsqt'][$surveyName]['survey_details']['send_email'] == 'yes' ) ? true : false;
+	
 	$wpdb->query(
 		$wpdb->prepare(	'INSERT `'.WPSQT_SURVEY_SINGLE_TABLE.'` (surveyid,person,name,results,ipaddress,user_agent) VALUES (%d,%s,%s,%s,%s,%s)',
 						array($surveyId,serialize($person),$person['user_name'],serialize($_SESSION['wpsqt'][$surveyName]['survey_sections']),$_SERVER['REMOTE_ADDR'],$_SERVER['HTTP_USER_AGENT']) )
 	);
+	
+	if ( isset($emailTrue) && $emailTrue == true ){	
+		
+		require_once WPSQT_DIR.'/includes/site/shared.php';
+		wpsqt_site_shared_email();
+		
+	}
 	
 	require_once wpsqt_page_display('site/survey/finish.php');
 }

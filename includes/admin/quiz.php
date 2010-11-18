@@ -80,13 +80,14 @@ function wpsqt_admin_quiz_form($edit = false){
 	
 	if ( !empty($_POST) && empty($errorArray) ){
 		if ( $edit == false ){			
-			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,status,notification_type,take_details,use_wp_user)  VALUES (%s,%s,%s,%s,%s,%s)',
-									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user']) ) );
-			$successMessage = 'Quiz inserted';
+			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,status,notification_type,take_details,use_wp_user,email_template)  VALUES (%s,%s,%s,%s,%s,%s,%s)',
+									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user'], $_POST['email_template'] ) ) );
+			$quizId = $wpdb->insert_id;
+			$successMessage = 'Quiz inserted! Next step is to add some sections. <a href="'.WPSQT_URL_MAIN.'&type=quiz&action=sections&id='.$quizId.'">Click here</a> to move onto that step.';
 		}
 		else{
-			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s WHERE id = %d',
-									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'] , $_GET['quizid'] )) );
+			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s,email_template=%s WHERE id = %d',
+									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'], $_POST['email_template'] , $_GET['id'] )) );
 			$successMessage = 'Quiz updated';
 		}
 		
@@ -96,9 +97,9 @@ function wpsqt_admin_quiz_form($edit = false){
 		}
 	}	
 	
-	if ( $edit == true && ctype_digit($_GET['quizid']) ){
-		$quizId = (int) $_GET['quizid'];
-		$quizDetails = $wpdb->get_row('SELECT name,display_result,status,notification_type,take_details,use_wp_user FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
+	if ( $edit == true && ctype_digit($_GET['id']) ){
+		$quizId = (int) $_GET['id'];
+		$quizDetails = $wpdb->get_row('SELECT name,display_result,status,notification_type,take_details,use_wp_user,email_template FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
 	}
 
 	require_once wpsqt_page_display('admin/quiz/create.php');
@@ -155,7 +156,7 @@ function wpsqt_admin_quiz_sections(){
 	global $wpdb;
 	
 	// Ensure we have a quiz id otherwise return to quiz list.
-	if ( !isset($_GET['quizid']) || !ctype_digit($_GET['quizid']) ){	
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){	
 		require_once WPSQT_DIR.'/includes/functions.php';
 		$redirectUrl = wpsqt_functions_generate_uri( array('page','action') );
 		$redirectUrl .= '&page='.WPSQT_PAGE_QUIZ; 
@@ -165,44 +166,29 @@ function wpsqt_admin_quiz_sections(){
 			$validData = array();
 		    
 			for ( $i = 0; $i < sizeof($_POST['section_name']); $i++ ){
-				// Check and make sure all data required is given
-				// aswell as ensuring data is correct type. If not
-				// we'll just skip to the next one.
-				// Here comes a massive if statement...
+				// Bye Bye massive IF statement, hello bunch of small IF statements.
 		    	if (
 		    	  // Make sure we have all the data required. 
-		    		( !isset($_POST['section_name'][$i]) || empty($_POST['section_name'][$i])
-		    	   || !isset($_POST['difficulty'][$i]) || empty($_POST['difficulty'][$i])
-		    	   || !isset($_POST['number'][$i]) || empty($_POST['number'][$i])
-		    	   || !isset($_POST['type'][$i]) || empty($_POST['type'][$i]) 	
-		    	   || !isset($_POST['order'][$i]) || empty($_POST['order'][$i]) ) 		
-		    	       	  	 
-		    	   // Section difficulty can only be easy, medium, mixed or hard.
-				   || ( $_POST['difficulty'][$i] != 'easy' && $_POST['difficulty'][$i] != 'mixed'
-		    	   && $_POST['difficulty'][$i] != 'medium' && $_POST['difficulty'][$i] != 'hard' )
-		    	   
-		    	   // Check that question order is a valid 
-				   || ( $_POST['order'][$i] != 'random' && $_POST['order'][$i] != 'asc'
-				   	 && $_POST['order'][$i] != 'desc' )
-		    	   
-                   // Number of questions has to be an integer.
-		    	   || ( !ctype_digit($_POST['number'][$i])  )
-		    	   
-		    	   // Section type can only be multiple or textarea.
-		    	   || ( $_POST['type'][$i] != 'multiple' && $_POST['type'][$i] != 'textarea' )
+		    	  // Which now is just the name.
+		    		 !isset($_POST['section_name'][$i]) || empty($_POST['section_name'][$i])		    	  
 		    	 ){
 		    	  	$status = 'delete';
 		    	 } else {
 		    	 	$status = 'input';
 		    	 }
 		    	 
+		    	 $orderBy[$i] = (isset($_POST['order'][$i])) && !empty($_POST['order'][$i]) ? $_POST['order'][$i] : 'ASC';
+		    	 $number[$i] = (isset($_POST['number'][$i]) && !empty($_POST['number'][$i])) ? $_POST['number'][$i] : 0;
+		    	 $sectionType[$i] = (isset($_POST['type'][$i]) && !empty($_POST['type'][$i])) ? $_POST['type'][$i] : 'multiple';
+		    	 $difficulty[$i] = (isset($_POST['difficulty'][$i]) && !empty($_POST['difficulty'][$i])) ? $_POST['difficulty'][$i] : 'medium';
+		    	 
 		    	 $sectionId = (isset($_POST['sectionid'][$i])) ? intval($_POST['sectionid'][$i]) : NULL;
 		    	 // All that, just for this...
 		    	 $validData[] = array( 'name'       => $_POST['section_name'][$i],
-		    	 					   'difficulty' => $_POST['difficulty'][$i],
-		    	 					   'number'     => $_POST['number'][$i],
-		    	 					   'type'       => $_POST['type'][$i],
-		    	 					   'order'      => $_POST['order'][$i],
+		    	 					   'difficulty' => $difficulty[$i],
+		    	 					   'number'     => $number[$i],
+		    	 					   'type'       => $sectionType[$i],
+		    	 					   'order'      => $orderBy[$i],
 		    						   'id'         => $sectionId,
 		    	 					   'status'     => $status );
 		    }
@@ -234,7 +220,7 @@ function wpsqt_admin_quiz_sections(){
 				    	// New section therefore insert
 				    	// turns the insert flag to true.
 				    	$insert = true;	
-					    $insertSqlParts[] = "(". $wpdb->escape($_GET['quizid']) .",'".
+					    $insertSqlParts[] = "(". $wpdb->escape($_GET['id']) .",'".
 					    						 $wpdb->escape($data['name']) ."','".
 					    					     $wpdb->escape($data['type']) ."','".
 					    					     $wpdb->escape($data['number']) ."','".
@@ -261,9 +247,12 @@ function wpsqt_admin_quiz_sections(){
 			
 		$validData = $wpdb->get_results('SELECT id,name,type,number,difficulty,orderby
 										 FROM '.WPSQT_SECTION_TABLE.'
-										 WHERE quizid = '.$wpdb->escape($_GET['quizid'])
+										 WHERE quizid = '.$wpdb->escape($_GET['id'])
 										 , ARRAY_A );
-			
+
+		if ( isset($successMessage) && empty($validData) ){			
+			    $successMessage = 'Sections deleted!';
+		}								 
 	}
 
 	require_once wpsqt_page_display('admin/quiz/sections.php');
@@ -287,11 +276,11 @@ function wpsqt_admin_quiz_delete(){
 	
 	global $wpdb;
 
-	if ( !isset($_GET['quizid']) || !ctype_digit($_GET['quizid']) ){
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
 		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
-	$quizId = (int) $_GET['quizid'];
+	$quizId = (int) $_GET['id'];
 	
 	if ( empty($_POST) ){
 		// Make sure they mean it.
@@ -312,6 +301,269 @@ function wpsqt_admin_quiz_delete(){
 		require_once wpsqt_page_display('general/error.php');
 	}
 	
+}
+
+/**
+ * Handles the adding of new questions. If post is not empty it 
+ * sanatizes the question text and answer texts if the question
+ * is not a textarea question. Checks to see if it has the correct
+ * number of questions are inputted. 
+ * 
+ * @uses pages/admin/questions/form.php
+ * @uses wpdb
+ * 
+ * @since 1.0
+ */
+
+function wpsqt_admin_questions_addnew(){
+	
+	global $wpdb;
+	
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
+		$message = 'No quizid provided.';
+		require_once wpsqt_page_display('general/message.php');
+		return;
+	}
+	
+	//
+	$questionText  = '';
+	$questionHint  = '';
+	$questionValue = 1;
+	$questionAdditional = '';
+	$questionDifficulty = 'medium';
+	$quizId = (int) $_GET['id'];
+	
+	$sections = $wpdb->get_results('SELECT id,name FROM '.WPSQT_SECTION_TABLE.' WHERE quizid = '.$quizId,ARRAY_A);
+		
+	if ( !empty($_POST) ){ // Get request so no processing required.	
+		
+		$questionText       = htmlentities( trim($_POST['question']) );
+		$questionType       = trim( $_POST['type'] );
+		$questionAdditional = trim( $_POST['additional']) ;
+		$questionHint       = trim( $_POST['hint'] );
+		$questionDifficulty = trim( $_POST['difficulty'] );
+		$questionValue      = (int) $_POST['points'];
+		$quizId             = (int) $_GET['id'];
+		$sectionId          = (isset($_POST['section'])) ? intval($_POST['section']) : 0;
+		$errrorArray = array();
+		
+		if ( empty($questionText) ){
+			$errorArray[] = 'Need a question to ask';
+		}	
+			
+		if ( empty($sectionId) || $sectionId == 0 ){				
+			$errorArray[] = 'A question has to be assigned to a section!';			
+		}
+		
+		$correctCount = 0;
+		$sectionType = 'textarea';
+		// Run though multiple choice answers
+		if ($questionType == "single" || $questionType == "multiple"){	
+			$answers = array();
+			$sectionType = 'multiple';
+			
+			if ( sizeof($_POST['answer']) == 0){
+				$errorArray[] = 'Need at least one answer';
+			}
+			else{
+				// Actual answers to process
+				for ( $i = 0; $i < sizeof($_POST['answer']); $i++){	
+					$answerText = trim($_POST['answer'][$i]);	
+					$answerCorrect = trim($_POST['correct'][$i]);					
+					if ( !empty($answerText) && !empty($answerCorrect) ){
+						$answers[] = array('text'    => $answerText,
+											'correct' => $answerCorrect );
+						if ($_POST['correct'][$i] == 'yes'){
+							$correctCount++;
+						}	
+					}
+				}
+			}
+			
+			if ( $questionValue < 1 || $questionValue > 5 ){
+				$errorArray[] = 'Question value is incorrect';				
+			}
+		
+			if ( $correctCount == 0 ){
+				$errorArray[] = 'Need at least one correct answer';
+			}
+			
+			if ( $correctCount > 1 && $questionType == "single"){
+				$errorArray[] = 'Can only have one valid answer for this type of question';
+			}
+
+		}
+		
+		if ( empty($errorArray) ){			
+			
+			if ($_REQUEST['action'] == 'question-add'){
+				$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUESTION_TABLE.' (text,type,additional,value,quizid,hint,difficulty,section_type,sectionid) VALUES (%s, %s, %s,%d,%d,%s,%s,%s,%d)', 
+											 array($questionText,$questionType,$questionAdditional,$questionValue,$quizId,$questionHint,$questionDifficulty,$sectionType,$sectionId)) );
+				$questionId = $wpdb->insert_id;				
+				$successMessage = 'Successfully added question!';		
+			}
+			elseif ( $_REQUEST['action'] == 'question-edit' ) {
+				// To get here it must have been called via fptest_questions_edit() 
+				// where a check on $_GET['id'] would have been done already.
+				$questionId = (int) $_GET['id'];	
+				
+			 	$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUESTION_TABLE.' SET text=%s,type=%s,value=%d,hint=%s,difficulty=%s,sectionid=%d WHERE id = %d',
+			 								 array($questionText,$questionType,$questionValue,$questionHint,$questionDifficulty,$sectionId,$questionId) ) );
+				$wpdb->query( 'DELETE FROM '.WPSQT_ANSWER_TABLE.' WHERE questionid = '.$questionId );
+				
+			 	$successMessage = 'Successfully edited question!';
+			}
+			
+			$successMessage .= ' <a href="'.WPSQT_URL_MAIN.'&type=quiz&action=questions&id='.$quizId.'">Go back to question list</a>';
+				
+			// use post type since for new questions $questionType is unset already.
+			if ($_POST['type'] == "single" || $_POST['type'] == "multiple"){
+				// Both add and edit use this.			
+				$insertAnswersSql = 'INSERT INTO '.WPSQT_ANSWER_TABLE.' (questionid,text,correct) VALUES ';
+				if ( $correctCount != 0){
+					$escapedQueries = array();		
+					foreach ($answers as $answer){			
+						$escapedQueries[] = "(".$questionId.",'".$wpdb->escape($answer['text'])."','".$wpdb->escape($answer['correct'])."')";			
+					}		
+				}			
+				$insertAnswersSql .= implode(',',$escapedQueries);
+				
+				$wpdb->query($insertAnswersSql);
+			}
+			// Clean out the variables if it's a new question
+			if ($_REQUEST['action'] == 'addnew'){
+				$questionText = '';
+				$questionType = '';
+				unset($answers);
+			}
+		}
+		
+	}	
+	require_once wpsqt_page_display('admin/questions/form.php');
+	return;	
+}
+
+/**
+ * Lists out the questions that are in the database. With links
+ * to edit and delete questions.
+ * 
+ * @uses pages/admin/questions/index.php
+ * @uses includes/functions.php
+ * 
+ * @since 1.0
+ */
+function wpsqt_admin_questions_show_list(){
+	
+	global $wpdb;
+	
+	require_once WPSQT_DIR.'/includes/functions.php';
+	
+	$itemsPerPage = get_option('wpsqt_number_of_items');
+	$currentPage = wpsqt_functions_pagenation_pagenumber();	
+	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
+		$rawQuestions = $wpdb->get_results('SELECT id,text,type,quizid FROM '.WPSQT_QUESTION_TABLE.' ORDER BY id ASC', ARRAY_A);
+	} else {
+		$rawQuestions = $wpdb->get_results('SELECT id,text,type,quizid FROM '.WPSQT_QUESTION_TABLE.' WHERE quizid = '.$wpdb->escape($_GET['id']).' ORDER BY id ASC', ARRAY_A);
+	}
+	$questions = array_slice($rawQuestions , $startNumber , $itemsPerPage );
+	$numberOfItems = sizeof($rawQuestions);
+	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
+
+	require_once wpsqt_page_display('admin/questions/index.php');
+	return;	
+	
+}
+
+/**
+ * Handles the editing of questions. Offloads the processing
+ * of form data to wpsqt_admin_questions_addnew().
+ * 
+ * @uses pages/admin/questions/form.php
+ * @uses wpdb
+ * 
+ * @since 1.0
+ */
+
+function wpsqt_admin_questions_edit(){
+	
+	global $wpdb;
+	
+	if ( !isset($_GET['questionid']) || !ctype_digit($_GET['questionid']) ){
+		require_once wpsqt_page_display('general/error.php');
+		return;
+	}
+	
+	// A bit redunant but worth it incase ctype_digit gives a false postive.
+	$questionId = (int) $_GET['questionid'];	
+		
+	if ( !empty ($_POST) ){
+		// Code reuse.
+		wpsqt_admin_questions_addnew();
+		return;
+	}
+	else {
+		
+		list($questionText,$questionType,$questionHint,$questionDifficulty,$questionValue,$quizId,$sectionId,$questionAdditional) = $wpdb->get_row('SELECT text,type,hint,difficulty,value,quizid,sectionid,additional FROM '.WPSQT_QUESTION_TABLE.' WHERE id = '.$questionId, ARRAY_N);
+		
+		// $quizId comes from the database field which is a integer so no need to prepare a statement
+		$sections = $wpdb->get_results('SELECT id,name FROM '.WPSQT_SECTION_TABLE.' WHERE quizid = '.$quizId,ARRAY_A);
+		
+		if ($questionType != 'textarea'){	
+			$answers = $wpdb->get_results('SELECT text,correct FROM '.WPSQT_ANSWER_TABLE.' WHERE questionid = '.$questionId, ARRAY_A);
+			$rowCount = sizeof($answers);
+		}
+		else{ 
+			$rowCount = 1;
+		}
+	
+	}
+
+	require_once wpsqt_page_display('admin/questions/form.php');
+	return;	
+}
+
+/** 
+ * Handles the deleting of questions. Shows simple confirm
+ * page and then a success page if confirmed or returns to
+ * list if not confirmed.
+ * 
+ * @uses pages/admin/questions/delete.php
+ * @uses pages/general/message.php
+ * @uses pages/general/error.php
+ * @uses wpdb
+ * 
+ * @since 1.0
+ */
+
+function wpsqt_admin_questions_delete(){
+
+	global $wpdb;
+	
+	if ( !isset($_GET['questionid']) || !ctype_digit($_GET['questionid']) ){
+		require_once wpsqt_page_display('general/error.php');
+		return;
+	}
+	
+	$questionId = (int) $_GET['questionid'];
+	
+	if ( empty($_POST) ){
+		// Make sure they mean it.
+		$questionText = $wpdb->get_var('SELECT text FROM '.WPSQT_QUESTION_TABLE.' WHERE id = '.$questionId);
+		require_once wpsqt_page_display('admin/questions/delete.php');
+		return;	
+	}
+	elseif ( $_POST['confirm'] == 'No' ){
+		$message = 'Question not deleted';
+		require_once wpsqt_page_display('general/message.php');
+	}
+	elseif ( $_POST['confirm'] == 'Yes' ){		
+		$wpdb->query('DELETE FROM '.WPSQT_QUESTION_TABLE.' WHERE id = '.$questionId);
+		$wpdb->query('DELETE FROM '.WPSQT_ANSWER_TABLE.' WHERE questionid = '.$questionId);
+		$message = 'Question succesfully deleted';
+		require_once wpsqt_page_display('general/message.php');
+		return;	
+	}
 }
 
 ?>

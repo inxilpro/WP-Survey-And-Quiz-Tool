@@ -8,15 +8,20 @@
 </ul>
 <?php }?>
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+
+	<input type="hidden" name="step" value="<?php echo ++$_SESSION['wpsqt']['current_step']; ?>" />
+	
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
-	<?php foreach($fields as $field){ ?>
+	<?php foreach($fields as $field){			
+			$fieldName = preg_replace('~[^a-z0-9]~i','',$field['name']);
+		?>
 		<tr>
 			<th><?php echo $field['name']; if ($field['required'] == 'yes'){?> <font color="#FF0000">*</font><?php } ?></th>
 			<td>
 		<?php if ($field['type'] == 'text'){?>
-			<input type="text" name="<?php echo $field['name']; ?>" value="" />
+			<input type="text" name="<?php echo $fieldName; ?>" value="" />
 		<?php } else { ?>
-			<textarea name="<?php echo $field['name']; ?>" rows="4" cols="40"></textarea>
+			<textarea name="<?php echo $fieldName; ?>" rows="4" cols="40"></textarea>
 		<?php } ?>
 			</td>
 		</tr>	

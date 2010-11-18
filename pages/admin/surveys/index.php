@@ -80,3 +80,4 @@
 		</div>
 	</div>
 </div>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

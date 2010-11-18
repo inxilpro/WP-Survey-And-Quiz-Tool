@@ -278,8 +278,8 @@ function wpsqt_site_quiz_finish(){
 		
 	$timeTaken = $_SESSION['wpsqt'][$quizName]['finish'] - $_SESSION['wpsqt']['start'];
 	$wpdb->query( $wpdb->prepare('INSERT INTO `'.WPSQT_RESULTS_TABLE.'` (person_name,ipaddress,person,sections,timetaken,quizid) VALUES (%s,%s,%s,%s,%d,%d)', 
-	array($personName,$_SERVER['REMOTE_ADDR'],serialize($_SESSION['wpsqt'][$quizName]['person']),serialize($_SESSION['wpsqt'][$quizName]['quiz_sections']),$timeTaken,$_SESSION['wpsqt'][$quizName]['quiz_details']['id']) ) );
-	
+								array($personName,$_SERVER['REMOTE_ADDR'],serialize($_SESSION['wpsqt'][$quizName]['person']),serialize($_SESSION['wpsqt'][$quizName]['quiz_sections']),$timeTaken,$_SESSION['wpsqt'][$quizName]['quiz_details']['id']) ) );
+	$_SESSION['wpsqt']['result_id'] = $wpdb->insert_id;
 	$totalQuestions = 0;
 	$correctAnswers = 0;
 	$canAutoMark = true;
@@ -296,32 +296,33 @@ function wpsqt_site_quiz_finish(){
 		}
 	}
 	
-	$percentRight = ( $correctAnswers / $totalQuestions ) * 100;	
+	if ( $correctAnswers !== 0 ){
+		$percentRight = ( $correctAnswers / $totalQuestions ) * 100;	
+	} else {
+		$percentRight = 0;
+	}
+	
 	$emailAddress = get_option('wpsqt_contact_email');
 	
-	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant' && is_email($emailAddress) ){
+	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant' ){
 		$emailTrue = true;
-	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-100' && is_email($emailAddress) && $percentRight == 100) {
+	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-100' && $percentRight == 100) {
 		$emailTrue = true;	
-	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-75' && is_email($emailAddress) && $percentRight > 75){
+	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-75'  && $percentRight > 75){
 		$emailTrue = true;
-	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-50' && is_email($emailAddress) && $percentRight > 50){
+	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-50'  && $percentRight > 50){
 		$emailTrue = true;
 	}
 	
 	if ( isset($emailTrue) ){	
 		
-		$emailSubject  = 'There is a new quiz to be marked';
-		$emailMessage  = 'There is a new quiz to be marked'.PHP_EOL.PHP_EOL;
-		$emailMessage .= 'Person Name :'.$_SESSION['wpsqt'][$quizName]['person']['name'].PHP_EOL;
-		$emailMessage .= 'IP Address :'.$_SERVER['REMOTE_ADDR'].PHP_EOL;
-				
-		$headers = 'From: WPSQT Bot <'.WPSQT_FROM_EMAIL.'>' . "\r\n";
-	   	wp_mail($emailAddress,'WPSQT Notification',$emailMessage,$headers);
+		require_once WPSQT_DIR.'/includes/site/shared.php';
+		wpsqt_site_shared_email();
+		
 	}
 	
 	require_once wpsqt_page_display('site/quiz/finished.php');
-	
+	unset($_SESSION['wpsqt']['result_id']);
 }
 
 ?>

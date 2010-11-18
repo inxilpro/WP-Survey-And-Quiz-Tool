@@ -111,3 +111,4 @@ if ( empty($validData) ){
 		<li><strong>Text Input</strong>  - Displays questions that require text input by the user. <strong>No automarking.</strong></li>
 	</ul>
 </div>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

@@ -4,9 +4,9 @@
 	<h2>WP Survey And Quiz Tool - Survey Questions</h2>
 	
 	<div class="tablenav">
-		<?php if ( isset($_GET['surveyid']) ){ ?>
+		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="admin.php?page=<?php echo WPSQT_PAGE_SURVEY; ?>&action=create-question&surveyid=<?php echo $_GET['surveyid']; ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
@@ -46,8 +46,8 @@
 				<td><?php echo $question['id']; ?></td>
 				<td><?php echo stripslashes($question['text']); ?></td>
 				<td><?php echo ucfirst( stripslashes($question['type']) ); ?></td>
-				<td><a href="admin.php?page=<?php echo WPSQT_PAGE_SURVEY; ?>&action=edit-question&surveyid=<?php echo $question['surveyid']; ?>&id=<?php echo $question['id']; ?>" class="button-secondary" title="Edit Question">Edit</a></td>
-				<td><a href="admin.php?page=<?php echo WPSQT_PAGE_SURVEY; ?>&action=delete-question&surveyid=<?php echo $question['surveyid']; ?>&id=<?php echo $question['id']; ?>" class="button-secondary" title="Delete Question">Delete</a></td>
+				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-edit&id=<?php echo $question['surveyid']; ?>&questionid=<?php echo $question['id']; ?>" class="button-secondary" title="Edit Question">Edit</a></td>
+				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-delete&id=<?php echo $question['surveyid']; ?>&questionid=<?php echo $question['id']; ?>" class="button-secondary" title="Delete Question">Delete</a></td>
 			</tr>
 			<?php } 
 				 }?>
@@ -55,9 +55,9 @@
 	</table>
 
 	<div class="tablenav">
-		<?php if ( isset($_GET['surveyid']) ){ ?>
+		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="admin.php?page=<?php echo WPSQT_PAGE_SURVEY; ?>&action=create-question&surveyid=<?php echo $_GET['surveyid']; ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
@@ -66,3 +66,4 @@
 	</div>
 
 </div>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

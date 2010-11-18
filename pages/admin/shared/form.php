@@ -1,9 +1,15 @@
 <div class="wrap">
 	<script type="text/javascript" src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/shared_form.php?rowcount=0&random=<?php echo $rowCount; ?>"></script>
 
-
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Form</h2>
+
+	<?php if ( $enabled == 'no' ){ ?>
+		<div class="error">This quiz/survey doesn't currently have a contact form enabled. This form will enable the contact form on the quiz/survey.</div>
+	<?php } ?>
+	
+	<p>This provides the ability to create a contact form with custom fields with the ability to define which information is required and what information isn't for your quiz or survey. Using this feature will totally override the default form so if you wish to have the same fields you will need to enter them again.</p>
+	
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		
 		<table id="multi_table" class="form-table">
@@ -37,3 +43,4 @@
 	</form>
 	
 </div>
+<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

@@ -36,7 +36,7 @@ jQuery(document).ready( function(){
 		// New row HTML
 		var html = '';		
 		html += '<tr>\n';
-		html += '\t<td><input type="text" name="answer[]" value="" size="30" id="answer_'+rowCount+'" /></td>\n';
+		html += '\t<td><input type="text" name="answer[]" value="" size="90" id="answer_'+rowCount+'" /></td>\n';
 		html += '\t<td>\n'
 		html += '\t\t<select name="correct[]" id="correct_'+rowCount+'">\n';
 		html += '\t\t<option></option>';

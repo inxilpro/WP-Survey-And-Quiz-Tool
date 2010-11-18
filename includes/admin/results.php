@@ -24,19 +24,29 @@ function wpsqt_admin_results_show_list(){
 	
 	$itemsPerPage = get_option('wpsqt_number_of_items');
 	$currentPage = wpsqt_functions_pagenation_pagenumber();	
-	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
-
-	if ( !isset($_GET['quizid']) || !ctype_digit($_GET['quizid']) ){
-		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid ORDER BY r.id DESC',ARRAY_A);
-		$showingResultsFor  = 'All quizzes';
-	} else {
-		$quizId = (int) $_GET['quizid'];
+	$startNumber = ( ($currentPage - 1) * $itemsPerPage );
+	$quizId = (int) $_GET['id'];
+	$numbers = array('total' => 0);
+	$filter = (isset($_GET['status'])) ? $_GET['status'] : 'all';
+	
+	if ( $filter == 'all' ){
 		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' ORDER BY r.id DESC',ARRAY_A);
-		$showingResultsFor = $wpdb->get_var('SELECT name FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId);
-	}	
+	} else {
+		$rawResults = $wpdb->get_results(
+									$wpdb->prepare('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' r.status = \'%s\' ORDER BY r.id DESC', array($filter))
+											);
+	}
+	foreach( array('Unviewed','Rejected','Accepted') as $status ){
+		$numbers[strtolower($status)] = $wpdb->get_var("SELECT COUNT(status) as count FROM ".WPSQT_RESULTS_TABLE." WHERE status = '".$status."' and quizid = ".$quizId);
+		$numbers['total'] += $numbers[strtolower($status)];
+	}
+	
+	$showingResultsFor = $wpdb->get_var('SELECT name FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId);
 	$results = array_slice($rawResults , $startNumber , $itemsPerPage );
 	$numberOfItems = sizeof($rawResults);
 	$numberOfPages = wpsqt_functions_pagenation_pagecount($numberOfItems, $itemsPerPage);
+	
+	define('WPSQT_RESULT_URL', get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN.'&type=quiz&action=results&id='.$quizId );
 	
 	require_once wpsqt_page_display('admin/results/index.php');
 }
@@ -63,11 +73,11 @@ function wpsqt_admin_results_quiz_mark(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['resultid']) || !ctype_digit($_GET['resultid']) ){
+	if ( !isset($_GET['subid']) || !ctype_digit($_GET['subid']) ){
 		require_once wpsqt_page_display('general/error.php');
 	}
 	
-	$resultId = (int) $_GET['resultid'];
+	$resultId = (int) $_GET['subid'];
 	
 	$result = $wpdb->get_row( 'SELECT r.person,r.ipaddress,r.sections,r.status,r.timestamp,r.timetaken,q.name FROM '.WPSQT_RESULTS_TABLE.' as r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.id = '.$resultId, ARRAY_A );
 	
@@ -138,15 +148,15 @@ function wpsqt_admin_results_delete_result(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['resultid']) || !ctype_digit($_GET['resultid']) ){  
+	if ( !isset($_GET['subid']) || !ctype_digit($_GET['subid']) ){  
 	    require_once wpsqt_page_display('general/error.php');
 	}
 	
-	$resultId = (int)$_GET['resultid'];
+	$resultId = (int)$_GET['subid'];
 	
 	if ( empty($_POST) ){
 		$personName = $wpdb->get_var('SELECT person_name FROM '.WPSQT_RESULTS_TABLE.' WHERE id = '.$resultId);  
-	    require_once wpsqt_page_display('admin/results/mark.php');
+	    require_once wpsqt_page_display('admin/results/delete.php');
 	}
 	elseif ( isset($_POST['confirm']) && $_POST['confirm'] == 'Yes' ){
 		$wpdb->query('DELETE FROM '.WPSQT_RESULTS_TABLE.' WHERE id = '.$resultId);
