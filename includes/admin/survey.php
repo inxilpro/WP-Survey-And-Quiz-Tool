@@ -93,8 +93,9 @@ function wpsqt_admin_survey_create($edit = false){
 		
 	}
 
-	
-	$surveyDetails = $wpdb->get_row( 'SELECT * FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '. $surveyId , ARRAY_A);
+	if ( isset($surveyId) ){	
+		$surveyDetails = $wpdb->get_row( 'SELECT * FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '. $surveyId , ARRAY_A);
+	}	
 	require_once wpsqt_page_display('admin/surveys/create.php');
 }
 
@@ -115,7 +116,7 @@ function wpsqt_admin_survey_delete(){
 		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
-	$surveyId = (int) $_GET['surveyid'];
+	$surveyId = (int) $_GET['id'];
 	
 	if ( empty($_POST) ){
 		// Make sure they mean it.
@@ -164,33 +165,22 @@ function wpsqt_admin_survey_sections(){
 			// aswell as ensuring data is correct type. If not
 			// we'll just skip to the next one.
 			// Here comes a massive if statement...
-		   	if (
-		   	  // Make sure we have all the data required. 
-		   		( !isset($_POST['section_name'][$i]) || empty($_POST['section_name'][$i])
-		   	   || !isset($_POST['number'][$i]) || empty($_POST['number'][$i])
-		   	   || !isset($_POST['type'][$i]) || empty($_POST['type'][$i]) )		
-		   	       	  			   	   
-               // Number of questions has to be an integer.
-		   	   || ( !ctype_digit($_POST['number'][$i])  )
-
-		   	   // Check that question order is a valid 
-			   || ( $_POST['order'][$i] != 'random' && $_POST['order'][$i] != 'asc'
-			   && $_POST['order'][$i] != 'desc' )
-		    	   
-		   	   
-		   	   // Section type can only be multiple or textarea.
-		   	   || ( $_POST['type'][$i] != 'multiple' && $_POST['type'][$i] != 'scale' )
-		   	 ){
+		   	if (!isset($_POST['section_name'][$i]) || empty($_POST['section_name'][$i]) ){
 		      	$status = 'delete';
 		     } else {
 		     	$status = 'input';
 		     }
+		     
+		     $type = (isset($_POST['type'][$i])) ? $_POST['type'][$i] : 'multiple';
+		     $number = (isset($_POST['number'][$i])) ? $_POST['number'][$i] : 10;
+		     $order = (isset($_POST['order'][$i])) ? $_POST['order'][$i] : 'asc';
+		     
 		     $sectionId = (isset($_POST['sectionid'][$i])) ? intval($_POST['sectionid'][$i]) : NULL;
 		   	 // All that, just for this...
 		   	 $validData[] = array( 'name'        => $_POST['section_name'][$i],
-		    	 				   'number'      => $_POST['number'][$i],
-		    	 				   'type'        => $_POST['type'][$i],
-		    	 				   'order'       => $_POST['order'][$i],
+		    	 				   'number'      => $number,
+		    	 				   'type'        => $type,
+		    	 				   'order'       => $order,
 		   	 					   'id'          => $sectionId,
 		   	 					   'status'      => $status);
 		}
@@ -213,7 +203,7 @@ function wpsqt_admin_survey_sections(){
 				    		continue;
 				    } 
 				    $insert = true;					
-					$insertSqlParts[] = "(". $wpdb->escape($_GET['surveyid']) .",'".
+					$insertSqlParts[] = "(". $wpdb->escape($_GET['id']) .",'".
 					   				 		 $wpdb->escape($data['name']) ."','".
 					   				  		 $wpdb->escape($data['type']) ."','".
 					   				 		 $wpdb->escape($data['number'])."','".
@@ -298,18 +288,9 @@ function wpsqt_admin_survey_question_create($edit = false){
 	}
 
 	$surveyId = (int)$_GET['id'];
-	
-	if ( $edit !== false ){
-		$questionId = (int)$_GET['questionid'];
-		list($questionText,$questionType,$sectionId,$questionOther) = $wpdb->get_row('SELECT text,type,sectionid,include_other FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId , ARRAY_N);
-		if ( $questionType == 'multiple' ){
-			$answers = $wpdb->get_results('SELECT text FROM '.WPSQT_SURVEY_ANSWERS_TABLE.' WHERE questionid = '.$questionId, ARRAY_A);
-		}
-	}
-	
+		
 	$sections = $wpdb->get_results('SELECT name,id FROM '.WPSQT_SURVEY_SECTION_TABLE.' WHERE surveyid = '.$surveyId , ARRAY_A );
-	
-	
+		
 	if ( !empty($_POST) ){
 		
 		$errorArray = array();
@@ -348,7 +329,7 @@ function wpsqt_admin_survey_question_create($edit = false){
 					$wpdb->prepare( 'UPDATE `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` SET text=%s,type=%s,include_other=%s,sectionid=%d WHERE id = %d' ,
 									array($_POST['question'], $_POST['type'],$questionOther,$sectionId,$questionId) )
 				);
-				
+								
 				$wpdb->query( 'DELETE FROM `'.WPSQT_SURVEY_ANSWERS_TABLE.'` WHERE questionid = '.$questionId);
 				
 				$successMessage = 'Question succesfully updated!';
@@ -369,6 +350,12 @@ function wpsqt_admin_survey_question_create($edit = false){
 				}
 		}
 		
+	} elseif ( $edit !== false ){
+		$questionId = (int)$_GET['questionid'];
+		list($questionText,$questionType,$sectionId,$questionOther) = $wpdb->get_row('SELECT text,type,sectionid,include_other FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId , ARRAY_N);
+		if ( $questionType == 'multiple' ){
+			$answers = $wpdb->get_results('SELECT text FROM '.WPSQT_SURVEY_ANSWERS_TABLE.' WHERE questionid = '.$questionId, ARRAY_A);
+		}
 	}
 	
 	require_once wpsqt_page_display('admin/surveys/question.create.php');	
