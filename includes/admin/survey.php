@@ -314,8 +314,8 @@ function wpsqt_admin_survey_question_create($edit = false){
 			
 			if ( $edit === false ){
 				$wpdb->query(
-					 $wpdb->prepare('INSERT INTO `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` (surveyid,text,type,sectionid,include_other) VALUES (%d,%s,%s,%s,%d)' ,
-									 array($surveyId,$_POST['question'],$_POST['type'],$questionOther,$sectionId) )
+					 $wpdb->prepare('INSERT INTO `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` (surveyid,text,type,sectionid,include_other) VALUES (%d,%s,%s,%d,%s)' ,
+									 array($surveyId,$_POST['question'],$_POST['type'],$sectionId,$questionOther) )
 				);
 				
 				$questionId = $wpdb->insert_id;
