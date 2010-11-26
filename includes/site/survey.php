@@ -128,8 +128,8 @@ function wpsqt_site_survey_fetch_questions(){
 		
 	$questions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s AND sectionid = %d ORDER BY id ASC LIMIT 0,%d',
 													array($surveyId,$section['type'],$section['id'],$section['number'] )), ARRAY_A );
-	var_dump(  $wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s AND sectionid = %d ORDER BY id ASC LIMIT 0,%d',
-													array($surveyId,$section['type'],$section['id'],$section['number'] ) ) );
+	$wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s AND sectionid = %d ORDER BY id ASC LIMIT 0,%d',
+													array($surveyId,$section['type'],$section['id'],$section['number'] ) );
 	if ( $section['type'] == 'multiple' ){		
 		for ( $i = 0; $i < sizeof($questions); $i++){
 			$questions[$i]['answers'] = $wpdb->get_results('SELECT * FROM `'.WPSQT_SURVEY_ANSWERS_TABLE.'` WHERE questionid = '. $questions[$i]['id'] , ARRAY_A );
