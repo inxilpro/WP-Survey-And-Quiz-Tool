@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.6
+Version: 1.3.7
 */
 
 //TODO leverage media overlay for questions
@@ -61,7 +61,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.6' );
+define( 'WPSQT_VERSION'              , '1.3.7' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -521,9 +521,12 @@ add_action('plugins_loaded','wpsqt_check_tables');
 
 function wpsqt_page_display($file){
 	
+	global $blog_id;
+	
+	
 	$quizPath = ( isset($_SESSION['wpsqt']['current_id'])
 				 && ctype_digit($_SESSION['wpsqt']['current_id']) ) ?
-				  $_SESSION['wpsqt']['current_type'].'-'.$_SESSION['wpsqt']['current_id'].'/' : '';
+				  $blog_id.'/'.$_SESSION['wpsqt']['current_type'].'-'.$_SESSION['wpsqt']['current_id'].'/' : '';
 			
 	if ( file_exists(WPSQT_DIR.'/pages/custom/'.$quizPath.$file) ){
 		return WPSQT_DIR.'/pages/custom/'.$quizPath.$file;

@@ -1,3 +1,4 @@
+<?php global $blog_id; ?>
 <div class="wrap">
 
 	<?php if ( isset($successMessage) ) {?>
@@ -95,8 +96,9 @@
 				<?php if ( isset($quizId) ){ ?>
 				<tr>
 					<th scope="row">Custom Pages Directory</th>
-					<td valign="top"><span style="background-color : #F2F5A9 ;"><?php echo WPSQT_DIR; ?>/pages/custom/quiz-<?php echo $quizId; ?>/</span></td>
+					<td valign="top"><span style="background-color : #F2F5A9 ;"><?php echo WPSQT_DIR; ?>/pages/custom/<?php echo $blog_id; ?>/quiz-<?php echo $quizId; ?>/</span></td>
 					<td>This is were you can place new page views to replace the default page view.</td>
+				</tr>
 				<?php } ?>
 			<tr>
 				<th scope="row">Custom Email Template</th>

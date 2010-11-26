@@ -1,3 +1,4 @@
+<?php global $blog_id; ?>
 <div class="wrap">
 
 	<?php if ( isset($successMessage) ) {?>
@@ -58,6 +59,13 @@
 					<td><textarea rows="8" name="email_template" cols="40"><?php if ( isset($surveyDetails['email_template']) ) { echo $surveyDetails['email_template']; } ?></textarea></td>
 					<td valign="top">The template of the email sent on notification. <Strong>If empty default one will be sent.</Strong>. <a href="#template_tokens">Click here</a> to see the tokens for replacement.</td>
 				</tr>
+				<?php if ( isset($surveyId) ){ ?>
+				<tr>
+					<th scope="row">Custom Pages Directory</th>
+					<td valign="top"><span style="background-color : #F2F5A9 ;"><?php echo WPSQT_DIR; ?>/pages/custom/<?php echo $blog_id; ?>/survey-<?php echo $surveyId; ?>/</span></td>
+					<td>This is were you can place new page views to replace the default page view.</td>
+				</tr>
+				<?php } ?>
 			</tbody>
 		</table>
 		
