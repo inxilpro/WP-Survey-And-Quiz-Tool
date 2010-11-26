@@ -127,6 +127,8 @@ function wpsqt_site_shared_email(){
 	$emailTemplate = (empty($quizDetails['email_template'])) ? get_option('wpsqt_email_template'):$quizDetails['email_template'];
 	$fromEmail = ( get_option('wpsqt_from_email') ) ? get_option('wpsqt_from_email') : get_option('admin_email');	
 	$role = get_option('wpsqt_email_role');
+	$person = ( isset($_SESSION['wpsqt'][$quizName]['person']) && !empty($_SESSION['wpsqt'][$quizName]['person']) ) ? $_SESSION['wpsqt'][$quizName]['person'] : array('user_name' => 'Anonymous');
+	
 	if ( !empty($role) && $role != 'none' ){
 		$this_role = "'[[:<:]]".$role."[[:>:]]'";
   		$query = "SELECT * FROM $wpdb->users WHERE ID = ANY (SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'wp_capabilities' AND meta_value RLIKE $this_role) ORDER BY user_nicename ASC LIMIT 10000";
@@ -146,7 +148,7 @@ function wpsqt_site_shared_email(){
 	if ( empty($emailTemplate) ){
 		
 		$emailMessage  = 'There is a new result to view'.PHP_EOL.PHP_EOL;
-		$emailMessage .= 'Person Name :'.$_SESSION['wpsqt'][$quizName]['person']['user_name'].PHP_EOL;
+		$emailMessage .= 'Person Name :'.$person['user_name'].PHP_EOL;
 		$emailMessage .= 'IP Address :'.$_SERVER['REMOTE_ADDR'].PHP_EOL;
 					
 	} else {
