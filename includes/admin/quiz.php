@@ -416,8 +416,8 @@ function wpsqt_admin_questions_addnew(){
 				// where a check on $_GET['id'] would have been done already.
 				$questionId = (int) $_GET['id'];	
 				
-			 	$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUESTION_TABLE.' SET text=%s,type=%s,value=%d,hint=%s,difficulty=%s,sectionid=%d WHERE id = %d',
-			 								 array($questionText,$questionType,$questionValue,$questionHint,$questionDifficulty,$sectionId,$questionId) ) );
+			 	$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUESTION_TABLE.' SET text=%s,type=%s,value=%d,hint=%s,difficulty=%s,additional=%s,sectionid=%d WHERE id = %d',
+			 								 array($questionText,$questionType,$questionValue,$questionHint,$questionDifficulty,$questionAdditional,$sectionId,$questionId) ) );
 			 								 
 				$wpdb->query( 'DELETE FROM '.WPSQT_ANSWER_TABLE.' WHERE questionid = '.$questionId );
 				

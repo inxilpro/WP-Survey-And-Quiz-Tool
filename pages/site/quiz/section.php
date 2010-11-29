@@ -9,7 +9,7 @@
 		
 			if ( !empty($question['additional']) ){
 			?>
-			<p><?php echo $question['additional']; ?></p>
+			<p><?php echo stripslashes($question['additional']); ?></p>
 			<?php } ?>
 		
 		<?php if ($question['type'] != 'textarea' && isset($question['answers']) ){?>

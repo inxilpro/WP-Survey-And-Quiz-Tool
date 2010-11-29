@@ -66,6 +66,10 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
 
+= 1.3.11 =
+* Fixed question additional text not updating.
+* Fixed html for question additional being escaped.
+
 = 1.3.9 =
 * Fixed Ambiguous error message * is not enabled.
 * Fixed pagination back in quiz/survey lists.
