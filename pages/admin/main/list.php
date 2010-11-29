@@ -8,17 +8,25 @@
 	</h2>
 	
 	<form method="post" action="">
-		<ul class="subsubsub">
-			<li>
-				<a href="<?php echo WPSQT_URL_MAIN; ?>" <?php if ($type == 'all') { ?>  class="current"<?php } ?> id="all_link">All <span class="count">(<?php echo $totalNo; ?>)</span></a> |			
-			</li> 
-			<li>
-				<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz" <?php if ($type == 'quiz') { ?>  class="current"<?php } ?> id="quiz_link">Quizzes <span class="count">(<?php echo $quizNo; ?>)</span></a> |			
-			</li> 
-			<li>
-				<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey" <?php if ($type == 'survey') { ?>  class="current"<?php } ?>  id="survey_link">Surveys <span class="count">(<?php echo $surveyNo; ?>)</span></a>			
-			</li> 
-		</ul>
+	
+		<div class="tablenav">
+	
+			<ul class="subsubsub">
+				<li>
+					<a href="<?php echo WPSQT_URL_MAIN; ?>" <?php if ($type == 'all') { ?>  class="current"<?php } ?> id="all_link">All <span class="count">(<?php echo $totalNo; ?>)</span></a> |			
+				</li> 
+				<li>
+					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz" <?php if ($type == 'quiz') { ?>  class="current"<?php } ?> id="quiz_link">Quizzes <span class="count">(<?php echo $quizNo; ?>)</span></a> |			
+				</li> 
+				<li>
+					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey" <?php if ($type == 'survey') { ?>  class="current"<?php } ?>  id="survey_link">Surveys <span class="count">(<?php echo $surveyNo; ?>)</span></a>			
+				</li> 
+			</ul>
+		
+			<div class="tablenav-pages">
+		   		<?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>	
+		   	</div>
+		</div>
 		
 		<table class="widefat post fixed" cellspacing="0">
 			<thead>

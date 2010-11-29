@@ -51,6 +51,7 @@
 		<li>Customization
 			<ol>
 				<li><a href="#change_layout">Can I change the quiz layout/style?</a></li>
+				<li><a href="#change_email">Can I change the email template?</a></li>
 			</ol>
 		</li>
 	</ol>
@@ -165,10 +166,22 @@
 	<h3>Customization</h3>
 	
 		<a name="change_layout"></a>
-		<h4>Can I change the quiz layout/style?</h4>
-		<p>You can change the look of the quiz and surveys with ease by creating a new directory in the pages/custom directory. The custom directory naming schema is quiz-$quid_id for quizzes and survey-$survey_id. So for example if you wish to create custom layouts for a quiz with the id 3 it would be 'quiz-3'.</p>
-		
+		<h4>Can I change the quizzes/survey layout/style?</h4>
+		<p>
+			To customize the layout of survey and quizzes you will have to follow the following steps, this will allow you to create highly customized pages that won't be over written when a new update is released.
+			<ol>
+				<li>Goto configure quiz and locate the location of the custom pages directory for the quiz, each one is different.</li>
+				<li>Goto that directory if it doesn't exist create it.</li>
+				<li>Copy the pages/site directory into the custom pages directory.</li>
+				<li>Edit files in the custom pages directory.</li>
+				<li>Enjoy new custom pages.</li>
+			</ol>
+		</p>		
+
+
 		<a name="change_email"></a>
 		<h4>Can I change the notification email?</h4>
 		<p>To have a custom email, you just need to click options and edit the email template field. The tokens for the replacements are at the botoom of the page.</p>
+
+
 <?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

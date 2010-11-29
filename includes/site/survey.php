@@ -32,8 +32,17 @@ function wpsqt_site_survey_show($surveyName){
 		$_SESSION['wpsqt'][$surveyName] = array();
 		$_SESSION['wpsqt'][$surveyName]['start'] = microtime(true);
 		$_SESSION['wpsqt'][$surveyName]['survey_details'] = $wpdb->get_row( $wpdb->prepare('SELECT * FROM '.WPSQT_SURVEY_TABLE.' WHERE name like %s', array($surveyName) ), ARRAY_A );
+	} 
+	
+	if ( !empty($_SESSION['wpsqt'][$surveyName]['survey_details']) ){		
 		$_SESSION['wpsqt'][$surveyName]['survey_sections'] = $wpdb->get_results('SELECT * FROM '.WPSQT_SURVEY_SECTION_TABLE.' WHERE surveyid = '.$_SESSION['wpsqt'][$surveyName]['survey_details']['id'], ARRAY_A );	
 		$_SESSION['wpsqt'][$surveyName]['person'] = array();
+	} elseif ($step !== 0) {
+		echo 'Error, sessions, failure. Please check your PHP Settings.';
+		return;
+	} else {
+		echo 'No such survey';
+		return;
 	}
 		
 	$_SESSION['wpsqt']['current_step'] = $step;

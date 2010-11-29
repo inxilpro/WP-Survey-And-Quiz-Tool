@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -65,6 +65,11 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 9. Very limited mark result page
 
 == ChangeLog == 
+
+= 1.3.9 =
+* Fixed Ambiguous error message * is not enabled.
+* Fixed pagination back in quiz/survey lists.
+* Improved Documention
 
 = 1.3.8 =
 * Fixed un-needed,unwanted,pointless var dump in survey.
@@ -252,3 +257,5 @@ You will have set the difficulty to mixed. This is only to be used when there is
 = Is it possible to have html for the questions? = 
 
 HTML is enabled for the `additional` field but not the actual question question.
+
+= My Quiz/Survey is enabled but when I goto the page it says it doesn't exist! =
