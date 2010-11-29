@@ -22,6 +22,9 @@ function wpsqt_list_admin_main($type){
 	global $wpdb;
 	
 	
+	
+	require_once WPSQT_DIR.'/includes/functions.php';
+	
 	$itemsPerPage = get_option('wpsqt_number_of_items');
 	$currentPage = wpsqt_functions_pagenation_pagenumber();	
 	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
