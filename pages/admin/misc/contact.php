@@ -1,7 +1,7 @@
 <div class="wrap">
 	
 	<div id="icon-tools" class="icon32"></div>
-	<h2>WP Survey And Quiz Tool - Options</h2>	
+	<h2>CDN Sync Tool - Options</h2>	
 	
 	<?php if ( isset($successMessage) ){ ?>
 		<div class="updated" id="question_added"><?php echo $successMessage; ?></div>
@@ -18,9 +18,7 @@
 	<p>Our preferred method of contacting us is though the forums on wordpress.org however if you don't have an account or for some other reason can't or don't want to use that method we have provided a form below that will be emailed to us.</p>
 	
 	<p><strong>Please note that using the below form will result in information such as your current wordpress version and plugin version being sent aswell.</strong>
-	
-	<h3>Contact Us About Moving To CatN</h3>
-	
+		
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		
 		<table class="form-table">
