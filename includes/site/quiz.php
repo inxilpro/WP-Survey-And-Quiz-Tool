@@ -33,17 +33,15 @@ function wpsqt_site_quiz_show($quizName){
 		$_SESSION['wpsqt'][$quizName] = array();
 		$_SESSION['wpsqt'][$quizName]['start'] = microtime(true);
 		$_SESSION['wpsqt'][$quizName]['quiz_details'] = $wpdb->get_row( $wpdb->prepare('SELECT * FROM '.WPSQT_QUIZ_TABLE.' WHERE name like %s', array($quizName) ), ARRAY_A );
+		$_SESSION['wpsqt'][$quizName]['quiz_sections'] = $wpdb->get_results('SELECT * FROM '.WPSQT_SECTION_TABLE.' WHERE quizid = '.$_SESSION['wpsqt'][$quizName]['quiz_details']['id'], ARRAY_A );
 		$_SESSION['wpsqt'][$quizName]['person'] = array();
 		$_SESSION['wpsqt']['start'] = microtime(true);
 	}
 	
-	if ( !empty($_SESSION['wpsqt'][$quizName]['quiz_details']) && $step == 0 ){
-		$_SESSION['wpsqt'][$quizName]['quiz_sections'] = $wpdb->get_results('SELECT * FROM '.WPSQT_SECTION_TABLE.' WHERE quizid = '.$_SESSION['wpsqt'][$quizName]['quiz_details']['id'], ARRAY_A );	
-
-	} elseif ( $step !== 0 ){
+	if ( empty($_SESSION['wpsqt'][$quizName]['quiz_details']) && $step !== 0 ){
 		echo 'Error, sessions, failure. Please check your PHP Settings.';
 		return;
-	}else {
+	} elseif (empty($_SESSION['wpsqt'][$quizName]['quiz_details'])) {
 		print 'No such quiz.';
 		return;
 	}
@@ -312,9 +310,9 @@ function wpsqt_site_quiz_finish(){
 		}
 		
 		if ( isset($quizSection['stats']['correct']) ){	
-			$correctAnswers += $quizSection['stats']['correct'];			
-			$totalQuestions += sizeof($quizSection['questions']);
-		}
+			$correctAnswers += $quizSection['stats']['correct'];	
+		}		
+		$totalQuestions += sizeof($quizSection['questions']);
 	}
 	
 	if ( $correctAnswers !== 0 ){
