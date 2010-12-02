@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.13
+Version: 1.3.14
 */
 
 //TODO leverage media overlay for questions
@@ -61,7 +61,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.13' );
+define( 'WPSQT_VERSION'              , '1.3.14' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -215,7 +215,7 @@ function wpsqt_main_install(){
 				  `results` text NOT NULL,
 				  `ipaddress` varchar(255) NOT NULL,
 				  `user_agent` varchar(255) NOT NULL,
-				  PRIMARY KEY (`id`)
+				3  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_FORM_TABLE."` (
@@ -308,7 +308,9 @@ function wpsqt_main_admin_main_page(){
 			wpsqt_admin_quiz_form();
 		}  elseif ( $action == 'delete' ){
 			wpsqt_admin_quiz_delete();
-		} elseif ( $action == 'questions' ){
+		
+	$content = ob_get_contents();
+	ob_end_clean();} elseif ( $action == 'questions' ){
 			wpsqt_admin_questions_show_list();
 		} elseif ( $action == 'question-edit' ){
 			wpsqt_admin_questions_edit();
@@ -352,6 +354,7 @@ function wpsqt_main_admin_main_page(){
 		
 	}	
 	
+	return $content;
 }
 
 /**
@@ -401,7 +404,11 @@ function wpsqt_main_site_quiz_page($atts) {
 	}
 	
 	require_once WPSQT_DIR.'/includes/site/quiz.php';
+	ob_start();
 	wpsqt_site_quiz_show($name);
+	$content = ob_get_contents();
+	ob_end_clean();
+	return $content;
 }
 
 add_shortcode( 'wpsqt_page' , 'wpsqt_main_site_quiz_page' );// Deprecated and will be removed
@@ -424,7 +431,11 @@ function wpsqt_main_site_survey_page($atts) {
 	}
 	
 	require_once WPSQT_DIR.'/includes/site/survey.php';
+	ob_start();
 	wpsqt_site_survey_show($name);
+	$content = ob_get_contents();
+	ob_end_clean();
+	return $content;
 }
 
 add_shortcode( 'wpsqt_survey' , 'wpsqt_main_site_survey_page' );
