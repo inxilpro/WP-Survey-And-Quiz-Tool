@@ -108,7 +108,7 @@ function wpsqt_admin_quiz_form($edit = false){
 	
 	if ( $edit == true && ctype_digit($_GET['id']) ){
 		$quizId = (int) $_GET['id'];
-		$quizDetails = $wpdb->get_row('SELECT name,display_result,status,notification_type,take_details,use_wp_user,email_template FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
+		$quizDetails = $wpdb->get_row('SELECT name,display_result,display_review,status,notification_type,take_details,use_wp_user,email_template FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
 	}
 
 	require_once wpsqt_page_display('admin/quiz/create.php');

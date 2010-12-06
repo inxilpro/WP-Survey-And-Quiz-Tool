@@ -19,9 +19,9 @@
 			<th><?php echo $field['name']; if ($field['required'] == 'yes'){?> <font color="#FF0000">*</font><?php } ?></th>
 			<td>
 		<?php if ($field['type'] == 'text'){?>
-			<input type="text" name="<?php echo $fieldName; ?>" value="" />
+			<input type="text" name="Custom_<?php echo $fieldName; ?>" value="" />
 		<?php } else { ?>
-			<textarea name="<?php echo $fieldName; ?>" rows="4" cols="40"></textarea>
+			<textarea name="Custom_<?php echo $fieldName; ?>" rows="4" cols="40"></textarea>
 		<?php } ?>
 			</td>
 		</tr>	
