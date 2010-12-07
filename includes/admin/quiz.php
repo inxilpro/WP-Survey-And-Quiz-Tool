@@ -93,8 +93,7 @@ function wpsqt_admin_quiz_form($edit = false){
 
 			$quizId = $wpdb->insert_id;
 			$successMessage = 'Quiz inserted! Next step is to add some sections. <a href="'.WPSQT_URL_MAIN.'&type=quiz&action=sections&id='.$quizId.'">Click here</a> to move onto that step.';
-		}
-		else{
+		} else{
 			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,display_review=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s,email_template=%s WHERE id = %d',
 									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['display_review'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'], $_POST['email_template'] , $_GET['id'] )) );
 			$successMessage = 'Quiz updated';
