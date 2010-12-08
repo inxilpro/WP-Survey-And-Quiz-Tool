@@ -413,7 +413,7 @@ function wpsqt_admin_questions_addnew(){
 			elseif ( $_REQUEST['action'] == 'question-edit' ) {
 				// To get here it must have been called via fptest_questions_edit() 
 				// where a check on $_GET['id'] would have been done already.
-				$questionId = (int) $_GET['id'];	
+				$questionId = (int) $_GET['questionid'];	
 				
 			 	$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUESTION_TABLE.' SET text=%s,type=%s,value=%d,hint=%s,difficulty=%s,additional=%s,sectionid=%d WHERE id = %d',
 			 								 array($questionText,$questionType,$questionValue,$questionHint,$questionDifficulty,$questionAdditional,$sectionId,$questionId) ) );
