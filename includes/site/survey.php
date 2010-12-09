@@ -32,15 +32,14 @@ function wpsqt_site_survey_show($surveyName){
 		$_SESSION['wpsqt'][$surveyName] = array();
 		$_SESSION['wpsqt'][$surveyName]['start'] = microtime(true);
 		$_SESSION['wpsqt'][$surveyName]['survey_details'] = $wpdb->get_row( $wpdb->prepare('SELECT * FROM '.WPSQT_SURVEY_TABLE.' WHERE name like %s', array($surveyName) ), ARRAY_A );
-	} 
-	
-	if ( !empty($_SESSION['wpsqt'][$surveyName]['survey_details']) ){		
 		$_SESSION['wpsqt'][$surveyName]['survey_sections'] = $wpdb->get_results('SELECT * FROM '.WPSQT_SURVEY_SECTION_TABLE.' WHERE surveyid = '.$_SESSION['wpsqt'][$surveyName]['survey_details']['id'], ARRAY_A );	
 		$_SESSION['wpsqt'][$surveyName]['person'] = array();
-	} elseif ($step !== 0) {
+	} 
+	
+	if ( empty($_SESSION['wpsqt'][$surveyName]['survey_details']) && $step !== 0) {
 		echo 'Error, sessions, failure. Please check your PHP Settings.';
 		return;
-	} else {
+	} elseif ( empty($_SESSION['wpsqt'][$surveyName]['survey_details']) ) {
 		echo 'No such survey';
 		return;
 	}
@@ -83,8 +82,11 @@ function wpsqt_site_survey_show($surveyName){
 		if ( isset($_POST['answers']) ){		
 			$insertResultsSql = 'INSERT INTO `'.WPSQT_SURVEY_RESULT_TABLE.'` (surveyid,questionid,answerid,other,type,value) VALUES ';
 			$sqlParts = array();
+			
 			foreach ( $_POST['answers'] as $questionKey => $answer ){
+				
 				$_SESSION['wpsqt'][$surveyName]['survey_sections'][$sectionKey-1]['questions'][$questionKey]['answer'] = $answer;				
+				
 				$other = (isset($_POST['other'][$questionKey]) && !empty($_POST['other'][$questionKey])) ? $_POST['other'][$questionKey] : '';
 				if ($answer == '0'  ){					
 					$_SESSION['wpsqt'][$surveyName]['survey_sections'][$sectionKey-1]['questions'][$questionKey]['answer_other'] = $other;
@@ -133,12 +135,12 @@ function wpsqt_site_survey_fetch_questions(){
 	$sectionKey    = $_SESSION['wpsqt']['section_key'];
 	$surveyId      = $_SESSION['wpsqt'][$surveyName]['survey_details']['id'];
 	$section       = $_SESSION['wpsqt'][$surveyName]['survey_sections'][$sectionKey];
+	$orderBy = ($section['orderby'] == 'random') ? 'RAND()' : 'id '.strtoupper($section['orderby']);
 	$moreQuestions = 0;
 		
-	$questions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s AND sectionid = %d ORDER BY id ASC LIMIT 0,%d',
+	$questions = $wpdb->get_results( $wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s AND sectionid = %d ORDER BY '.$orderBy.' LIMIT 0,%d',
 													array($surveyId,$section['type'],$section['id'],$section['number'] )), ARRAY_A );
-	$wpdb->prepare('SELECT * FROM `'.WPSQT_SURVEY_QUESTIONS_TABLE.'` WHERE surveyid = %d AND type = %s AND sectionid = %d ORDER BY id ASC LIMIT 0,%d',
-													array($surveyId,$section['type'],$section['id'],$section['number'] ) );
+
 	if ( $section['type'] == 'multiple' ){		
 		for ( $i = 0; $i < sizeof($questions); $i++){
 			$questions[$i]['answers'] = $wpdb->get_results('SELECT * FROM `'.WPSQT_SURVEY_ANSWERS_TABLE.'` WHERE questionid = '. $questions[$i]['id'] , ARRAY_A );
@@ -162,7 +164,7 @@ function wpsqt_site_survey_finish(){
 	$sectionKey = $_SESSION['wpsqt']['section_key'];
 	$surveyName = $_SESSION['wpsqt']['current_name'];
 	$surveyId   = $_SESSION['wpsqt'][$surveyName]['survey_details']['id'];
-	$person =  ( isset($_SESSION['wpsqt'][$surveyName]['person']) ) ? $_SESSION['wpsqt'][$surveyName]['person'] : array('name'=>'anonymous');
+	$person =  ( isset($_SESSION['wpsqt'][$surveyName]['person']) ) ? $_SESSION['wpsqt'][$surveyName]['person'] : array('user_name'=>'anonymous');
 	$emailTrue = ( $_SESSION['wpsqt'][$surveyName]['survey_details']['send_email'] == 'yes' ) ? true : false;
 	
 	$wpdb->query(

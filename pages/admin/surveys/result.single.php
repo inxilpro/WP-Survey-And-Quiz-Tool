@@ -23,19 +23,23 @@
 	<?php foreach ( $result['results'] as $section ){ ?>
 		<h3><?php echo $section['name']; ?></h3>
 		
-		<?php foreach ($section['questions'] as $questionKey => $questionArray){ ?>
-			<h4><?php print stripslashes($questionArray['text']); ?></h4>
-			
-			<?php if ($section['type'] == 'multiple'){ 	?>
-			<ul>
-			<?php foreach ($questionArray['answers'] as $answer){ ?>
-				<li><font color="<?php echo ( $questionArray['answer'] == $answer['id'] ) ? '#00FF00' :  '#000000' ; ?>"><?php echo stripslashes($answer['text']) ?></font></li>
-			<?php } ?>
-				<li><font color="<?php echo ( $questionArray['answer'] == 0 ) ? '#00FF00' :  '#000000' ; ?>">Other <?php if ($questionArray['answer']  == '0'){ echo '- '.htmlentities(strip_tags(stripslashes($questionArray['answer_other']))); } ?></font></li>
-			</ul>
-			<?php } else { ?>
-				Answer : <?php echo $questionArray['answer']; ?>
-			<?php } ?>
+		<?php if ( is_array($section['questions']) ){
+			   foreach ($section['questions'] as $questionKey => $questionArray){ ?>
+				<h4><?php print stripslashes($questionArray['text']); ?></h4>
+				
+				<?php if ($section['type'] == 'multiple'){ 	?>
+				<ul>
+				<?php foreach ($questionArray['answers'] as $answer){ ?>
+					<li><font color="<?php echo ( $questionArray['answer'] == $answer['id'] ) ? '#00FF00' :  '#000000' ; ?>"><?php echo stripslashes($answer['text']) ?></font></li>
+				<?php } ?>
+					<li><font color="<?php echo ( $questionArray['answer'] == 0 ) ? '#00FF00' :  '#000000' ; ?>">Other <?php if ($questionArray['answer']  == '0'){ echo '- '.htmlentities(strip_tags(stripslashes($questionArray['answer_other']))); } ?></font></li>
+				</ul>
+				<?php } else { ?>
+					Answer : <?php echo $questionArray['answer']; ?>
+				<?php } ?>
+		   <?php } ?>
+	   <?php } else { ?>
+	   		Seems this section wasn't answered.
 	   <?php } ?>
 	<?php } ?>
 

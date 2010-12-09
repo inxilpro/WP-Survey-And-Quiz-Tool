@@ -66,6 +66,11 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
 
+= 1.3.19 =
+* Fixed survey questions not being correct for that survey.
+* Fixed constant overriding of survey section data
+* Fixed survey section questions not following the order by setting.
+
 = 1.3.18 =
 * Fixed editing questions using quiz id as the question id.
 

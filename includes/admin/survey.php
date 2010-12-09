@@ -252,7 +252,7 @@ function wpsqt_admin_survey_question_list(){
 	$itemsPerPage = get_option('wpsqt_number_of_items');
 	$currentPage = wpsqt_functions_pagenation_pagenumber();	
 	$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
-	if ( !isset($_GET['surveyid']) || !ctype_digit($_GET['surveyid']) ){
+	if ( !isset($_GET['id']) || !ctype_digit($_GET['id']) ){
 		$rawQuestions = $wpdb->get_results('SELECT id,text,type,surveyid FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' ORDER BY id ASC', ARRAY_A);
 	} else {
 		$rawQuestions = $wpdb->get_results('SELECT id,text,type,surveyid FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE surveyid = '.$wpdb->escape($_GET['id']).' ORDER BY id ASC', ARRAY_A);
@@ -377,7 +377,7 @@ function wpsqt_admin_survey_question_delete(){
 	
 	global $wpdb;
 	
-	if ( !isset($_GET['questionid']) || !ctype_digit($_GET['questionid']) ){
+	if ( !isset($_GET['subid']) || !ctype_digit($_GET['subid']) ){
 		require_once wpsqt_page_display('general/error.php');
 		return;
 	}
