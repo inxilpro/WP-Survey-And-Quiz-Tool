@@ -164,12 +164,12 @@ function wpsqt_site_survey_finish(){
 	$sectionKey = $_SESSION['wpsqt']['section_key'];
 	$surveyName = $_SESSION['wpsqt']['current_name'];
 	$surveyId   = $_SESSION['wpsqt'][$surveyName]['survey_details']['id'];
-	$person =  ( isset($_SESSION['wpsqt'][$surveyName]['person']) ) ? $_SESSION['wpsqt'][$surveyName]['person'] : array('user_name'=>'anonymous');
+	$personName =  ( isset($_SESSION['wpsqt'][$surveyName]['person']['user_name']) ) ? $_SESSION['wpsqt'][$surveyName]['person']['user_name'] : 'anonymous';
 	$emailTrue = ( $_SESSION['wpsqt'][$surveyName]['survey_details']['send_email'] == 'yes' ) ? true : false;
 	
 	$wpdb->query(
 		$wpdb->prepare(	'INSERT `'.WPSQT_SURVEY_SINGLE_TABLE.'` (surveyid,person,name,results,ipaddress,user_agent) VALUES (%d,%s,%s,%s,%s,%s)',
-						array($surveyId,serialize($person),$person['user_name'],serialize($_SESSION['wpsqt'][$surveyName]['survey_sections']),$_SERVER['REMOTE_ADDR'],$_SERVER['HTTP_USER_AGENT']) )
+						array($surveyId,serialize($_SESSION['wpsqt'][$surveyName]['person']),$personName,serialize($_SESSION['wpsqt'][$surveyName]['survey_sections']),$_SERVER['REMOTE_ADDR'],$_SERVER['HTTP_USER_AGENT']) )
 	);
 	
 	if ( isset($emailTrue) && $emailTrue == true ){	

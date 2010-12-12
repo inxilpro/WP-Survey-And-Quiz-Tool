@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.3.19
+Stable tag: 1.3.20
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -65,6 +65,11 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 9. Very limited mark result page
 
 == ChangeLog == 
+
+= 1.3.20 =
+* Fixed survey not using Anonymous as a user's name when none given.
+* Fixed survey single review not showing custom form data.
+* Fixed survey Name from contact form not being used properly in emails and database and Anonymous not appearing when not given
 
 = 1.3.19 =
 * Fixed survey questions not being correct for that survey.

@@ -92,7 +92,7 @@ function wpsqt_site_shared_custom_form($fields){
 		foreach ( $fields as $field ){
 			if ($field['required'] == 'yes'){
 				$fieldName = preg_replace('~[^a-z0-9]~i','',$field['name']);
-				if ( !isset($_POST[$fieldName]) || empty($_POST[$fieldName]) ){
+				if ( !isset($_POST["Custom_".$fieldName]) || empty($_POST["Custom_".$fieldName]) ){
 					$errors[] = $field['name'].' is required';
 				}
 			}
@@ -127,7 +127,7 @@ function wpsqt_site_shared_email(){
 	$emailTemplate = (empty($quizDetails['email_template'])) ? get_option('wpsqt_email_template'):$quizDetails['email_template'];
 	$fromEmail = ( get_option('wpsqt_from_email') ) ? get_option('wpsqt_from_email') : get_option('admin_email');	
 	$role = get_option('wpsqt_email_role');
-	$person = ( isset($_SESSION['wpsqt'][$quizName]['person']) && !empty($_SESSION['wpsqt'][$quizName]['person']) ) ? $_SESSION['wpsqt'][$quizName]['person'] : array('user_name' => 'Anonymous');
+	$personName = ( isset($_SESSION['wpsqt'][$quizName]['person']['user_name']) && !empty($_SESSION['wpsqt'][$quizName]['person']['user_name']) ) ? $_SESSION['wpsqt'][$quizName]['person']['user_name'] : 'Anonymous';
 	
 	if ( !empty($role) && $role != 'none' ){
 		$this_role = "'[[:<:]]".$role."[[:>:]]'";
@@ -148,12 +148,12 @@ function wpsqt_site_shared_email(){
 	if ( empty($emailTemplate) ){
 		
 		$emailMessage  = 'There is a new result to view'.PHP_EOL.PHP_EOL;
-		$emailMessage .= 'Person Name :'.$person['user_name'].PHP_EOL;
+		$emailMessage .= 'Person Name :'.$personName.PHP_EOL;
 		$emailMessage .= 'IP Address :'.$_SERVER['REMOTE_ADDR'].PHP_EOL;
 					
 	} else {
 		
-		$emailMessage = str_ireplace( '%USER_NAME%'   , $_SESSION['wpsqt'][$quizName]['person']['user_name'], $emailTemplate);
+		$emailMessage = str_ireplace( '%USER_NAME%'   , $personName, $emailTemplate);
 		$emailMessage = str_ireplace( '%QUIZ_NAME%'   , $quizName, $emailMessage);
 		$emailMessage = str_ireplace( '%SURVEY_NAME%' , $quizName, $emailMessage);
 		$emailMessage = str_ireplace( '%DATE_EU%'     , date('d-m-Y'),$emailMessage );
@@ -175,7 +175,9 @@ function wpsqt_site_shared_email(){
 					$_SESSION['wpsqt']['current_type'].'&action=results&id='.$quizId
 					.'&subaction=';
 		$resultUrl .= ($_SESSION['wpsqt']['current_type'] == 'quiz') ? 'mark' : 'view';
-		$resultUrl .= '&subid='.$_SESSION['wpsqt']['result_id'];
+		if ( isset($_SESSION['wpsqt']['result_id']) ){
+			$resultUrl .= '&subid='.$_SESSION['wpsqt']['result_id'];
+		}
 		$emailMessage = str_ireplace('%RESULT_URL%', $resultUrl, $emailMessage);
 	}
 	

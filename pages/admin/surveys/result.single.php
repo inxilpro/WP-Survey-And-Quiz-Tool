@@ -4,7 +4,7 @@
 	<h2>WP Survey And Quiz Tool - Survey Result</h2>
 	
 	
-	<?php if (!empty($result['person'])) { ?>
+	<?php if (!empty($result['person']) && is_array($result['person']) && !preg_match('~Custom\_~isU', key($result['person'])) )  { ?>
 		<h3>User Details</h3>
 		<div class="person">
 			<ul>
@@ -16,6 +16,15 @@
 				<li><b><u>Hostname</u></b> - <?php echo gethostbyaddr($result['ipaddress']); ?></li> 
 				<li><b><u>Address</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['address'])))); ?></li>
 				<li><b><u>Notes</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['notes'])))); ?></li>
+			</ul>
+		</div>
+	<?php } elseif ( !empty($result['person']) && is_array($result['person']) ) { ?>
+		<h3>User Details</h3>
+		<div class="person">
+			<ul>
+			<?php foreach ($result['person'] as $name => $item ) { ?>
+				<li><b><u><?php echo str_ireplace('Custom_', '', $name); ?></u></b> - <?php echo htmlentities(strip_tags(stripslashes($item))); ?> </li>
+			<?php } ?>
 			</ul>
 		</div>
 	<?php } ?>
