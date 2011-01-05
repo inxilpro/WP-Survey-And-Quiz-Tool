@@ -23,6 +23,8 @@ jQuery(document).ready( function(){
 		html += '\t\t\t<option></option>';
 		html += '\t\t\t<option value="multiple">Multiple Choice</option>';
 		html += '\t\t\t<option value="scale">Scale</option>';
+		html += '\t\t\t<option value="likert">Likert</option>';
+		html += '\t\t\t<option value="dropdown">Drop Down</option>';
 		html += '\t\t</select>';
 		html += '\t</td>';
 		html += '\t<td><input type="text" name="number['+rowCount+']" value="" size="10" id="number_'+rowCount+'" /></td>';

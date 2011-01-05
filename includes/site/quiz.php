@@ -23,6 +23,7 @@ function wpsqt_site_quiz_show($quizName){
 	
 	if ( !isset($_SESSION['wpsqt'])  ){
 		$_SESSION['wpsqt'] = array();
+		$_SESSION['wpsqt']['current_score'] = "Can't auto mark;";
 	}
 	
 	
@@ -274,7 +275,8 @@ function wpsqt_site_quiz_question_sort($origQuestion,&$questionDetails){
 /**
  * Does the final sorting of data with quick 
  * tallying of results incase they are to be 
- * displayed. Also inserts data into result 
+ * displayed. Also inserts daelse {
+	}ta into result 
  * table. 
  * 
  * @uses pages/site/quiz/finished.php
@@ -314,6 +316,10 @@ function wpsqt_site_quiz_finish(){
 		}		
 		$totalQuestions += sizeof($quizSection['questions']);
 	}
+	
+	if ( $canAutoMark === true ){
+		$_SESSION['wpsqt']['current_score'] = $correctAnswers." correct out of ".$totalQuestions; 
+	} 
 	
 	if ( $correctAnswers !== 0 ){
 		$percentRight = ( $correctAnswers / $totalQuestions ) * 100;	

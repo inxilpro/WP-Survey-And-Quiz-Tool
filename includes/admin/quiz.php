@@ -345,7 +345,7 @@ function wpsqt_admin_questions_addnew(){
 		
 	if ( !empty($_POST) ){ // Get request so no processing required.	
 		
-		$questionText       = htmlentities( trim($_POST['question']) );
+		$questionText       = trim( $_POST['question'] );
 		$questionType       = trim( $_POST['type'] );
 		$questionAdditional = trim( $_POST['additional']) ;
 		$questionHint       = trim( $_POST['hint'] );

@@ -40,6 +40,8 @@ if ( !isset($rowCount) ){
 						<select name="type" id="type">
 							<option value="scale"<?php if ( !isset($questionType) ||  $questionType == 'scale' ){?> selected="selected"<?php }?>>Scale</option>
 							<option value="multiple"<?php if ( isset($questionType) && $questionType == 'multiple' ){?> selected="selected"<?php }?>>Multiple Choice</option>
+							<option value="dropdown"<?php if ( isset($questionType) && $questionType == 'dropdown' ){?> selected="selected"<?php }?>>Drop Down</option>
+							<option value="likert"<?php if ( isset($questionType) && $questionType == 'likert' ){?> selected="selected"<?php }?>>Likert</option>
 						</select>
 					</td>
 				</tr>

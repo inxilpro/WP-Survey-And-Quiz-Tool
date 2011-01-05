@@ -153,8 +153,9 @@ function wpsqt_site_shared_email(){
 					
 	} else {
 		
-		$emailMessage = str_ireplace( '%USER_NAME%'   , $personName, $emailTemplate);
+		$emailMessage = str_ireplace( '%SCORE%'       , $_SESSION['wpsqt']['current_score'], $emailTemplate);
 		$emailMessage = str_ireplace( '%QUIZ_NAME%'   , $quizName, $emailMessage);
+		$emailMessage = str_ireplace( '%USER_NAME%'   , $personName, $emailMessage);
 		$emailMessage = str_ireplace( '%SURVEY_NAME%' , $quizName, $emailMessage);
 		$emailMessage = str_ireplace( '%DATE_EU%'     , date('d-m-Y'),$emailMessage );
 		$emailMessage = str_ireplace( '%DATE_US%'     , date('m-d-Y'),$emailMessage );

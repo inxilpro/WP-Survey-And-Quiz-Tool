@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.20
+Version: 1.3.21
 */
 
 //TODO leverage media overlay for questions
@@ -61,7 +61,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.20' );
+define( 'WPSQT_VERSION'              , '1.3.21' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -105,7 +105,7 @@ function wpsqt_main_install(){
 				  `mark` int(11) NOT NULL DEFAULT '0',
 				  `total` int(11) NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`)
-				  ) ENGINE=MyISAM;");
+				  ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_SECTION_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -116,8 +116,7 @@ function wpsqt_main_install(){
 				  `difficulty` varchar(11) NOT NULL,
 				  `orderby` varchar(255) NOT NULL DEFAULT 'random',
 				  PRIMARY KEY (`id`)
-				  ) ENGINE=MyISAM;");
-	
+				  ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_QUIZ_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
 				  `name` varchar(255) NOT NULL,
@@ -130,7 +129,7 @@ function wpsqt_main_install(){
  				  `display_review` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
  				  `email_template` TEXT NULL DEFAULT NULL ,
 				  PRIMARY KEY (`id`)
-				  ) ENGINE=MyISAM;");
+				  ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_QUESTION_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -144,7 +143,7 @@ function wpsqt_main_install(){
 				  `section_type` varchar(255) NOT NULL DEFAULT 'multiple',
 				  `sectionid` int(11) NOT NULL,
 				  PRIMARY KEY (`id`)
-				  ) ENGINE=MyISAM;");
+				  ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_ANSWER_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -153,7 +152,7 @@ function wpsqt_main_install(){
 				  `correct` varchar(3) NOT NULL,
 				  PRIMARY KEY (`id`),
 				  KEY `questionid` (`questionid`)
-				  ) ENGINE=MyISAM");
+				  ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_SURVEY_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -163,7 +162,7 @@ function wpsqt_main_install(){
 				  `email_template` TEXT NULL DEFAULT NULL,
 				  `send_email` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
 				  PRIMARY KEY (`id`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_SURVEY_QUESTIONS_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -173,14 +172,14 @@ function wpsqt_main_install(){
 				  `type` varchar(10) NOT NULL,
 				  `include_other` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
 				  PRIMARY KEY (`id`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_SURVEY_ANSWERS_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
 				  `questionid` int(11) NOT NULL,
 				  `text` varchar(255) NOT NULL,
 				  PRIMARY KEY (`id`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_SURVEY_RESULT_TABLE."` (
@@ -193,7 +192,7 @@ function wpsqt_main_install(){
 				  `value` int(11) DEFAULT NULL,
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY `id` (`id`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_SURVEY_SECTION_TABLE."` (
@@ -204,7 +203,7 @@ function wpsqt_main_install(){
 				  `number` int(11) NOT NULL,
 				  `orderby` varchar(255) NOT NULL DEFAULT 'random',
 				  PRIMARY KEY (`id`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_SURVEY_SINGLE_TABLE."` (
@@ -216,7 +215,7 @@ function wpsqt_main_install(){
 				  `ipaddress` varchar(255) NOT NULL,
 				  `user_agent` varchar(255) NOT NULL,
 				  PRIMARY KEY (`id`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_FORM_TABLE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -226,7 +225,7 @@ function wpsqt_main_install(){
 				  `quizid` int(11) NOT NULL,
 				  `surveyid` int(11) NOT NULL,
 				  PRIMARY KEY (`id`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	// Just incase I forget again
 	wpsqt_main_db_upgrade();
@@ -647,6 +646,75 @@ function wpsqt_main_db_upgrade(){
 				  `user_agent` varchar(255) NOT NULL,
 				  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
+	// 1.3.21
+	
+	foreach (array(  WPSQT_QUIZ_TABLE,WPSQT_SECTION_TABLE,WPSQT_QUESTION_TABLE,
+					 WPSQT_ANSWER_TABLE,WPSQT_FORM_TABLE,WPSQT_RESULTS_TABLE,
+					 WPSQT_SURVEY_TABLE,WPSQT_SURVEY_SECTION_TABLE,
+					 WPSQT_SURVEY_QUESTIONS_TABLE,WPSQT_SURVEY_ANSWERS_TABLE,
+					 WPSQT_SURVEY_RESULT_TABLE,WPSQT_SURVEY_SINGLE_TABLE ) as $tableName){
+		
+		$wpdb->query("ALTER TABLE  `".$tableName."` CHARACTER SET utf8 COLLATE utf8_general_ci");
+	}
+	
+	$wpdb->query("ALTER TABLE  `".WPSQT_QUESTION_TABLE."` 
+				  CHANGE  `hint`  `hint` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `difficulty`  `difficulty` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `type`  `type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `text`  `text` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `section_type`  `section_type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'multiple',
+				  CHANGE  `additional`  `additional` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+	$wpdb->query("ALTER TABLE  `".WPSQT_ANSWER_TABLE."` 
+				  CHANGE  `text`  `text` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `correct`  `correct` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+	$wpdb->query("ALTER TABLE  `".WPSQT_FORM_TABLE."` 
+				  CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `type`  `type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `required`  `required` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");	
+	$wpdb->query("ALTER TABLE  `".WPSQT_QUIZ_TABLE."` CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `display_result`  `display_result` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no',
+				  CHANGE  `status`  `status` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'disabled',
+				  CHANGE  `notification_type`  `notification_type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'none',
+				  CHANGE  `take_details`  `take_details` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no',
+				  CHANGE  `use_wp_user`  `use_wp_user` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no',
+				  CHANGE  `email_template`  `email_template` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+				  CHANGE  `display_review`  `display_review` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no'");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SECTION_TABLE."` 
+				  CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `type`  `type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `difficulty`  `difficulty` VARCHAR( 11 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `orderby`  `orderby` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'random'");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SECTION_TABLE."` 
+				  CHANGE  `person`  `person` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+				  CHANGE  `sections`  `sections` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `status`  `status` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'Unviewed',
+				  CHANGE  `person_name`  `person_name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `ipaddress`  `ipaddress` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SURVEY_TABLE."` 
+				  CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `take_details`  `take_details` VARCHAR( 11 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `status`  `status` VARCHAR( 11 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `send_email`  `send_email` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no',
+				  CHANGE  `email_template`  `email_template` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SURVEY_QUESTIONS_TABLE."` CHANGE  `text`  `text` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `type`  `type` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `include_other`  `include_other` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no'");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SURVEY_ANSWERS_TABLE."` 
+				  CHANGE  `text`  `text` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SURVEY_RESULT_TABLE."` 
+				  CHANGE  `other`  `other` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `type`  `type` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT  'multiple'");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SURVEY_SECTION_TABLE."` 
+				  CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `type`  `type` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `orderby`  `orderby` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+	$wpdb->query("ALTER TABLE  `".WPSQT_SURVEY_SINGLE_TABLE."` 
+				  CHANGE  `person`  `person` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET ucs2 COLLATE ucs2_general_ci NOT NULL ,
+				  CHANGE  `results`  `results` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `ipaddress`  `ipaddress` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+				  CHANGE  `user_agent`  `user_agent` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+	
 	return;
 }
 

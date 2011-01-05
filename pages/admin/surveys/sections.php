@@ -56,6 +56,8 @@ if ( empty($validData) ){
 								<option></option>
 								<option value="multiple"<?php if ($data['type'] == 'multiple'){?> selected="yes"<?php }?>>Multiple Choice</option>
 								<option value="scale"<?php if ($data['type'] == 'scale'){?> selected="yes"<?php }?>>Scale</option>
+								<option value="likert"<?php if ($data['type'] == 'likert'){?> selected="yes"<?php }?>>Likert</option>
+								<option value="dropdown"<?php if ($data['type'] == 'dropdown'){?> selected="yes"<?php }?>>Dropdown</option>
 							</select>
 						</td>
 						<td><input type="text" name="number[<?php echo $key; ?>]" value="<?php echo $data['number']; ?>" size="10" id="number_<?php echo $key; ?>" /></td>

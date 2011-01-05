@@ -16,11 +16,11 @@ jQuery(document).ready( function(){
 		
 		questionType = jQuery('#type option:selected').val();
 		
-		if ( questionType == 'scale' ){
-			jQuery('#multi_form').hide();
+		if ( questionType != 'scale' ){
+			jQuery('#multi_form').show();
 		}
 		else {
-			jQuery('#multi_form').show();
+			jQuery('#multi_form').hide();
 		}
 		
 	});

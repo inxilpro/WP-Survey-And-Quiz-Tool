@@ -336,7 +336,7 @@ function wpsqt_admin_survey_question_create($edit = false){
 			}
 			
 			// Since it's used by both edit and new.
-			if ( $_POST['type'] == 'multiple' ){
+			if ( $_POST['type'] != 'scale' ){
 					$validAnswers = array();
 					$answerInsertSql = 'INSERT INTO `'.WPSQT_SURVEY_ANSWERS_TABLE.'` (questionid,text) VALUES ';
 					
@@ -353,7 +353,7 @@ function wpsqt_admin_survey_question_create($edit = false){
 	} elseif ( $edit !== false ){
 		$questionId = (int)$_GET['questionid'];
 		list($questionText,$questionType,$sectionId,$questionOther) = $wpdb->get_row('SELECT text,type,sectionid,include_other FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId , ARRAY_N);
-		if ( $questionType == 'multiple' ){
+		if ( $questionType != 'scale' ){
 			$answers = $wpdb->get_results('SELECT text FROM '.WPSQT_SURVEY_ANSWERS_TABLE.' WHERE questionid = '.$questionId, ARRAY_A);
 		}
 	}

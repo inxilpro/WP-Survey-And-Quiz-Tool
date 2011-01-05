@@ -5,7 +5,8 @@
 <?php foreach ($_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey]['questions'] as $question) { ?>
 	
 	<div class="wpst_question">
-		<?php echo stripslashes($question['text']);
+		<?php 
+			 echo stripslashes($question['text']);
 		
 			if ( !empty($question['additional']) ){
 			?>

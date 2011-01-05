@@ -36,7 +36,7 @@ if ( !isset($rowCount) ){
 			<tbody>
 				<tr>
 					<th scope="row">Question</th>
-					<td valign="top" colspan="2"><input <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> type="text" id="question" maxlength="255" size="50" name="question" value="<?php echo stripcslashes($questionText); ?>" /></td>
+					<td valign="top" colspan="2"><input <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> type="text" id="question" maxlength="255" size="50" name="question" value="<?php echo stripslashes($questionText); ?>" /></td>
 					
 				</tr>
 				<tr>

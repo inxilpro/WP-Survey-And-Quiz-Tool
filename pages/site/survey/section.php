@@ -7,7 +7,7 @@
 	<div class="wpst_question">
 		<?php echo stripslashes($question['text']); ?>
 		
-		<?php if ($question['type'] == 'multiple' && isset($question['answers']) ){?>
+		<?php if ( ($question['type'] == 'multiple' || $question['type'] == 'likert') && isset($question['answers']) ){?>
 			<ul>
 			<?php foreach ( $question['answers'] as $answer ){ ?>
 				<li>
@@ -21,6 +21,11 @@
 				</li>
 				<?php } ?>
 			</ul>
+		<?php } elseif ($question['type'] == 'dropdown' && isset($question['answers'])){ ?>
+			<select name="answers[<?php echo $questionKey; ?>]">
+			<?php foreach ( $question['answers'] as $answer ){ ?>
+				<option value="<?php echo $answer['id']; ?>"><?php echo stripslashes($answer['text']); ?></option>
+			<?php } ?></select> 
 		<?php } else { ?>
 		<p>
 			<?php for ( $i = 1; $i <= 10; $i++){ ?>
