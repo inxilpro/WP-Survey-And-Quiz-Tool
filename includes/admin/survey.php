@@ -60,6 +60,8 @@ function wpsqt_admin_survey_create($edit = false){
 	}
 	
 	if ( !empty($_POST) ){
+	
+		wpsqt_nonce_check();
 		
 		$errorArray    = array();
 		$surveyDetails = array();
@@ -125,6 +127,7 @@ function wpsqt_admin_survey_delete(){
 		return;	
 	} elseif ( isset($_POST['confirm']) && $_POST['confirm'] == 'Yes' ){
 		
+		wpsqt_nonce_check();
 		$wpdb->query('DELETE FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '.$surveyId);
 		
 		$message = 'Survey deleted successfully!';
@@ -157,6 +160,7 @@ function wpsqt_admin_survey_sections(){
 	
 	if ( !empty($_POST) ){
 		
+		wpsqt_nonce_check();
 		$validData = array();
 		    
 		for ( $i = 0; $i < sizeof($_POST['section_name']); $i++ ){
@@ -292,6 +296,7 @@ function wpsqt_admin_survey_question_create($edit = false){
 	$sections = $wpdb->get_results('SELECT name,id FROM '.WPSQT_SURVEY_SECTION_TABLE.' WHERE surveyid = '.$surveyId , ARRAY_A );
 		
 	if ( !empty($_POST) ){
+		wpsqt_nonce_check();
 		
 		$errorArray = array();
 		
@@ -390,6 +395,7 @@ function wpsqt_admin_survey_question_delete(){
 		require_once wpsqt_page_display('admin/surveys/question.delete.php');
 		return;	
 	} else {
+		wpsqt_nonce_check();
 		$wpdb->query( 'DELETE FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId );
 		$message = 'Question successfully deleted!';
 		require_once wpsqt_page_display('general/message.php');

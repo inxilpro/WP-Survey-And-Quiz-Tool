@@ -4,6 +4,7 @@
 	<h2>WP Survey And Quiz Tool - Delete Quiz</h2>
 
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<p style="text-align: center;">Are you sure you want to delete the "<em><?php echo stripslashes($quizName); ?></em>" quiz?</p>
 		<p style="text-align: center;"><input type="submit" name="confirm" value="Yes" class='button-secondary' /></p>
 	</form>

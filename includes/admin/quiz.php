@@ -27,6 +27,8 @@ function wpsqt_admin_quiz_form($edit = false){
 	$errorArray = array();	
 	
 	if ( !empty($_POST) ){
+	
+		wpsqt_nonce_check();
 		
 		// Check quiz name
 		if ( !isset($_POST['quiz_name']) || empty($_POST['quiz_name']) ){
@@ -170,7 +172,10 @@ function wpsqt_admin_quiz_sections(){
 		$redirectUrl .= '&page='.WPSQT_PAGE_QUIZ; 
 	}
 	else {		
-		if ( !empty($_POST) ){			
+		if ( !empty($_POST) ){		
+	
+			wpsqt_nonce_check();	
+			
 			$validData = array();
 		    
 			for ( $i = 0; $i < sizeof($_POST['section_name']); $i++ ){
@@ -297,6 +302,8 @@ function wpsqt_admin_quiz_delete(){
 		return;	
 	}
 	elseif ( isset($_POST['confirm']) && $_POST['confirm'] == 'Yes' ){
+			
+		wpsqt_nonce_check();
 		
 		$wpdb->query('DELETE FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId);
 		$wpdb->query('DELETE FROM '.WPSQT_QUESTION_TABLE.' WHERE quizid = '.$quizId);

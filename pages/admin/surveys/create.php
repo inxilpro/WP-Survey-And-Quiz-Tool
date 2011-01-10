@@ -19,6 +19,7 @@
 	<?php } ?>
 	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="quiz_form">
 		
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<input type="hidden" name="action" value="<?php echo htmlentities($_REQUEST['action']); ?>"  />
 	
 		<table class="form-table" id="question_form">

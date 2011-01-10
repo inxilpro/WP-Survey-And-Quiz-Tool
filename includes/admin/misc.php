@@ -21,8 +21,7 @@
 function wpsqt_admin_options_main(){
 	
 	global $wp_roles;
-	
-	
+		
 	$fromEmail = get_option('wpsqt_from_email');
 	$numberOfItems = get_option('wpsqt_number_of_items');
 	$email = get_option('wpsqt_contact_email');
@@ -31,6 +30,8 @@ function wpsqt_admin_options_main(){
 	$supportUs = get_option('wpsqt_support_us');
 	
 	if ( !empty($_POST) ){
+	
+		wpsqt_nonce_check();
 		
 		$errorArray = array();
 		
@@ -97,6 +98,8 @@ function wpsqt_admin_misc_contact_main(){
 	global $wp_version;
 	
 	if ( !empty($_POST) ){
+	
+		wpsqt_nonce_check();
 		$errorArray = array();
 		if ( !isset($_POST['email']) || empty($_POST['email'])){
 			$errorArray[] = 'Email is required';

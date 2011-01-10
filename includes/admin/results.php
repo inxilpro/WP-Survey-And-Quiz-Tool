@@ -33,8 +33,9 @@ function wpsqt_admin_results_show_list(){
 		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' ORDER BY r.id DESC',ARRAY_A);
 	} else {
 		$rawResults = $wpdb->get_results(
-									$wpdb->prepare('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' r.status = \'%s\' ORDER BY r.id DESC', array($filter))
+									$wpdb->prepare('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' AND LCASE(r.status) = LCASE(\'%s\') ORDER BY r.id DESC', array($filter))
 											);
+		
 	}
 	foreach( array('Unviewed','Rejected','Accepted') as $status ){
 		$numbers[strtolower($status)] = $wpdb->get_var("SELECT COUNT(status) as count FROM ".WPSQT_RESULTS_TABLE." WHERE status = '".$status."' and quizid = ".$quizId);
@@ -85,6 +86,9 @@ function wpsqt_admin_results_quiz_mark(){
 	$result['sections'] = unserialize($result['sections']);
 	
 	if ( !empty($_POST) ){
+	
+		wpsqt_nonce_check();
+		
 		$overallMark = (int)$_POST['overall_mark'];	
 		$totalMark = (int)$_POST['total_mark'];
 		foreach ( $result['sections'] as $sectionKey => $section ){
@@ -159,6 +163,9 @@ function wpsqt_admin_results_delete_result(){
 	    require_once wpsqt_page_display('admin/results/delete.php');
 	}
 	elseif ( isset($_POST['confirm']) && $_POST['confirm'] == 'Yes' ){
+	
+		wpsqt_nonce_check();
+		
 		$wpdb->query('DELETE FROM '.WPSQT_RESULTS_TABLE.' WHERE id = '.$resultId);
 		$message = 'Result succesfully deleted';  
 	    require_once wpsqt_page_display('general/message.php');

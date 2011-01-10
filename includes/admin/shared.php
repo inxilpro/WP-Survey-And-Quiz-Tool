@@ -28,6 +28,8 @@ function wpsqt_admin_shared_forms(){
 	$surveyId = ( $_GET['type'] == 'survey' ) ? $_GET['id'] : 0;
 	
 	if ( !empty($_POST) && ( isset($_POST['field_name']) && !empty($_POST['field_name']) ) ){
+	
+		wpsqt_nonce_check();	
 				
 		$vaildFields = array();
 		
@@ -43,8 +45,11 @@ function wpsqt_admin_shared_forms(){
 			$vaildFields[] = "('".$wpdb->escape($fieldName)."','".$wpdb->escape($fieldType)."','".$wpdb->escape($fieldRequired)."',".$quizId.",".$surveyId.")";
 			
 		}
-		$insertSql = "INSERT INTO `".WPSQT_FORM_TABLE."` (name,type,required,quizid,surveyid) VALUES ".implode(",", $vaildFields);
 		$wpdb->query("DELETE FROM `".WPSQT_FORM_TABLE."` WHERE quizid = ".$quizId."  AND surveyid = ".$surveyId);
+		
+		if ( !empty($vaildFields) ){
+			$insertSql = "INSERT INTO `".WPSQT_FORM_TABLE."` (name,type,required,quizid,surveyid) VALUES ".implode(",", $vaildFields);
+		}
 		$wpdb->query($insertSql);
 		
 		if ( $quizId !== 0){

@@ -21,6 +21,7 @@
 		
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<table class="form-table">
 			<tr>
 				<th scope="row">Name</th>

@@ -22,6 +22,7 @@ $hardPoints = 0;
 	<?php } ?>
 	
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">	
+	<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 	<?php if (!empty($result['person'])) { ?>
 		<h3>User Details</h3>
 		<div class="person">

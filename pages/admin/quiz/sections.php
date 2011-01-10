@@ -39,6 +39,7 @@ if ( empty($validData) ){
 		</ul>
 	<?php } ?>
 	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="section_form">
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 	
 		<table class="form-table" id="section_table" >
 				<thead>

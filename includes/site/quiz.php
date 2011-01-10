@@ -13,13 +13,14 @@
  * for multiple choice questions.
  * 
  * @uses wpdb
+ * @uses current_user
  *  
  * @since 0.1
  */
 
 function wpsqt_site_quiz_show($quizName){
 
-	global $wpdb;
+	global $wpdb,$current_user;
 	
 	if ( !isset($_SESSION['wpsqt'])  ){
 		$_SESSION['wpsqt'] = array();
@@ -57,10 +58,14 @@ function wpsqt_site_quiz_show($quizName){
 		return;
 	}
 	
-	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['use_wp_user'] == 'yes' && !is_user_logged_in() ){
-		print 'You have to be logged in to do this quiz';
-		return;
-	}
+	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['use_wp_user'] == 'yes' ) {
+		if (!is_user_logged_in() ){
+			print 'You have to be logged in to do this quiz';
+			return;
+		} else {
+			$_SESSION['wpsqt'][$quizName]['person']['user_name'] = $current_user->display_name;
+		}
+	} 
 	
 	$sectionKey = ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' ) ? $step - 1 : $step;
 	
@@ -122,11 +127,11 @@ function wpsqt_site_quiz_show($quizName){
 					}
 						
 					if ( $subCorrect === $subNumOfCorrect && $subIncorrect === 0 ){
-						$correct++;
+						$correct += $_SESSION['wpsqt'][$quizName]['quiz_sections'][$pastSectionKey]['questions'][$questionKey]["value"];
 						$answerMarked['mark'] = 'correct';
 					}
 					else {
-						$incorrect++;
+						$incorrect += $_SESSION['wpsqt'][$quizName]['quiz_sections'][$pastSectionKey]['questions'][$questionKey]["value"];
 						$answerMarked['mark'] = 'incorrect';
 					}
 						
@@ -301,7 +306,7 @@ function wpsqt_site_quiz_finish(){
 	$wpdb->query( $wpdb->prepare('INSERT INTO `'.WPSQT_RESULTS_TABLE.'` (person_name,ipaddress,person,sections,timetaken,quizid) VALUES (%s,%s,%s,%s,%d,%d)', 
 								array($personName,$_SERVER['REMOTE_ADDR'],serialize($_SESSION['wpsqt'][$quizName]['person']),serialize($_SESSION['wpsqt'][$quizName]['quiz_sections']),$timeTaken,$_SESSION['wpsqt'][$quizName]['quiz_details']['id']) ) );
 	$_SESSION['wpsqt']['result_id'] = $wpdb->insert_id;
-	$totalQuestions = 0;
+	$totalPoints = 0;
 	$correctAnswers = 0;
 	$canAutoMark = true;
 	
@@ -314,15 +319,15 @@ function wpsqt_site_quiz_finish(){
 		if ( isset($quizSection['stats']['correct']) ){	
 			$correctAnswers += $quizSection['stats']['correct'];	
 		}		
-		$totalQuestions += sizeof($quizSection['questions']);
+		$totalPoints += $quizSection['stats']['correct'] + $quizSection['stats']['incorrect'];
 	}
 	
 	if ( $canAutoMark === true ){
-		$_SESSION['wpsqt']['current_score'] = $correctAnswers." correct out of ".$totalQuestions; 
+		$_SESSION['wpsqt']['current_score'] = $correctAnswers." correct out of ".$totalPoints; 
 	} 
 	
 	if ( $correctAnswers !== 0 ){
-		$percentRight = ( $correctAnswers / $totalQuestions ) * 100;	
+		$percentRight = ( $correctAnswers / $totalPoints ) * 100;	
 	} else {
 		$percentRight = 0;
 	}

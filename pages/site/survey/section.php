@@ -1,7 +1,8 @@
 <h1><?php echo $_SESSION['wpsqt'][$surveyName]['survey_sections'][$sectionKey]['name']; ?></h1>
 
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-<input type="hidden" name="step" value="<?php echo ($_SESSION['wpsqt']['current_step']+1); ?>">
+	<input type="hidden" name="step" value="<?php echo ($_SESSION['wpsqt']['current_step']+1); ?>">
+	<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 <?php foreach ($_SESSION['wpsqt'][$surveyName]['survey_sections'][$sectionKey]['questions'] as $questionKey => $question) { ?>
 	
 	<div class="wpst_question">

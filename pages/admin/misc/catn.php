@@ -13,6 +13,7 @@
 	
 	<form method="post" action="<?php echo get_bloginfo('url'); ?>/wp-admin/admin.php?page=<?php echo WPSQT_PAGE_CONTACT; ?>">
 		
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<table class="form-table">
 			<tr>
 				<th scope="row">Name</th>

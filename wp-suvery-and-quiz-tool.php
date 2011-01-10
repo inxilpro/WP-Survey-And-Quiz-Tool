@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.21
+Version: 1.3.22
 */
 
 //TODO leverage media overlay for questions
@@ -61,7 +61,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.21' );
+define( 'WPSQT_VERSION'              , '1.3.22' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -96,7 +96,7 @@ function wpsqt_main_install(){
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
 				  `timetaken` int(11) NOT NULL,
 				  `person` text,
-				  `sections` text NOT NULL,
+				  `sections` LONGTEXT NOT NULL,
 				  `status` varchar(255) NOT NULL DEFAULT 'Unviewed',
 				  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				  `quizid` int(11) NOT NULL,
@@ -392,6 +392,9 @@ add_action('admin_menu', 'wpsqt_main_admin_menu');
  * @uses includes/site/quiz.php
  */
 function wpsqt_main_site_quiz_page($atts) {
+	
+	define("DONOTCACHEPAGE",true);
+	
 	extract( shortcode_atts( array(
 					'name' => false
 	), $atts) );
@@ -419,6 +422,9 @@ add_shortcode( 'wpsqt_quiz' , 'wpsqt_main_site_quiz_page' );
  * @uses includes/site/quiz.php
  */
 function wpsqt_main_site_survey_page($atts) {
+	
+	define("DONOTCACHEPAGE",true);
+	
 	extract( shortcode_atts( array(
 					'name' => false
 	), $atts) );
@@ -714,7 +720,8 @@ function wpsqt_main_db_upgrade(){
 				  CHANGE  `results`  `results` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 				  CHANGE  `ipaddress`  `ipaddress` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 				  CHANGE  `user_agent`  `user_agent` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
-	
+	// 1.3.22
+	$wpdb->query("ALTER TABLE `wp_wpsqt_results` CHANGE `sections` `sections` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 	return;
 }
 
@@ -730,7 +737,7 @@ function wpsqt_main_catn(){
 }
 
 /**
- * Checks to see if the system requirments are met. If not 
+ * Checks to see if the system requirments are met. If not text
  * it displays a error div in the admin section linking 
  * them to the CatN advertisement. 
  * 
@@ -780,4 +787,37 @@ function wpsqt_main_support(){
 
 add_action('wp_footer', 'wpsqt_main_support');
 
+/**
+ * Creates a nonce field and checks nonce to ensure 
+ * againist cross site request forgies.
+ * 
+ * @since 1.3.22
+ */
+
+function wpsqt_nonce(){
+	
+	if ( isset($_REQUEST["wpsqt_nonce"]) ){
+		$validNonce = wp_verify_nonce($_REQUEST["wpsqt_nonce"],'wpsqt_nonce');
+	} else {
+		$validNonce = false;
+	}
+	
+	define( "WPSQT_NONCE_VALID" , $validNonce );
+	define( "WPSQT_NONCE_CURRENT" , wp_create_nonce('wpsqt_nonce') ); // using a different 
+}
+
+/**
+ * Done here as not every page request will be requiring a nonce.
+ * 
+ * @since 1.3.22
+ */
+function wpsqt_nonce_check(){
+	
+	if ( WPSQT_NONCE_VALID != true ){
+		wp_die("Invalid WP Survey And Quiz Tool referrer response");
+	}
+	
+}
+
+add_action("init","wpsqt_nonce");
 ?>

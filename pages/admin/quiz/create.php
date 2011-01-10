@@ -18,7 +18,7 @@
 		</ul>
 	<?php } ?>
 	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="quiz_form">
-		
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />		
 		<input type="hidden" name="action" value="<?php echo htmlentities($_REQUEST['action']); ?>"  />
 	
 		<table class="form-table" id="question_form">
@@ -61,7 +61,7 @@
 							<option value="yes"<?php if ( isset($quizDetails['display_review']) &&  $quizDetails['display_review'] == 'yes' ){?> selected="selected"<?php }?>>Yes</option>
 						</select>
 					</td>
-					<td>Display the review results of the quiz upon the user completing the quiz, requires automarking. Will show the user what answers they gave aswell as what answers are correct.</td>
+					<td>Display the review results of the quiz upon the user completing the quiz, requires automarking. Will show the user what answers they gave aswell as what answers are correct. <b>NOTE : If the above setting is yes, this will not be shown as it takes precedent.</b></td>
 				</tr>
 				<tr>
 					<th scope="row">Status</th>

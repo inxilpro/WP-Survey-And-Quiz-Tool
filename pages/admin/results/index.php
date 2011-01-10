@@ -7,6 +7,7 @@
 	
 	<form method="post" action="">
 	
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<div class="tablenav">
 	
 			<ul class="subsubsub">

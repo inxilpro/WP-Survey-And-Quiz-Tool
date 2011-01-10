@@ -12,7 +12,7 @@ if ( empty($validData) ){
 	$validData = array(array('name' => '', 'difficulty' => '', 'type' => '', 'number' => '','orderby' => ''));
 }
 ?>
-<script type="text/javascript" src="<? echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/survey_section.php?rowcount=<?php echo sizeof($validData); ?>"></script>
+<script type="text/javascript" src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/survey_section.php?rowcount=<?php echo sizeof($validData); ?>"></script>
 
 <div class="wrap">
 
@@ -35,6 +35,7 @@ if ( empty($validData) ){
 	<?php } ?>
 	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="section_form">
 	
+		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<table class="form-table" id="section_table" >
 				<thead>
 					<tr>
