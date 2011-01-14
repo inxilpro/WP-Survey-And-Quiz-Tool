@@ -66,6 +66,12 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
 
+= 1.3.23 =
+
+* Added ability to send emails to logged in WordPress users
+* Improved upgrade function
+* Removed DONOTCACHE constant from shortcode hooks as it stopped WP Super Cache from caching anything,
+
 = 1.3.22 =
 
 * Fixed filter on quiz result page

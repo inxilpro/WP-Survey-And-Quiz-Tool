@@ -129,6 +129,11 @@ function wpsqt_site_shared_email(){
 	$role = get_option('wpsqt_email_role');
 	$personName = ( isset($_SESSION['wpsqt'][$quizName]['person']['user_name']) && !empty($_SESSION['wpsqt'][$quizName]['person']['user_name']) ) ? $_SESSION['wpsqt'][$quizName]['person']['user_name'] : 'Anonymous';
 	
+	if ( $_SESSION['wpsqt']['current_type'] == 'quiz' && $quizDetails['email_wp_user'] == 'yes'
+	  && is_user_logged_in() && $quizDetails['use_wp_user'] == 'yes'  ){
+	  	 $emailList[] = $_SESSION['wpsqt'][$quizName]['person']['email'];
+	  }
+	
 	if ( !empty($role) && $role != 'none' ){
 		$this_role = "'[[:<:]]".$role."[[:>:]]'";
   		$query = "SELECT * FROM $wpdb->users WHERE ID = ANY (SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'wp_capabilities' AND meta_value RLIKE $this_role) ORDER BY user_nicename ASC LIMIT 10000";

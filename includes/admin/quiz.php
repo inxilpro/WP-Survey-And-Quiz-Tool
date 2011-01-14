@@ -85,19 +85,27 @@ function wpsqt_admin_quiz_form($edit = false){
 		elseif ( $_POST['use_wp_user'] != 'yes' && $_POST['use_wp_user'] != 'no' ){
 			$errorArray[] = 'Use Wordpress User Details isn\'t an acceptable value';
 		}
+		
+		if ( !isset($_POST['email_wp_user']) || empty($_POST['email_wp_user']) ){
+			$errorArray[] = 'Email Wordpress User can\'t be empty';
+		}
+		elseif ( $_POST['email_wp_user'] != 'yes' && $_POST['email_wp_user'] != 'no' ){
+			$errorArray[] = 'Email Wordpress User isn\'t an acceptable value';
+		}
+		
 				
 	}
 	
 	if ( !empty($_POST) && empty($errorArray) ){
 		if ( $edit == false ){			
-			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,display_review,status,notification_type,take_details,use_wp_user,email_template)  VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',
-									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['display_review'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user'], $_POST['email_template'] ) ) );
+			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,display_review,status,notification_type,take_details,use_wp_user,email_template,email_wp_user)  VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['display_review'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user'], $_POST['email_template'], $_POST['email_wp_user'] ) ) );
 
 			$quizId = $wpdb->insert_id;
 			$successMessage = 'Quiz inserted! Next step is to add some sections. <a href="'.WPSQT_URL_MAIN.'&type=quiz&action=sections&id='.$quizId.'">Click here</a> to move onto that step.';
 		} else{
-			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,display_review=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s,email_template=%s WHERE id = %d',
-									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['display_review'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'], $_POST['email_template'] , $_GET['id'] )) );
+			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,display_review=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s,email_template=%s,email_wp_user=%s WHERE id = %d',
+									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['display_review'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'], $_POST['email_template'],$_POST['email_wp_user'] , $_GET['id'] )) );
 			$successMessage = 'Quiz updated';
 		}
 		
@@ -109,7 +117,7 @@ function wpsqt_admin_quiz_form($edit = false){
 	
 	if ( $edit == true && ctype_digit($_GET['id']) ){
 		$quizId = (int) $_GET['id'];
-		$quizDetails = $wpdb->get_row('SELECT name,display_result,display_review,status,notification_type,take_details,use_wp_user,email_template FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
+		$quizDetails = $wpdb->get_row('SELECT * FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
 	}
 
 	require_once wpsqt_page_display('admin/quiz/create.php');
