@@ -84,7 +84,7 @@
 					<td>This will show a form for users to enter their contact details before proceeding</td>
 				</tr>
 				<tr>
-					<th scope="row">Use WordPress User Details</th>
+					<th scope="row">Use Wordpress User Details</th>
 					<td valign="top">
 						<select id="use_wp_user" name="use_wp_user">
 							<option value="no"<?php if ( !isset($quizDetails['use_wp_user']) ||  $quizDetails['use_wp_user'] == 'no' ){?> selected="selected"<?php }?>>No</option>
@@ -92,16 +92,6 @@
 						</select>
 					</td>
 					<td>This will allow you to have the Quiz to use the user details for signed in users of your blog. If enabled the contact form will not be shown if enabled.</td>
-				</tr>
-				<tr>
-					<th scope="row">Email WordPress User</th>
-					<td valign="top">
-						<select id="use_wp_user" name="email_wp_user">
-							<option value="no"<?php if ( !isset($quizDetails['email_wp_user']) ||  $quizDetails['email_wp_user'] == 'no' ){?> selected="selected"<?php }?>>No</option>
-							<option value="yes"<?php if ( isset($quizDetails['email_wp_user']) && $quizDetails['email_wp_user'] == 'yes' ){?> selected="selected"<?php }?>>Yes</option>
-						</select>
-					</td>
-					<td>This will allow you to have the Quiz result/notification sent to the user who has taken the test, <strong>requires Use WordPress Details to be yes</strong>.</td>
 				</tr>
 				<?php if ( isset($quizId) ){ ?>
 				<tr>

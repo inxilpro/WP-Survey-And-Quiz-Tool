@@ -64,7 +64,6 @@ function wpsqt_site_quiz_show($quizName){
 			return;
 		} else {
 			$_SESSION['wpsqt'][$quizName]['person']['user_name'] = $current_user->display_name;
-			$_SESSION['wpsqt'][$quizName]['person']['email'] = $current_user->user_email;
 		}
 	} 
 	
@@ -342,10 +341,6 @@ function wpsqt_site_quiz_finish(){
 	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-75'  && $percentRight > 75){
 		$emailTrue = true;
 	} elseif ($_SESSION['wpsqt'][$quizName]['quiz_details']['notification_type'] == 'instant-50'  && $percentRight > 50){
-		$emailTrue = true;
-	}
-	
-	if ($_SESSION['wpsqt'][$quizName]['quiz_details']['email_wp_user'] == 'yes'){
 		$emailTrue = true;
 	}
 	

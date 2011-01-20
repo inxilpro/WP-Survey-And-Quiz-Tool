@@ -85,7 +85,7 @@ function wpsqt_admin_results_quiz_mark(){
 	$result['person'] = unserialize($result['person']);
 	$result['sections'] = unserialize($result['sections']);
 	
-	if ( !empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 	
 		wpsqt_nonce_check();
 		
@@ -158,7 +158,7 @@ function wpsqt_admin_results_delete_result(){
 	
 	$resultId = (int)$_GET['subid'];
 	
-	if ( empty($_POST) ){
+	if (  $_SERVER["REQUEST_METHOD"] !== "POST"  ){
 		$personName = $wpdb->get_var('SELECT person_name FROM '.WPSQT_RESULTS_TABLE.' WHERE id = '.$resultId);  
 	    require_once wpsqt_page_display('admin/results/delete.php');
 	}

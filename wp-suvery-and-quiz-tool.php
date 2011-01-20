@@ -841,4 +841,3 @@ function wpsqt_nonce_check(){
 }
 
 add_action("init","wpsqt_nonce");
-?>

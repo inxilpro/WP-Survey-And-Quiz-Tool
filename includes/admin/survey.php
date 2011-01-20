@@ -59,7 +59,7 @@ function wpsqt_admin_survey_create($edit = false){
 		$surveyId = (int) $_GET['id'];
 	}
 	
-	if ( !empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 	
 		wpsqt_nonce_check();
 		
@@ -120,7 +120,7 @@ function wpsqt_admin_survey_delete(){
 	}
 	$surveyId = (int) $_GET['id'];
 	
-	if ( empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] !== "POST" ){
 		// Make sure they mean it.
 		$surveyName = $wpdb->get_var('SELECT name FROM '.WPSQT_SURVEY_TABLE.' WHERE id = '.$surveyId);
 		require_once wpsqt_page_display('admin/surveys/delete.php');
@@ -158,7 +158,7 @@ function wpsqt_admin_survey_sections(){
 		return;
 	} 
 	
-	if ( !empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 		
 		wpsqt_nonce_check();
 		$validData = array();
@@ -295,7 +295,7 @@ function wpsqt_admin_survey_question_create($edit = false){
 		
 	$sections = $wpdb->get_results('SELECT name,id FROM '.WPSQT_SURVEY_SECTION_TABLE.' WHERE surveyid = '.$surveyId , ARRAY_A );
 		
-	if ( !empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 		wpsqt_nonce_check();
 		
 		$errorArray = array();
@@ -389,7 +389,7 @@ function wpsqt_admin_survey_question_delete(){
 		
 	$questionId = (int) $_GET['questionid'];
 	
-	if ( empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] !== "POST" ){
 		// Make sure they mean it.
 		$questionText = $wpdb->get_var('SELECT text FROM '.WPSQT_SURVEY_QUESTIONS_TABLE.' WHERE id = '.$questionId);
 		require_once wpsqt_page_display('admin/surveys/question.delete.php');

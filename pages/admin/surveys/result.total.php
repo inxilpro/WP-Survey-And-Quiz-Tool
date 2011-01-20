@@ -25,12 +25,15 @@
 		 		 
 	<?php } ?>
 	
-	<?php foreach( $surveyArray['scale'] as $question ) { ?>
+	<?php
+		if (isset($surveyArray['scale']) && is_array($surveyArray['scale'])){
+		foreach( $surveyArray['scale'] as $question ) { ?>
 		<h3><?php echo $question['question']; ?></h3>
 		<strong>Average</strong> : <?php echo (int)$question['total']; ?><br />
 		<strong>Total Votes</strong> : <?php echo $question['count']; ?>
 		
 		
-	<?php } ?>
+	<?php }
+		} ?>
 </div>	
 <?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

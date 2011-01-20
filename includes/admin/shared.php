@@ -27,7 +27,7 @@ function wpsqt_admin_shared_forms(){
 	$quizId = ( $_GET['type'] == 'quiz' ) ? $_GET['id'] : 0;
 	$surveyId = ( $_GET['type'] == 'survey' ) ? $_GET['id'] : 0;
 	
-	if ( !empty($_POST) && ( isset($_POST['field_name']) && !empty($_POST['field_name']) ) ){
+	if (  $_SERVER["REQUEST_METHOD"] == "POST"  && ( isset($_POST['field_name']) && !empty($_POST['field_name']) ) ){
 	
 		wpsqt_nonce_check();	
 				

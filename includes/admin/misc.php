@@ -29,7 +29,7 @@ function wpsqt_admin_options_main(){
 	$emailRole = get_option('wpsqt_email_role');
 	$supportUs = get_option('wpsqt_support_us');
 	
-	if ( !empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 	
 		wpsqt_nonce_check();
 		
@@ -97,7 +97,7 @@ function wpsqt_admin_misc_contact_main(){
 	
 	global $wp_version;
 	
-	if ( !empty($_POST) ){
+	if (  $_SERVER["REQUEST_METHOD"] == "POST" ){
 	
 		wpsqt_nonce_check();
 		$errorArray = array();

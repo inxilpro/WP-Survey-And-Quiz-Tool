@@ -26,7 +26,7 @@ function wpsqt_admin_quiz_form($edit = false){
 		
 	$errorArray = array();	
 	
-	if ( !empty($_POST) ){
+	if (  $_SERVER["REQUEST_METHOD"] == "POST"  ){
 	
 		wpsqt_nonce_check();
 		
@@ -85,27 +85,19 @@ function wpsqt_admin_quiz_form($edit = false){
 		elseif ( $_POST['use_wp_user'] != 'yes' && $_POST['use_wp_user'] != 'no' ){
 			$errorArray[] = 'Use Wordpress User Details isn\'t an acceptable value';
 		}
-		
-		if ( !isset($_POST['email_wp_user']) || empty($_POST['email_wp_user']) ){
-			$errorArray[] = 'Email Wordpress User can\'t be empty';
-		}
-		elseif ( $_POST['email_wp_user'] != 'yes' && $_POST['email_wp_user'] != 'no' ){
-			$errorArray[] = 'Email Wordpress User isn\'t an acceptable value';
-		}
-		
 				
 	}
 	
 	if ( !empty($_POST) && empty($errorArray) ){
 		if ( $edit == false ){			
-			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,display_review,status,notification_type,take_details,use_wp_user,email_template,email_wp_user)  VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['display_review'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user'], $_POST['email_template'], $_POST['email_wp_user'] ) ) );
+			$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUIZ_TABLE.' (name,display_result,display_review,status,notification_type,take_details,use_wp_user,email_template)  VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',
+									  array($_POST['quiz_name'],$_POST['display_result'],$_POST['display_review'],$_POST['status'],$_POST['notification_type'],$_POST['take_details'],$_POST['use_wp_user'], $_POST['email_template'] ) ) );
 
 			$quizId = $wpdb->insert_id;
 			$successMessage = 'Quiz inserted! Next step is to add some sections. <a href="'.WPSQT_URL_MAIN.'&type=quiz&action=sections&id='.$quizId.'">Click here</a> to move onto that step.';
 		} else{
-			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,display_review=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s,email_template=%s,email_wp_user=%s WHERE id = %d',
-									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['display_review'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'], $_POST['email_template'],$_POST['email_wp_user'] , $_GET['id'] )) );
+			$wpdb->query( $wpdb->prepare('UPDATE '.WPSQT_QUIZ_TABLE.' SET name=%s,display_result=%s,display_review=%s,status=%s,notification_type=%s,take_details=%s,use_wp_user=%s,email_template=%s WHERE id = %d',
+									  array($_POST['quiz_name'] , $_POST['display_result'] , $_POST['display_review'] , $_POST['status'] , $_POST['notification_type'] , $_POST['take_details'] , $_POST['use_wp_user'], $_POST['email_template'] , $_GET['id'] )) );
 			$successMessage = 'Quiz updated';
 		}
 		
@@ -117,7 +109,7 @@ function wpsqt_admin_quiz_form($edit = false){
 	
 	if ( $edit == true && ctype_digit($_GET['id']) ){
 		$quizId = (int) $_GET['id'];
-		$quizDetails = $wpdb->get_row('SELECT * FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
+		$quizDetails = $wpdb->get_row('SELECT name,display_result,display_review,status,notification_type,take_details,use_wp_user,email_template FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId, ARRAY_A);
 	}
 
 	require_once wpsqt_page_display('admin/quiz/create.php');
@@ -180,7 +172,7 @@ function wpsqt_admin_quiz_sections(){
 		$redirectUrl .= '&page='.WPSQT_PAGE_QUIZ; 
 	}
 	else {		
-		if ( !empty($_POST) ){		
+		if (  $_SERVER["REQUEST_METHOD"] == "POST"  ){		
 	
 			wpsqt_nonce_check();	
 			
@@ -303,7 +295,7 @@ function wpsqt_admin_quiz_delete(){
 	}
 	$quizId = (int) $_GET['id'];
 	
-	if ( empty($_POST) ){
+	if (  $_SERVER["REQUEST_METHOD"] !== "POST"  ){
 		// Make sure they mean it.
 		$quizName = $wpdb->get_var('SELECT name FROM '.WPSQT_QUIZ_TABLE.' WHERE id = '.$quizId);
 		require_once wpsqt_page_display('admin/quiz/delete.php');
@@ -358,7 +350,7 @@ function wpsqt_admin_questions_addnew(){
 	
 	$sections = $wpdb->get_results('SELECT id,name FROM '.WPSQT_SECTION_TABLE.' WHERE quizid = '.$quizId,ARRAY_A);
 		
-	if ( !empty($_POST) ){ // Get request so no processing required.	
+	if (  $_SERVER["REQUEST_METHOD"] == "POST" ){ // Get request so no processing required.	
 		
 		$questionText       = trim( $_POST['question'] );
 		$questionType       = trim( $_POST['type'] );
@@ -521,7 +513,7 @@ function wpsqt_admin_questions_edit(){
 	// A bit redunant but worth it incase ctype_digit gives a false postive.
 	$questionId = (int) $_GET['questionid'];	
 		
-	if ( !empty ($_POST) ){
+	if (  $_SERVER["REQUEST_METHOD"] == "POST"  ){
 		// Code reuse.
 		wpsqt_admin_questions_addnew();
 		return;
@@ -571,7 +563,7 @@ function wpsqt_admin_questions_delete(){
 	
 	$questionId = (int) $_GET['questionid'];
 	
-	if ( empty($_POST) ){
+	if ( $_SERVER["REQUEST_METHOD"] !== "POST" ){
 		// Make sure they mean it.
 		$questionText = $wpdb->get_var('SELECT text FROM '.WPSQT_QUESTION_TABLE.' WHERE id = '.$questionId);
 		require_once wpsqt_page_display('admin/questions/delete.php');
