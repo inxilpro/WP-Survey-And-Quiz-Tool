@@ -66,6 +66,10 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
 
+= 1.3.23 = 
+
+* Changed !empty($_POST) to $_SERVERPOST_METHOD? == "POST"
+
 = 1.3.22 =
 
 * Fixed filter on quiz result page
