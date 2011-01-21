@@ -33,10 +33,12 @@ function wpsqt_admin_results_show_list(){
 		$rawResults = $wpdb->get_results('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' ORDER BY r.id DESC',ARRAY_A);
 	} else {
 		$rawResults = $wpdb->get_results(
-									$wpdb->prepare('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' AND LCASE(r.status) = LCASE(\'%s\') ORDER BY r.id DESC', array($filter))
+									$wpdb->prepare('SELECT r.id,r.timestamp,r.status,r.person,r.person_name,r.mark,r.total,r.ipaddress,q.name FROM '.WPSQT_RESULTS_TABLE.' AS r INNER JOIN '.WPSQT_QUIZ_TABLE.' as q ON q.id = r.quizid WHERE r.quizid = '.$quizId.' AND LCASE(r.status) = LCASE(\'%s\') ORDER BY r.id DESC', array($filter)),
+									ARRAY_A					
 											);
 		
 	}
+	
 	foreach( array('Unviewed','Rejected','Accepted') as $status ){
 		$numbers[strtolower($status)] = $wpdb->get_var("SELECT COUNT(status) as count FROM ".WPSQT_RESULTS_TABLE." WHERE status = '".$status."' and quizid = ".$quizId);
 		$numbers['total'] += $numbers[strtolower($status)];

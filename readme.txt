@@ -69,6 +69,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 = 1.3.23 = 
 
 * Changed !empty($_POST) to $_SERVERPOST_METHOD? == "POST"
+* Fixed fatal error using object as array for quiz filters.
 
 = 1.3.22 =
 
