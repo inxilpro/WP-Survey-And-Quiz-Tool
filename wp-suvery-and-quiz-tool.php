@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.24
+Version: 1.3.25
 */
 
 /*
@@ -62,6 +62,9 @@ define( 'WPSQT_VERSION'              , '1.3.24' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
+if ( !session_id() )
+	session_start();
+
 
 // To anyone reading this, sorry for the terrible, terrible design.	
 register_activation_hook(__FILE__, 'wpsqt_main_install'); 
@@ -506,7 +509,7 @@ function wpsqt_check_tables($oldVersion){
 	
 	// Simple way of checking if an it's an update or not.
 	if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
-		wpsqt_main_db_upgrade();
+		wpsqt_main_db_upgrade($oldVersion);
 	}
 	
 }
