@@ -68,7 +68,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 = 1.3.24 =
 
-* [10/02/2011 - 11:03] Fixed upgrade error. 
+* [10/02/2011 - 11:16] Fixed upgrade error. 
 
 = 1.3.23 =
 

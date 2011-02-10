@@ -223,8 +223,6 @@ function wpsqt_main_install(){
 				  PRIMARY KEY (`id`)
 				) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
-	// Just incase I forget again
-	wpsqt_main_db_upgrade();
 }
 
 
