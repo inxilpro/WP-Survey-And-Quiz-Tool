@@ -70,6 +70,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 * Changed !empty($_POST) to $_SERVERPOST_METHOD? == "POST"
 * Fixed fatal error using object as array for quiz filters.
+* Fixed contact form jumping sections when failed orignal submission
 
 = 1.3.22 =
 
