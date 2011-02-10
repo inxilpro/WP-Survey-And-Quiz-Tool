@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.23a
+Version: 1.4b
 */
 
 //TODO leverage media overlay for questions
@@ -61,12 +61,10 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.23a' );
+define( 'WPSQT_VERSION'              , '1.4b' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
-if ( !session_id() )
-	session_start();
 
 // To anyone reading this, sorry for the terrible, terrible design.	
 register_activation_hook(__FILE__, 'wpsqt_main_install'); 
@@ -393,9 +391,7 @@ add_action('admin_menu', 'wpsqt_main_admin_menu');
  * @uses includes/site/quiz.php
  */
 function wpsqt_main_site_quiz_page($atts) {
-	
-	//define("DONOTCACHEPAGE",true);
-	
+		
 	extract( shortcode_atts( array(
 					'name' => false
 	), $atts) );
@@ -423,9 +419,7 @@ add_shortcode( 'wpsqt_quiz' , 'wpsqt_main_site_quiz_page' );
  * @uses includes/site/quiz.php
  */
 function wpsqt_main_site_survey_page($atts) {
-	
-	//define("DONOTCACHEPAGE",true);
-	
+		
 	extract( shortcode_atts( array(
 					'name' => false
 	), $atts) );

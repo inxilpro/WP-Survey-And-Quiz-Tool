@@ -14,9 +14,9 @@ $totalPoints = 0;
 			<h4><?php print stripslashes($questionArray['text']); ?></h4>
 			<?php if ($questionArray['section_type'] == 'multiple'){
 					if ( isset($section['answers'][$questionKey]['mark']) && $section['answers'][$questionKey]['mark'] == 'correct' ){
-						$currentPoints++;
+						$currentPoints += $questionArray['value'];
 					}
-					$totalPoints++;	
+					$totalPoints += $questionArray['value'];	
 				?>				
 				<b><u>Mark</u></b> - <?php if (isset($section['answers'][$questionKey]['mark'])) { echo $section['answers'][$questionKey]['mark']; } else { echo 'Incorrect'; } ?><br />
 				<b><u>Answers</u></b>

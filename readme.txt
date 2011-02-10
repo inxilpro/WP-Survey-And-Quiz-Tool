@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.3.22
+Stable tag: 1.3.23
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -20,7 +20,7 @@ Editable options for quizes are
 
 Editable options for quiz sections are
 
-* Type -  Multiple choice or Text input.
+* Type -  Multiple c1.4hoice or Text input.
 * Difficulty - Easy, medium, hard or mixed which is even number of each difficulty unless the number is odd then the remainder from dividing by 3 is added to one difficulty randomly.
 * Number of Questions
 * Name
@@ -66,7 +66,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
 
-= 1.3.23 = 
+= 1.3.23 =
 
 * Changed !empty($_POST) to $_SERVERPOST_METHOD? == "POST"
 * Fixed fatal error using object as array for quiz filters.
@@ -191,7 +191,6 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 * Added enabling contact form if custom contact form is submitted.
 * Added ability to customize the from email on emails from the plugin.
 * Added instant email notifications on survey completion.
-* Following features sponsored by <a href="http://www.advantagefamily.com/">ADVANTAGE MEDIA GROUP</a>
 * Added global email notification template system
 * Added custom email notification template which overrides global if present to Quiz System
 * Added custom email notification template which overrides global if present to Survey System
