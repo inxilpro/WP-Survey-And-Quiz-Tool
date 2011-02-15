@@ -102,7 +102,7 @@ if ( empty($validData) ){
 		<li><strong>Easy</strong> - All questions will be ranked as easy</li>
 		<li><strong>Medium</strong> - All questions will be ranked as medium - Suggested</li>
 		<li><strong>Hard</strong> - All questions will be ranked as hard</li>
-		<li><strong>Mixed</strong> - An even number of questions from all sections, unless total number of questions is not dividable by 3. Then it will random which difiiculty gets the most/least.</li>
+		<li><strong>Mixed</strong> - An even number of questions from all sections, unless total number of questions is not dividable by 3. Then it will random choose which difficulty gets the most/least.</li>
 	</ul>
 	
 	<h4>Type Meanings</h4>

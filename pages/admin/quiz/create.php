@@ -44,6 +44,14 @@
 					<td>Send a notification email of completion.</td>
 				</tr>
 				<tr>
+					<th scope="row">Limit To One Submission</th>
+					<td valign="top">
+						<input type="radio" name="limit_submission" value="no" <?php if ( !isset($quizDetails['limit_submission']) || $quizDetails['limit_submission'] == 'no' ){ ?> selected="selected"<?php } ?> id="limit_submission_no" />
+						<label for="limit_submission_no">No</label>
+						<input type="radio" name="limit_submission" value="yes" <?php if ( isset($quizDetails['limit_submission']) && $quizDetails['limit_submission'] == 'yes' ) {?> selected="selected"<?php } ?> id="limit_submission_yes" />
+						<label for="limit_submission_yes">Yes</label>
+					</td>
+				<tr>
 					<th scope="row">Display Result On Completion</th>
 					<td valign="top">
 						<select id="display_result" name="display_result">

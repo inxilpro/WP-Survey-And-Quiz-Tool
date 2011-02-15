@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.25
+Version: 1.3.26
 */
 
 /*
@@ -58,7 +58,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.24' );
+define( 'WPSQT_VERSION'              , '1.3.26' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -75,6 +75,9 @@ register_activation_hook(__FILE__, 'wpsqt_main_install');
  * @uses wpdb
  */	
 function wpsqt_main_install(){    
+if ( !session_id() )
+	session_start();
+	
    
 	global $wpdb;
 	
@@ -134,7 +137,7 @@ function wpsqt_main_install(){
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
 				  `type` varchar(30) NOT NULL,
 				  `text` varchar(255) NOT NULL,
-				  `additional` text NOT NULL,
+				  `additional` LONGTEXT NOT NULL,
 				  `value` int(11) NOT NULL DEFAULT '1',
 				  `quizid` int(11) NOT NULL,
 				  `hint` text NOT NULL,
@@ -672,8 +675,7 @@ function wpsqt_main_db_upgrade($oldVersion){
 					  CHANGE  `difficulty`  `difficulty` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 					  CHANGE  `type`  `type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 					  CHANGE  `text`  `text` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-					  CHANGE  `section_type`  `section_type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'multiple',
-					  CHANGE  `additional`  `additional` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+					  CHANGE  `section_type`  `section_type` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'multiple'");
 		$wpdb->query("ALTER TABLE  `".WPSQT_ANSWER_TABLE."` 
 					  CHANGE  `text`  `text` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 					  CHANGE  `correct`  `correct` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
@@ -728,13 +730,18 @@ function wpsqt_main_db_upgrade($oldVersion){
 	
 	if ( $oldVersion <= "1.3.22" ){
 		// 1.3.22
-		$wpdb->query("ALTER TABLE `wp_wpsqt_results` CHANGE `sections` `sections` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+		$wpdb->query("ALTER TABLE `".WPSQT_RESULTS_TABLE."` CHANGE `sections` `sections` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 	}
 	
 	if ( $oldVersion <= "1.3.23" ){
 		// 1.3.23
-		$wpdb->query("ALTER TABLE `wp_wpsqt_quiz` ADD `email_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+		$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` ADD `email_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
 	}
+	
+	if ( $oldVersion <= "1.3.24" ){
+		$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` CHANGE  `additional` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");		  
+	}
+	
 	return;
 }
 

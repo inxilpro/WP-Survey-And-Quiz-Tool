@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1
-Stable tag: 1.3.25
+Stable tag: 1.3.26
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -43,7 +43,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 1. Upload `wp-survey-and-quiz-tool` folder to `/wp-content/plugins/` directory
 2. Go to Plugins and activate `WP Survey And Quiz Tool` 
 3. Go to `WP Survey And Quiz Tool` then `Quiz/Surveys`
-4. Click `Add New Quiz`
+4. Click `Create a Quiz`
 5. Fill out details.
 6. Go back to Quiz/Surveys click edit sections
 7. Fill out details.
@@ -65,6 +65,14 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 9. Very limited mark result page
 
 == ChangeLog == 
+
+= 1.3.26 = 
+
+* [15/02/2011 - 15:16] Fixed MySQL error which causes additional text to change from text to varchar 255
+* [15/02/2011 - 15:24] Added stripslashes to create/edit question form input
+* [15/02/2011 - 15:33] Added notice that an empty answer is correct choice will result in answer being deleted.
+* [15/02/2011 - 15:38] Fixed multiple typos
+* [15/02/2011 - 15:47] Stop add new questions from looking like you're editing the question after submission.
 
 = 1.3.25 =
 

@@ -37,12 +37,12 @@
 						<option value="<?php echo $role; ?>" <?php if ($emailRole == $role) { ?> selected="yes"<?php }?>><?php echo $name; ?></option>
 						<?php } ?>
 				</select></td>
-				<td>This is the group of users you wish to send notification emails too.</td>
+				<td>This is the group of users you wish to send notification emails to. <b>If selected notification email is not used.</b></td>
 			</tr>
 			<tr>
 				<th scope="row">Notification Email</th>
 				<td><input type="text" name="email" value="<?php echo $email; ?>" size="30" /></td>
-				<td>This is the email that notifications will be sent to, seperate by commas to have more than one..</td>
+				<td>This is the email that notifications will be sent to, seperate by commas to have more than one. <b>Notification Group will be used instead of it is selected.</b></td>
 			</tr>
 			<tr>
 				<th scope="row">From Email</th>

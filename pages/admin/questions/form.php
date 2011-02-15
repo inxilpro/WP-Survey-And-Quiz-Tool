@@ -37,16 +37,16 @@ if ( !isset($rowCount) ){
 			<tbody>
 				<tr>
 					<th scope="row">Question</th>
-					<td valign="top" colspan="2"><input <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> type="text" id="question" maxlength="255" size="50" name="question" value="<?php echo stripslashes($questionText); ?>" /></td>
+					<td valign="top" colspan="2"><input <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> type="text" id="question" maxlength="255" size="50" name="question" value="<?php if (!isset($edit) ){ echo stripslashes($questionText); } ?>" /></td>
 					
 				</tr>
 				<tr>
 					<th scope="row">Question Type</th>
 					<td valign="top">
 						<select <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> name="type" id="type">
-							<option value="textarea"<?php if ( !isset($questionType) ||  $questionType == 'textarea' ){?> selected="selected"<?php }?>>Free text</option>
-							<option value="single"<?php if ( isset($questionType) &&  $questionType == 'single' ){?> selected="selected"<?php }?>>Single Choice</option>
-							<option value="multiple"<?php if ( isset($questionType) && $questionType == 'multiple' ){?> selected="selected"<?php }?>>Multiple Choice</option>
+							<option value="textarea"<?php if ( isset($edit) || !isset($questionType) ||  $questionType == 'textarea' ){?> selected="selected"<?php }?>>Free text</option>
+							<option value="single"<?php if ( !isset($edit) && isset($questionType) &&  $questionType == 'single' ){?> selected="selected"<?php }?>>Single Choice</option>
+							<option value="multiple"<?php if ( !isset($edit) && isset($questionType) && $questionType == 'multiple' ){?> selected="selected"<?php }?>>Multiple Choice</option>
 						</select>
 					</td>
 					<td>
@@ -61,11 +61,11 @@ if ( !isset($rowCount) ){
 					<th scope="row">Points</th>
 					<td valign="top">
 						<select <?php if ( empty($sections) ){ ?> disabled="disabled"<?php }?> name="points">
-							<option value="1"<?php if ( !isset($questionValue) || $questionValue == 1){?> selected="yes"<?php }?>>1</option>
-							<option value="2"<?php if ( isset($questionValue) && $questionValue == 2){?> selected="yes"<?php }?>>2</option>
-							<option value="3"<?php if ( isset($questionValue) && $questionValue == 3){?> selected="yes"<?php }?>>3</option>
-							<option value="4"<?php if ( isset($questionValue) && $questionValue == 4){?> selected="yes"<?php }?>>4</option>
-							<option value="5"<?php if ( isset($questionValue) && $questionValue == 5){?> selected="yes"<?php }?>>5</option>
+							<option value="1"<?php if ( isset($edit) ||!isset($questionValue) || $questionValue == 1){?> selected="yes"<?php }?>>1</option>
+							<option value="2"<?php if ( !isset($edit) && isset($questionValue) && $questionValue == 2){?> selected="yes"<?php }?>>2</option>
+							<option value="3"<?php if ( !isset($edit) && isset($questionValue) && $questionValue == 3){?> selected="yes"<?php }?>>3</option>
+							<option value="4"<?php if ( !isset($edit) && isset($questionValue) && $questionValue == 4){?> selected="yes"<?php }?>>4</option>
+							<option value="5"<?php if ( !isset($edit) && isset($questionValue) && $questionValue == 5){?> selected="yes"<?php }?>>5</option>
 						</select>
 					</td>
 					<td>Number of points a question is worth.</td>
@@ -74,9 +74,9 @@ if ( !isset($rowCount) ){
 					<th scope="row">Difficulty</th>
 					<td valign="top" colspan="2">
 						<select <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> name="difficulty">
-							<option value="easy"<?php if ( isset($questionDifficulty) && $questionDifficulty == 'easy'){?> selected="yes"<?php }?>>Easy</option>
-							<option value="medium"<?php if ( isset($questionDifficulty) && $questionDifficulty == 'medium'){?> selected="yes"<?php }?>>Medium</option>
-							<option value="hard"<?php if ( isset($questionDifficulty) && $questionDifficulty == 'hard'){?> selected="yes"<?php }?>>Hard</option>
+							<option value="easy"<?php if ( !isset($edit) && isset($questionDifficulty) && $questionDifficulty == 'easy'){?> selected="yes"<?php }?>>Easy</option>
+							<option value="medium"<?php if ( !isset($edit) && isset($questionDifficulty) && $questionDifficulty == 'medium'){?> selected="yes"<?php }?>>Medium</option>
+							<option value="hard"<?php if ( !isset($edit) && isset($questionDifficulty) && $questionDifficulty == 'hard'){?> selected="yes"<?php }?>>Hard</option>
 						</select>
 					</td>
 				</tr>
@@ -84,7 +84,7 @@ if ( !isset($rowCount) ){
 					<th scope="row">Section</th>
 					<td valign="top" colspan="2"><select <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> name="section">
 							<?php foreach($sections as $section) {?>
-							<option value="<?php echo $section['id']; ?>" <?php if ( isset($sectionId) && $sectionId == $section['id']) { ?> selected="yes"<?php } ?>><?php echo $section['name']; ?></option>
+							<option value="<?php echo $section['id']; ?>" <?php if ( !isset($edit) && isset($sectionId) && $sectionId == $section['id']) { ?> selected="yes"<?php } ?>><?php echo $section['name']; ?></option>
 							<?php } ?>
 					</select>
 					</td>
@@ -92,24 +92,24 @@ if ( !isset($rowCount) ){
 				<tr>
 					<th scope="row">Additional Text</th>
 					<td valign="top">
-						<textarea <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> name="additional" cols="40" rows="6"><?php if ( isset($questionAdditional) ){ echo $questionAdditional; } ?></textarea>
+						<textarea <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> name="additional" cols="40" rows="6"><?php if ( !isset($edit) && isset($questionAdditional) ){ echo $questionAdditional; } ?></textarea>
 					</td>
 					<td>An optional section of text where more detail can be given. HTML can be used in this area.</td>
 				</tr>
-				<tr class="additional"<?php if ( isset($answers) ) { ?> style="display: none;"<?php } ?>>
+				<tr class="additional"<?php if (isset($edit) || isset($answers) ) { ?> style="display: none;"<?php } ?>>
 					<th scope="row">Answer Hint</th>
 					<td valign="top">
-						<textarea <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> name="hint" cols="40" rows="6"><?php if ( isset($questionHint) ){  echo $questionHint; } ?></textarea>
+						<textarea <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> name="hint" cols="40" rows="6"><?php if ( !isset($edit) && isset($questionHint) ){  echo $questionHint; } ?></textarea>
 					</td>
 					<td>An optional section of text that is only displayed to users in wp-admin upon marking an exam.</td>
 				</tr>
 			</tbody>
 		</table>
 		
-		<div id="multi_form"<?php if ( !isset($answers) ) { ?> style="display: none;"<?php } ?>>
+		<div id="multi_form"<?php if ( isset($edit) || !isset($answers) ) { ?> style="display: none;"<?php } ?>>
 		
 		<h3>Choices</h3>
-		
+			<p><strong>Note : If you leave the correct drop down empty, the answer will be deleted.</strong></p>
 			<table border="0" id="multi_table">
 				<thead>
 					<tr>
@@ -118,7 +118,7 @@ if ( !isset($rowCount) ){
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ( !isset($answers)  ) { ?>
+					<?php if (  !isset($answers)  ) { ?>
 					<tr>
 						<td><input <?php if (empty($sections)){ ?> disabled="disabled"<?php }?> type="text" name="answer[0]" value="" size="90" id="answer_1" /></td>
 						<td>

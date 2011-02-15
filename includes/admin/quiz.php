@@ -352,11 +352,11 @@ function wpsqt_admin_questions_addnew(){
 		
 	if (  $_SERVER["REQUEST_METHOD"] == "POST" ){ // Get request so no processing required.	
 		
-		$questionText       = trim( $_POST['question'] );
-		$questionType       = trim( $_POST['type'] );
-		$questionAdditional = trim( $_POST['additional']) ;
-		$questionHint       = trim( $_POST['hint'] );
-		$questionDifficulty = trim( $_POST['difficulty'] );
+		$questionText       = trim( stripslashes($_POST['question']) );
+		$questionType       = trim( stripslashes($_POST['type']) );
+		$questionAdditional = trim( stripslashes($_POST['additional'])) ;
+		$questionHint       = trim( stripslashes($_POST['hint']) );
+		$questionDifficulty = trim( stripslashes($_POST['difficulty']) );
 		$questionValue      = (int) $_POST['points'];
 		$quizId             = (int) $_GET['id'];
 		$sectionId          = (isset($_POST['section'])) ? intval($_POST['section']) : 0;
@@ -415,7 +415,14 @@ function wpsqt_admin_questions_addnew(){
 				$wpdb->query( $wpdb->prepare('INSERT INTO '.WPSQT_QUESTION_TABLE.' (text,type,additional,value,quizid,hint,difficulty,section_type,sectionid) VALUES (%s, %s, %s,%d,%d,%s,%s,%s,%d)', 
 											 array($questionText,$questionType,$questionAdditional,$questionValue,$quizId,$questionHint,$questionDifficulty,$sectionType,$sectionId)) );
 				$questionId = $wpdb->insert_id;				
-				$successMessage = 'Successfully added question!';		
+				$successMessage = 'Successfully added question!';	
+			 	// Nasty quick hack. :( My bad
+				$questionText  = '';
+				$questionHint  = '';
+				$questionValue = 1;
+				$questionAdditional = '';
+				$questionDifficulty = 'medium';
+				$quizId = (int) $_GET['id'];	
 			}
 			elseif ( $_REQUEST['action'] == 'question-edit' ) {
 				// To get here it must have been called via fptest_questions_edit() 
