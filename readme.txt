@@ -1,8 +1,8 @@
 === WP Survey And Quiz Tool ===
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
-Tested up to: 3.1
-Stable tag: 1.3.26
+Tested up to: 3.1-RC5
+Stable tag: 1.3.27
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -20,7 +20,7 @@ Editable options for quizes are
 
 Editable options for quiz sections are
 
-* Type -  Multiple c1.4hoice or Text input.
+* Type -  Multiple choice or Text input.
 * Difficulty - Easy, medium, hard or mixed which is even number of each difficulty unless the number is odd then the remainder from dividing by 3 is added to one difficulty randomly.
 * Number of Questions
 * Name
@@ -65,6 +65,10 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 9. Very limited mark result page
 
 == ChangeLog == 
+
+= 1.3.27 =
+
+* [17/02/2011 - 15:41] Added limit to one submission
 
 = 1.3.26 = 
 

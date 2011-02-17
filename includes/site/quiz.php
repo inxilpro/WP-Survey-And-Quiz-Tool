@@ -67,6 +67,17 @@ function wpsqt_site_quiz_show($quizName){
 		}
 	} 
 	
+	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['limit_one'] == 'yes' ){
+		
+		$count = $wpdb->get_var(
+				$wpdb->prepare("SELECT COUNT(*) FROM ".WPSQT_RESULTS_TABLE." WHERE ipaddress = %s", array($_SERVER['REMOTE_ADDR']))
+				);
+		if ( $count > 0 ){
+			require_once wpsqt_page_display('site/quiz/limit.php');
+			return;
+		} 
+	}
+	
 	$sectionKey = ( $_SESSION['wpsqt'][$quizName]['quiz_details']['take_details'] == 'yes' ) ? $step - 1 : $step;
 	
 	
