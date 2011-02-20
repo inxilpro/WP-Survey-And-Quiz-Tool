@@ -6,7 +6,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: A plugin to allow wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 1.3.27
+Version: 1.3.28
 */
 
 /*
@@ -58,7 +58,7 @@ define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
 define( 'WPSQT_URL_MAIN'             , get_bloginfo('url').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '1.3.27' );
+define( 'WPSQT_VERSION'              , '1.3.28' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__) );
 
 // start a session
@@ -129,8 +129,9 @@ if ( !session_id() )
  				  `use_wp_user` varchar(3) NOT NULL DEFAULT 'no',
  				  `display_review` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
  				  `email_template` TEXT NULL DEFAULT NULL ,
- 				  `email_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no',
-				  PRIMARY KEY (`id`)
+ 				  `email_wp_user` VARCHAR( 3 ) NOT NULL 
+DEFAULT 'no',
+ 				  `limit_one` VARCHAR( 3 ) NOT NULL DEFAULT 'no',				  PRIMARY KEY (`id`)
 				  ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_QUESTION_TABLE."` (
@@ -742,7 +743,7 @@ function wpsqt_main_db_upgrade($oldVersion){
 		$wpdb->query("ALTER TABLE `".WPSQT_QUIZ_TABLE."` CHANGE  `additional` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");		  
 	}
 	
-	if ( $oldVersion <= "1.3.26" ){
+	if ( $oldVersion <= "1.3.27" ){
 		$wpdb->query("ALTER TABLE  `".WPSQT_QUIZ_TABLE."` ADD  `limit_one` VARCHAR( 255 ) NULL DEFAULT NULL");		  
 	}
 	
