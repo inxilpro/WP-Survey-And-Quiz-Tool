@@ -4,6 +4,7 @@ Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1-RC5
 Stable tag: 1.3.29
 Requires At Least: 3.0
+Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
 
