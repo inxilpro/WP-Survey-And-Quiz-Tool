@@ -2,7 +2,7 @@
 Contributors: Fubra
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.1-RC5
-Stable tag: 1.3.28
+Stable tag: 1.3.29
 Requires At Least: 3.0
 
 A plugin to allow users to generate quizes, exams, tests and surveys for their wordpress site.
@@ -65,6 +65,14 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 9. Very limited mark result page
 
 == ChangeLog == 
+
+= 1.3.29 =
+
+* [21/02/2011 - 08:15] Fixed tag issue
+
+= 1.3.28 =
+
+* [20/02/2011 - 22:15] Fixed SQL table issues.
 
 = 1.3.27 =
 
