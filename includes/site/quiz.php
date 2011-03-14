@@ -70,7 +70,7 @@ function wpsqt_site_quiz_show($quizName){
 	if ( $_SESSION['wpsqt'][$quizName]['quiz_details']['limit_one'] == 'yes' ){
 		
 		$count = $wpdb->get_var(
-				$wpdb->prepare("SELECT COUNT(*) FROM ".WPSQT_RESULTS_TABLE." WHERE ipaddress = %s", array($_SERVER['REMOTE_ADDR']))
+				$wpdb->prepare("SELECT COUNT(*) FROM ".WPSQT_RESULTS_TABLE." WHERE ipaddress = %s and quizid = %d", array($_SERVER['REMOTE_ADDR'],$_SESSION['wpsqt']['current_id']))
 				);
 		if ( $count > 0 ){
 			require_once wpsqt_page_display('site/quiz/limit.php');

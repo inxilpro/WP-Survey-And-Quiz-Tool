@@ -4,9 +4,9 @@
 	<h2>WP Survey And Quiz Tool - Questions</h2>
 	
 	<div class="tablenav">
-		<?php if ( isset($_GET['id']) ){ ?>
+		<?php if ( isset($_GET["id"]) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-add&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-add&id=<?php echo esc_html($_GET["id"]); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
@@ -43,11 +43,11 @@
 				  	
 					foreach ($questions as $question) { ?>
 			<tr>
-				<td><?php echo $question['id']; ?></td>
-				<td><?php echo stripslashes($question['text']); ?></td>
-				<td><?php echo ucfirst( stripslashes($question['type']) ); ?></td>
-				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-edit&id=<?php echo $question['quizid']; ?>&questionid=<?php echo $question['id']; ?>" class="button-secondary" title="Edit Question">Edit</a></td>
-				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-delete&id=<?php echo $question['quizid']; ?>&questionid=<?php echo $question['id']; ?>" class="button-secondary" title="Delete Question">Delete</a></td>
+				<td><?php echo $question["id"]; ?></td>
+				<td><?php echo stripslashes($question["text"]); ?></td>
+				<td><?php echo ucfirst( stripslashes($question["type"]) ); ?></td>
+				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-edit&id=<?php echo $question["quizid"]; ?>&questionid=<?php echo $question["id"]; ?>" class="button-secondary" title="Edit Question">Edit</a></td>
+				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-delete&id=<?php echo $question["quizid"]; ?>&questionid=<?php echo $question["id"]; ?>" class="button-secondary" title="Delete Question">Delete</a></td>
 			</tr>
 			<?php } 
 				 }?>
@@ -55,9 +55,9 @@
 	</table>
 
 	<div class="tablenav">
-		<?php if ( isset($_GET['id']) ){ ?>
+		<?php if ( isset($_GET["id"]) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-add&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-add&id=<?php echo esc_html($_GET["id"]); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">

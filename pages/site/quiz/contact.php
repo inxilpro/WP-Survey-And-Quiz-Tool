@@ -7,7 +7,7 @@
 	<?php } ?>
 </ul>
 <?php }?>
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']);  ?>">
 	<input type="hidden" name="step" value="<?php echo ++$_SESSION['wpsqt']['current_step']; ?>" />
 	<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">

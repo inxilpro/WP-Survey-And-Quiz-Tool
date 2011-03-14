@@ -1,8 +1,8 @@
 === WP Survey And Quiz Tool ===
-Contributors: Fubra
+Contributors: Fubra,Backie
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
-Tested up to: 3.1-RC5
-Stable tag: 1.3.29
+Tested up to: 3.1
+Stable tag: 1.3.30
 Requires At Least: 3.0
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
 
@@ -66,6 +66,11 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 9. Very limited mark result page
 
 == ChangeLog == 
+
+= 1.3.30 =
+
+* [14/03/2011 - 09:56] Fixed issue with limit to one submission
+* [14/03/2011 - 10:42] Removed potential XSS hole
 
 = 1.3.29 =
 
