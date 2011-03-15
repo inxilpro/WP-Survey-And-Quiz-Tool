@@ -55,7 +55,7 @@ define( 'WPSQT_PAGE_CONTACT'         , 'wpsqt-menu-contact' );
 define( 'WPSQT_PAGE_HELP'            , 'wpsqt-menu-help'    );
 define( 'WPSQT_PAGE_SURVEY'          , 'wpsqt-menu-survey'  );
 define( 'WPSQT_PAGE_CATN'            , 'wpsqt-catn' );
-define( 'WPSQT_URL_MAIN’'            , get_bloginfo('wpurl').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
+define( 'WPSQT_URL_MAIN'            , get_bloginfo('wpurl').'/wp-admin/admin.php?page='.WPSQT_PAGE_MAIN );
 
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
 define( 'WPSQT_VERSION'              , '1.3.31' );
