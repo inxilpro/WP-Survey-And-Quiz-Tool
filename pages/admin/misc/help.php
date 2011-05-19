@@ -184,4 +184,4 @@
 		<p>To have a custom email, you just need to click options and edit the email template field. The tokens for the replacements are at the botoom of the page.</p>
 
 
-<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>
+<?php require_once WPSQT_DIR."/pages/admin/shared/image.php"; ?>

@@ -3,8 +3,6 @@ if ( !isset($rowCount) ){
 	$rowCount = 1;
 }
 ?>
-<script type="text/javascript" src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/survey_question.php?rowcount=<?php echo $rowCount; ?>"></script>
-
 <div class="wrap">
 
 	<div id="icon-tools" class="icon32"></div>
@@ -24,7 +22,7 @@ if ( !isset($rowCount) ){
 		</div>
 	<?php } ?>
 	
-	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="question_form">
+	<form method="POST" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" id="question_form">
 		
 		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<input type="hidden" name="action" value="<?php echo htmlentities($_REQUEST['action']); ?>"  />

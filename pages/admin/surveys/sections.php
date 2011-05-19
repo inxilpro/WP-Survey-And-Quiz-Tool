@@ -12,8 +12,6 @@ if ( empty($validData) ){
 	$validData = array(array('name' => '', 'difficulty' => '', 'type' => '', 'number' => '','orderby' => ''));
 }
 ?>
-<script type="text/javascript" src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/wp-survey-and-quiz-tool/javascript/survey_section.php?rowcount=<?php echo sizeof($validData); ?>"></script>
-
 <div class="wrap">
 
 	<div id="icon-tools" class="icon32"></div>
@@ -26,6 +24,12 @@ if ( empty($validData) ){
 				
 	<?php } ?>
 	
+	<?php if ( isset($_GET['new']) &&  $_GET['new'] == "true" ) { ?>
+	<div class="updated">
+		<strong>Survey successfully added.</strong>
+	</div>
+	<?php } ?>
+	
 	<?php if ( isset($errorArray) && !empty($errorArray) ) { ?>
 		<ul class="error">
 			<?php foreach($errorArray as $error ){ ?>
@@ -33,16 +37,16 @@ if ( empty($validData) ){
 			<?php } ?>
 		</ul>
 	<?php } ?>
-	<form method="POST" action="<?php echo $_SERVER['REQUEST_URI']; ?>" id="section_form">
+	<form method="POST" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" id="section_form">
 	
 		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<table class="form-table" id="section_table" >
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Type</th>
+						<th>Limit</th>
 						<th>Number Of Questions</th>
-						<th>Order Of Questions</th>
+						<th>Delete</th>
 					</tr>
 				</thead>
 				<tbody>	
@@ -52,29 +56,21 @@ if ( empty($validData) ){
 							<input type="hidden" name="sectionid[<?php echo $key; ?>]" value="<?php echo $data['id']; ?>" />
 							<input type="text" name="section_name[<?php echo $key; ?>]" value="<?php echo $data['name']; ?>" size="30" id="name_<?php echo $key; ?>" />
 						</td>
-						<td>
-							<select name="type[<?php echo $key; ?>]" id="type_<?php echo $key; ?>">
-								<option></option>
-								<option value="multiple"<?php if ($data['type'] == 'multiple'){?> selected="yes"<?php }?>>Multiple Choice</option>
-								<option value="scale"<?php if ($data['type'] == 'scale'){?> selected="yes"<?php }?>>Scale</option>
-								<option value="likert"<?php if ($data['type'] == 'likert'){?> selected="yes"<?php }?>>Likert</option>
-								<option value="dropdown"<?php if ($data['type'] == 'dropdown'){?> selected="yes"<?php }?>>Dropdown</option>
-							</select>
-						</td>
-						<td><input type="text" name="number[<?php echo $key; ?>]" value="<?php echo $data['number']; ?>" size="10" id="number_<?php echo $key; ?>" /></td>
+						<td><input type="text" name="number[<?php echo $key; ?>]" value="<?php echo $data['limit']; ?>" size="10" id="number_<?php echo $key; ?>" /></td>
 						<td>
 							<select name="order[<?php echo $key; ?>]">
-								<option value="random"<?php if ($data['orderby'] == 'random'){?> selected="yes"<?php }?>>Random</option>
-								<option value="asc"<?php if ($data['orderby'] == 'asc'){?> selected="yes"<?php }?>>Ascending</option>
-								<option value="desc"<?php if ($data['orderby'] == 'desc'){?> selected="yes"<?php }?>>Descending</option>
+								<option value="random"<?php if ($data['order'] == 'random'){?> selected="yes"<?php }?>>Random</option>
+								<option value="asc"<?php if ($data['order'] == 'asc'){?> selected="yes"<?php }?>>Ascending</option>
+								<option value="desc"<?php if ($data['order'] == 'desc'){?> selected="yes"<?php }?>>Descending</option>
 							</select>
 						</td>
+						<td><input type="checkbox" name="delete[<?php echo $key; ?>]" value="yes" />
 					</tr>
 					<?php } ?>
 				</tbody>
 		</table>
-	
-		<p><a href="#" class="button-secondary" title="Add New Section" id="add_section">Add Section</a></p>
+		<input type="hidden" name="row_count" id="row_count" value="<?php echo sizeof($validData); ?>" />
+		<p><a href="#" class="button-secondary" title="Add New Section" id="add_section_surveys">Add Section</a></p>
 			
 		<p class="submit">
 			<input class="button-primary" type="submit" name="Save" value="Save" id="submitbutton" />

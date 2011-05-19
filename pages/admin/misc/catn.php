@@ -11,7 +11,7 @@
 
 	<p>For more information take a look at the CatN website <a href="http://www.catn.com">here</a>.</p>
 	
-	<form method="post" action="<?php echo get_bloginfo('url'); ?>/wp-admin/admin.php?page=<?php echo WPSQT_PAGE_CONTACT; ?>">
+	<form method="post" action="<?php echo get_bloginfo("url"); ?>/wp-admin/admin.php?page=<?php echo WPSQT_PAGE_CONTACT; ?>">
 		
 		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<table class="form-table">
@@ -42,4 +42,4 @@
 			
 	</form>
 </div>
-<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>
+<?php require_once WPSQT_DIR."/pages/admin/shared/image.php"; ?>

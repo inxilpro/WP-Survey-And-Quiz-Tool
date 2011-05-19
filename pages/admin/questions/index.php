@@ -3,14 +3,43 @@
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Questions</h2>
 	
+	<?php if ( isset($_GET['new']) &&  $_GET['new'] == "true" ) { ?>
+	<div class="updated">
+		<strong>Question successfully added.</strong>
+	</div>
+	<?php } ?>
+	
+	<?php if ( isset($_GET['edit']) &&  $_GET['edit'] == "true" ) { ?>
+	<div class="updated">
+		<strong>Question successfully edited.</strong>
+	</div>
+	<?php } ?>
+	
+	<?php if ( isset($_GET['delete']) &&  $_GET['delete'] == "true" ) { ?>
+	<div class="updated">
+		<strong>Question successfully deleted.</strong>
+	</div>
+	<?php } ?>
+	<ul class="subsubsub">
+		<?php foreach ( $question_types as $type ){ 
+				$friendlyType = str_replace(' ', '', $type);
+			?>			
+			<li>
+				<a href="<?php echo WPSQT_URL_MAIN; ?>&section=questions&subsection=<?php echo urlencode($_GET['subsection']); ?>&type=<?php echo $type; ?>" <?php if (isset($_GET['type']) && $type == $_GET['type']) { ?>  class="current"<?php } ?>><?php echo $type; ?> <span class="count">(<?php echo $question_counts[$friendlyType.'_count']; ?>)</span></a>
+			</li>
+		<?php } ?>
+	</ul>
 	<div class="tablenav">
-		<?php if ( isset($_GET["id"]) ){ ?>
+	
+		
+	
+		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-add&id=<?php echo esc_html($_GET["id"]); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&section=questionadd&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
-		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
+		   <?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages);  ?>
 		</div>
 	</div>
 	
@@ -41,13 +70,15 @@
 			<?php }
 				  else {
 				  	
-					foreach ($questions as $question) { ?>
+					foreach ($questions as $rawQuestion) { 
+						$question = Wpsqt_System::unserializeQuestion($rawQuestion, $_GET['subsection']);
+						?>
 			<tr>
-				<td><?php echo $question["id"]; ?></td>
-				<td><?php echo stripslashes($question["text"]); ?></td>
-				<td><?php echo ucfirst( stripslashes($question["type"]) ); ?></td>
-				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-edit&id=<?php echo $question["quizid"]; ?>&questionid=<?php echo $question["id"]; ?>" class="button-secondary" title="Edit Question">Edit</a></td>
-				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-delete&id=<?php echo $question["quizid"]; ?>&questionid=<?php echo $question["id"]; ?>" class="button-secondary" title="Delete Question">Delete</a></td>
+				<td><?php echo $question['id']; ?></td>
+				<td><?php echo stripslashes($question['name']); ?></td>
+				<td><?php echo ucfirst( stripslashes($question['type']) ); ?></td>
+				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&section=questionedit&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>&questionid=<?php esc_html_e($question['id']); ?>" class="button-secondary" title="Edit Question">Edit</a></td>
+				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&section=questiondelete&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>&questionid=<?php esc_html_e($question['id']); ?>" class="button-secondary" title="Delete Question">Delete</a></td>
 			</tr>
 			<?php } 
 				 }?>
@@ -55,13 +86,13 @@
 	</table>
 
 	<div class="tablenav">
-		<?php if ( isset($_GET["id"]) ){ ?>
+		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=question-add&id=<?php echo esc_html($_GET["id"]); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&section=questionadd&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
-		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
+		   <?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages); ?>
 		</div>		
 	</div>
 

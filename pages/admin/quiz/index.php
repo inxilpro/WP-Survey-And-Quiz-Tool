@@ -7,11 +7,11 @@
 	
 	<div class="tablenav">
 		<div class="alignleft">
-			<a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=create" class="button-secondary" title="Add New Quiz"><?php _e('Add New Quiz','wp-survey-and-quiz-tool'); ?></a>
+			<a href="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>&action=create" class="button-secondary" title="Add New Quiz"><?php _e('Add New Quiz','wp-survey-and-quiz-tool'); ?></a>
 		</div>
 	
 		<div class="tablenav-pages">
-		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
+		   <?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages); ?>
 		</div>
 	</div>
 	
@@ -76,7 +76,7 @@
 		</div>
 	
 		<div class="tablenav-pages">
-		   <?php echo wpsqt_functions_pagenation_display($currentPage, $numberOfPages); ?>
+		   <?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages); ?>
 		</div>
 	</div>
 </div>

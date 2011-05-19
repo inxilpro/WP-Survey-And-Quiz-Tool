@@ -1,30 +1,50 @@
-<h1><?php echo $_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey]['name']; ?></h1>
+<h1><?php echo $_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['name']; ?></h1>
+
+<?php if ( isset($_SESSION['wpsqt']['current_message']) ) { ?>
+	<p><?php echo $_SESSION['wpsqt']['current_message']; ?></p>
+<?php } ?>
 
 <form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 	<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 	<input type="hidden" name="step" value="<?php echo ( $_SESSION['wpsqt']['current_step']+1); ?>">
-<?php foreach ($_SESSION['wpsqt'][$quizName]['quiz_sections'][$sectionKey]['questions'] as $question) { ?>
-	
+<?php
+		$answers = ( isset($_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["answers"]) ) ? $_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["answers"] : array();
+foreach ($_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['questions'] as $questionKey => $question) { ?>
+
 	<div class="wpst_question">
 		<?php 
-			 echo stripslashes($question['text']);
 		
-			if ( !empty($question['additional']) ){
+			$questionId = $question['id'];		
+			$givenAnswer = isset($answers[$questionId]['given']) ? $answers[$questionId]['given'] : array();
+			
+			if ( isset($question["required"]) &&  $question["required"] == "yes" ){ 
+				?>
+				<font color="#FF0000"><strong>*
+				
+			<?php			
+				// See if the question has been missed and this a replay if not end the red text here.
+				if ( empty($_SESSION['wpsqt']['current_message']) || in_array($questionId,$_SESSION['wpsqt']['required']) ){
+					?></strong></font><?php 
+				}
+			}			
+						
+			
+			echo stripslashes($question['name']);
+			
+			// See if the question has been missed and this is a replay
+			if ( !empty($_SESSION['wpsqt']['current_message']) && !in_array($questionId,$_SESSION['wpsqt']['required']) ){
+				?></strong></font><?php 
+			}	
+		
+			if ( !empty($question['add_text']) ){
 			?>
-			<p><?php echo stripslashes($question['additional']); ?></p>
+			<p><?php echo stripslashes($question['add_text']); ?></p>
 			<?php } ?>
-		
-		<?php if ($question['type'] != 'textarea' && isset($question['answers']) ){?>
-			<ul>
-			<?php foreach ( $question['answers'] as $answer ){ ?>
-				<li>
-					<input type="<?php echo ($question['type'] == 'single') ? 'radio' : 'checkbox'; ?>" name="answers[<?php echo $question['id']; ?>][]" value="<?php echo $answer['id']; ?>" id="answer_<?php echo $question['id']; ?>_<?php echo $answer['id'];?>"> <label for="answer_<?php echo $question['id']; ?>_<?php echo $answer['id'];?>"><?php echo stripslashes($answer['text']); ?></label> 
-				</li>
+			<?php if ( isset($question['image'])) { ?>
+			<p><?php echo stripslashes($question['image']); ?></p>
 			<?php } ?>
-			</ul>
-		<?php } else { ?>
-		<p><textarea rows="6" cols="50" name="answers[<?php echo $question['id']; ?>][]"></textarea></p>
-		<?php }?>	
+			<?php require Wpsqt_Question::getDisplayView($question); ?>
+			
 	</div>
 <?php } ?>
 

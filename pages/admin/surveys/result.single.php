@@ -4,52 +4,65 @@
 	<h2>WP Survey And Quiz Tool - Survey Result</h2>
 	
 	
-	<?php if (!empty($result['person']) && is_array($result['person']) && !preg_match('~Custom\_~isU', key($result['person'])) )  { ?>
+	<?php if (!empty($result['person'])) { ?>
 		<h3>User Details</h3>
 		<div class="person">
-			<ul>
-				<li><b><u>Name</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['name']))); ?></li>
-				<li><b><u>Email</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['email']))); ?></li>
-				<li><b><u>Phone</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['phone']))); ?></li>
-				<li><b><u>Heard Of</u></b> - <?php echo htmlentities(strip_tags(stripslashes($result['person']['heard']))); ?></li>
-				<li><b><u>IP Address</u></b> - <?php echo $result['ipaddress']; ?></li>
-				<li><b><u>Hostname</u></b> - <?php echo gethostbyaddr($result['ipaddress']); ?></li> 
-				<li><b><u>Address</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['address'])))); ?></li>
-				<li><b><u>Notes</u></b> - <?php echo nl2br(htmlentities(strip_tags(stripslashes($result['person']['notes'])))); ?></li>
-			</ul>
-		</div>
-	<?php } elseif ( !empty($result['person']) && is_array($result['person']) ) { ?>
-		<h3>User Details</h3>
-		<div class="person">
-			<ul>
-			<?php foreach ($result['person'] as $name => $item ) { ?>
-				<li><b><u><?php echo str_ireplace('Custom_', '', $name); ?></u></b> - <?php echo htmlentities(strip_tags(stripslashes($item))); ?> </li>
-			<?php } ?>
-			</ul>
+		
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<?php foreach($result['person'] as $fieldName => $fieldValue){?>
+				<tr>
+					<th scope="row"><?php echo htmlentities(strip_tags(stripslashes($fieldName))); ?></th>
+					<td><?php echo htmlentities(strip_tags(stripslashes($fieldValue))); ?></td>
+				</tr>
+				<?php }
+					  if (isset($result['ipaddress'])){
+				?>
+				<tr>
+					<th scope="row">IP Address</th>
+					<td><?php echo $result['ipaddress']; ?></td>
+				</tr>
+				<tr>
+					<th scope="row">Hostname</th>
+					<td><?php echo gethostbyaddr($result['ipaddress']); ?></td>
+				</tr>
+				<?php } ?>
+			</table>
 		</div>
 	<?php } ?>
 	
-	<?php foreach ( $result['results'] as $section ){ ?>
+	<?php foreach ( $result['sections'] as $section ){ ?>
 		<h3><?php echo $section['name']; ?></h3>
 		
-		<?php if ( is_array($section['questions']) ){
-			   foreach ($section['questions'] as $questionKey => $questionArray){ ?>
-				<h4><?php print stripslashes($questionArray['text']); ?></h4>
+		<?php
+			if (!isset($section['questions'])){
+				continue;
+			}
+			foreach ($section['questions'] as $questionKey => $questionArray){ 
+			
+				$questionId = $questionArray['id'];
+				?>
 				
-				<?php if ($section['type'] == 'multiple'){ 	?>
-				<ul>
-				<?php foreach ($questionArray['answers'] as $answer){ ?>
-					<li><font color="<?php echo ( $questionArray['answer'] == $answer['id'] ) ? '#00FF00' :  '#000000' ; ?>"><?php echo stripslashes($answer['text']) ?></font></li>
-				<?php } ?>
-					<li><font color="<?php echo ( $questionArray['answer'] == 0 ) ? '#00FF00' :  '#000000' ; ?>">Other <?php if ($questionArray['answer']  == '0'){ echo '- '.htmlentities(strip_tags(stripslashes($questionArray['answer_other']))); } ?></font></li>
-				</ul>
-				<?php } else { ?>
-					Answer : <?php echo $questionArray['answer']; ?>
-				<?php } ?>
-		   <?php } ?>
-	   <?php } else { ?>
-	   		Seems this section wasn't answered.
-	   <?php } ?>
+			<h4><?php print stripslashes($questionArray['name']); ?></h4>
+			<?php if ( ucfirst($questionArray['type']) == 'Multiple' 
+					|| ucfirst($questionArray['type']) == 'Single' 
+					|| ucfirst($questionArray['type']) == "Multiple Choice" 
+					|| ucfirst($questionArray['type']) == "Dropdown" ){
+					
+				?>				
+				<b><u>Answers</u></b>
+				<p class="answer_given">
+					<ol>
+						<?php foreach ($questionArray['answers'] as $answerKey => $answer){ ?>
+							  <li><font color="<?php echo ( !isset($answer['correct']) || $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : '#00FF00' ; ?>"><?php echo stripslashes($answer['text']) ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
+						<?php } ?>
+					</ol>
+				</p>
+			<?php } else {
+				?>				
+				<b><u>Answer Given</u></b>
+				<p class="answer_given" style="background-color : #c0c0c0; border : 1px dashed black; padding : 5px;overflow:auto;height : 200px;"><?php if ( isset($section['answers'][$questionId]['given']) && is_array($section['answers'][$questionId]['given']) ){ echo nl2br(esc_html(stripslashes(current($section['answers'][$questionId]['given'])))); } ?></p>
+			<?php } ?>
+		<?php } ?>
 	<?php } ?>
 
 </div>

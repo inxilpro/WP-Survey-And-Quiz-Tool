@@ -7,7 +7,7 @@
 	
 	<div class="tablenav">
 		<div class="alignleft">
-			<a href="<?php echo $_SERVER['REQUEST_URI']; ?>&action=create" class="button-secondary" title="Add New Quiz">Add New Quiz</a>
+			<a href="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>&action=create" class="button-secondary" title="Add New Quiz">Add New Quiz</a>
 		</div>
 	
 		<div class="tablenav-pages">

@@ -8,8 +8,8 @@
 	<p>The next step is setting up a quiz or survey for your site.</p>
 	
 	<p>
-		<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz&action=addnew" class="button add-new-h2">Create a Quiz</a>
-		<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=addnew" class="button add-new-h2">Create a Survey</a>
+		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=quiz" class="button add-new-h2">Add New Quiz</a>
+		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=survey" class="button add-new-h2">Add New Survey</a>
 	</p>
 	
 </div>	

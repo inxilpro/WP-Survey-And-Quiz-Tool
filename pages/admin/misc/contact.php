@@ -1,7 +1,7 @@
 <div class="wrap">
 	
 	<div id="icon-tools" class="icon32"></div>
-	<h2>CDN Sync Tool - Options</h2>	
+	<h2>WP Survey And Quiz Tool - Contact</h2>	
 	
 	<?php if ( isset($successMessage) ){ ?>
 		<div class="updated" id="question_added"><?php echo $successMessage; ?></div>
@@ -19,7 +19,7 @@
 	
 	<p><strong>Please note that using the below form will result in information such as your current wordpress version and plugin version being sent aswell.</strong>
 		
-	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+	<form method="post" action="<?php echo esc_url($_SERVER["REQUEST_URI"]); ?>">
 		
 		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<table class="form-table">
@@ -54,4 +54,4 @@
 	</form>
 	
 </div>	
-<?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>
+<?php require_once WPSQT_DIR."/pages/admin/shared/image.php"; ?>
