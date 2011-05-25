@@ -2,6 +2,9 @@
 
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Survey Results</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 	<?php foreach ( $sections as $sectionKey => $secton ){
 			foreach ( $secton['questions'] as $questonKey => $question ) {
 		?> 

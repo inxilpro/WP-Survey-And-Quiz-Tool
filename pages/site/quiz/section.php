@@ -28,7 +28,6 @@ foreach ($_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['questions'] as 
 				}
 			}			
 						
-			
 			echo stripslashes($question['name']);
 			
 			// See if the question has been missed and this is a replay
@@ -38,11 +37,15 @@ foreach ($_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['questions'] as 
 		
 			if ( !empty($question['add_text']) ){
 			?>
-			<p><?php echo stripslashes($question['add_text']); ?></p>
+			<p><?php echo nl2br( htmlentities( stripslashes($question['add_text']) ) ); ?></p>
 			<?php } ?>
+			
 			<?php if ( isset($question['image'])) { ?>
 			<p><?php echo stripslashes($question['image']); ?></p>
 			<?php } ?>
+			
+			<?php do_action('wpsqt_quiz_question_section',$question); ?>
+			
 			<?php require Wpsqt_Question::getDisplayView($question); ?>
 			
 	</div>

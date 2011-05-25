@@ -36,8 +36,9 @@ foreach ($_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["questions"] as 
 			<?php } ?>
 			
 		<?php require Wpsqt_Question::getDisplayView($question); ?>
-		
+	</div>		
 <?php } ?>
+
 
 	<p><input type='submit' value='Next &raquo;' class='button-secondary' /></p>
 </form>

@@ -48,7 +48,8 @@ class Wpsqt_Form_Question extends Wpsqt_Form {
 			 ->addOption("wpsqt_add_text", "Additional Text", "textarea", $options['add_text'], "Additional text/html for questions, good for usHow much the question is worthing html to display images.",array(),false)
 			 ->addOption("wpsqt_image", "Image", "image", $options['image'], "The image that is to be associated with the question.", array(),  false );
 			
-		apply_filters("wpsqt_form_question",$this);
+		$this->options = $options;
+		apply_filters("wpsqt_form_question", $this);
 		
 	}
 	

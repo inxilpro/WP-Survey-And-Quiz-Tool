@@ -11,7 +11,7 @@
 	 */
 
 require_once dirname(dirname(dirname(dirname(__FILE__)))).'/wp-load.php';
-require_once WPSQT_DIR.'/includes/docraptor.php';
+require_once WPSQT_DIR.'lib/docraptor.php';
 
 $resultId = filter_input(INPUT_GET, 'id');
 $quizId = filter_input(INPUT_GET,'quizid');
@@ -28,35 +28,36 @@ if ( filter_input(INPUT_GET, 'html') ){
 	exit;
 	
 } else {
+	
 	$quizDetails = $wpdb->get_row(
-						$wpdb->prepare("SELECT * FROM `".WPSQT_QUIZ_TABLE."` WHERE id = %d", array($_GET['quizid'])),
+						$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_QUIZ_SURVEYS."` WHERE id = %d", array($_GET['quizid'])),
 						ARRAY_A);
+						
 	$resultDetails = $wpdb->get_row(
-						$wpdb->prepare("SELECT * FROM `".WPSQT_RESULTS_TABLE."` WHERE id = %d", array($_GET['id'])),
-						ARRAY_A
-						);
-	$resultDetails['person'] = unserialize($resultDetails['person']);	
-	$personName = ( isset($resultDetails['person']['user_name']) && !empty($resultDetails['person']['user_name']) ) ? $resultDetails['person']['user_name'] : 'Anonymous';
+						$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE id = %d", array($_GET['id'])),
+						ARRAY_A	);
+						
+	$resultDetails['person'] = unserialize($resultDetails['person']);
+	$resultDetails['sections'] = unserialize($resultDetails['sections']);
+		
+	$personName = ( isset($resultDetails['person']['name']) && !empty($resultDetails['person']['name']) ) ? $resultDetails['person']['name'] : 'Anonymous';
 	$timestamp = strtotime($resultDetails['timestamp']);
 	
 	$pdfTemplate = (empty($quizDetails['pdf_template'])) ? get_option('wpsqt_pdf_template'):$quizDetails['pdf_template'];
 	
 	if ( empty($pdfTemplate) ){
 		// default pdf template here.
+		$pdfTemplate  = "<html>";
+		$pdfTemplate .= "<body>";
+		$pdfTemplate .= "<center>You %USER_NAME% passed the %QUIZ_NAME% quiz!</center>";
+		$pdfTemplate .= "</body>";
+		$pdfTemplate .= "</html>";
 	} 
 	
-	$pdfTemplate = str_ireplace( '%SCORE%'       , htmlentities($resultDetails['mark'].'/'.$resultDetails['total']), $pdfTemplate);
-	$pdfTemplate = str_ireplace( '%QUIZ_NAME%'   , htmlentities($quizDetails['name']), $pdfTemplate);
-	$pdfTemplate = str_ireplace( '%USER_NAME%'   , htmlentities($personName), $pdfTemplate);
-	$pdfTemplate = str_ireplace( '%SURVEY_NAME%' , htmlentities($quizDetails['name']), $pdfTemplate);
-	$pdfTemplate = str_ireplace( '%DATE_EU%'     , htmlentities(date('d-m-Y',$timestamp)),$pdfTemplate );
-	$pdfTemplate = str_ireplace( '%DATE_US%'     , htmlentities(date('m-d-Y',$timestamp)),$pdfTemplate );
-	$pdfTemplate = str_ireplace( '%DATETIME_EU%' , htmlentities(date('d-m-Y H:i:s',$timestamp)),$pdfTemplate );
-	$pdfTemplate = str_ireplace( '%DATETIME_US%' , htmlentities(date('m-d-Y H:i:s',$timestamp)),$pdfTemplate );
-	$pdfTemplate = str_ireplace( '%IP_ADDRESS%'  , htmlentities($resultDetails['ipaddress']), $pdfTemplate );
-	$pdfTemplate = str_ireplace( '%HOSTNAME%'    , htmlentities(gethostbyaddr($resultDetails['ipaddress'])) , $pdfTemplate);
-	$pdfTemplate = str_ireplace( '%USER_AGENT%'  , htmlentities($_SERVER['HTTP_USER_AGENT']), $pdfTemplate);
-	$pdfTemplate = str_ireplace( '%USER_EMAIL%'  ,htmlentities(( isset($resultDetails['person']['email']) ) ? $resultDetails['person']['email'] : '') , $pdfTemplate );
+	$objTokens = Wpsqt_Tokens::getTokenObject();
+	$objTokens->setDefaultValues();
+	$pdfTemplate  = $objTokens->doReplacement($pdfTemplate);
+	
 	$resultUrl = htmlentities(get_bloginfo('url').'/wp-admin/admin.php?page=wpsqt-menu&type=quiz&action=results&id='.$quizId
 					.'&subaction=mark&subid='.$resultDetails['id']);
 	$pdfTemplate = str_ireplace('%RESULT_URL%', $resultUrl, $pdfTemplate);
@@ -71,11 +72,10 @@ if ( filter_input(INPUT_GET, 'html') ){
 	$objDocraptor = new DocRaptor($apiKey);
 	$objDocraptor->setDocumentType('pdf')
 				 ->setName('PDF')
-				 ->setTest(true)
 				 ->setDocumentContent($pdfTemplate);
 	header('Content-disposition: attachment; filename=document.pdf');
 	header('Content-type: application/pdf');
-	$objDocraptor->fetchDocument();
+	print $objDocraptor->fetchDocument();
 	
 	
 }

@@ -10,10 +10,19 @@
 	 */
 
 class Wpsqt_Form {
+	/**
+	 * The options of the child class
+	 * 
+	 * @var array
+	 * @since 2.0
+	 */
+	public $options;
 	
 	/**
 	 * Array full of the options for the form in question.
+	 * 
 	 * @var array
+	 * @since 2.0
 	 */
 	private $_options = array();
 	
@@ -140,6 +149,9 @@ class Wpsqt_Form {
 		$output = array();
 		foreach( $input as $name => $value ){
 			if (preg_match("~^wpsqt_(.*)$~iU",$name,$match)){
+				if ( is_string($value) ){
+					$value = stripslashes($value);
+				}
 				$output[$match[1]] = $value;						
 			}
 		}
@@ -157,6 +169,9 @@ class Wpsqt_Form {
 		
 		$output = array();
 		foreach ( $input as $name => $value ){
+			if ( is_string($value) ){
+				$value = stripslashes($value);
+			}
 			$output['wpsqt_'.$name] = $value;
 		}
 		return $output;		

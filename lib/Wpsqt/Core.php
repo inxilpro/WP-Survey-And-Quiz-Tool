@@ -19,6 +19,7 @@ class Wpsqt_Core {
 	 *
 	 * @since 2.0
 	 */
+	
 	public function __construct(){
 
 		$this->_addPage(WPSQT_PAGE_MAIN, "WPSQT", "WPSQT", "manage_options", "Main")
@@ -54,6 +55,7 @@ class Wpsqt_Core {
 	 * @since 2.0
 	 * @return Wpsqt_Core
 	 */
+	
 	protected function _addPage($id,$title,$pageTitle,$cap,$module,$parent = null){
 
 		$this->_pages[$id] = array("title" => $title,
@@ -77,9 +79,6 @@ class Wpsqt_Core {
 
 		apply_filters("wpsqt_init",$this);
 		
-		if ( !session_id() && !headers_sent() ){
-			session_start();
-		}
 		if ( isset($_SESSION['wpsqt']) ) {
 			unset($_SESSION['wpsqt']['current_message']);
 		}
@@ -91,6 +90,7 @@ class Wpsqt_Core {
 	 *
 	 * @param WP_Admin_bar $wp_admin_bar
 	 */
+	
 	public function adminbar( $wp_admin_bar) {
 
 		if ( current_user_can("manage_options") ) {
@@ -127,6 +127,7 @@ class Wpsqt_Core {
 	 *
 	 * @since 2.0
 	 */
+	
 	public static function validNonce(){
 
 		if ( WPSQT_NONCE_VALID != true ){
@@ -154,10 +155,10 @@ class Wpsqt_Core {
 
 		global $blog_id;
 
-		$quizPath = ( isset($_SESSION['wpsqt']['current_id'])
-			&& ctype_digit($_SESSION['wpsqt']['current_id']) ) ?
-			$blog_id.'/'.$_SESSION['wpsqt']['current_type'].'-'.$_SESSION['wpsqt']['current_id'].'/' : '';
-
+		$quizPath = ( isset($_SESSION['wpsqt']['item_id'])
+			&& ctype_digit($_SESSION['wpsqt']['item_id']) ) ?
+			$blog_id.'/'.$_SESSION['wpsqt']['current_type'].'-'.$_SESSION['wpsqt']['item_id'].'/' : '';
+			
 		if ( file_exists(WPSQT_DIR.'pages/custom/'.$quizPath.$file) ){
 			return WPSQT_DIR.'pages/custom/'.$quizPath.$file;
 		} elseif (file_exists(WPSQT_DIR.'pages/custom/'.$blog_id.'/shared/'.$file)) {
@@ -267,6 +268,7 @@ class Wpsqt_Core {
 	 *
 	 * @since 2.0
 	 */
+	
 	public static function getCurrentPageNumber(){
 
 		if ( isset($_GET['pageno']) && ctype_digit($_GET['pageno']) ){
@@ -337,6 +339,10 @@ class Wpsqt_Core {
 
 	public function shortcode_survey( $atts ){
 
+		if ( empty($atts) ){
+			return;
+		}
+		
 		extract( shortcode_atts( array(
 					'name' => false
 				), $atts) );
@@ -347,7 +353,11 @@ class Wpsqt_Core {
 	}
 
 	public function shortcode_quiz( $atts ){
-
+	
+		if ( empty($atts) ){
+			return;
+		}
+		
 		extract( shortcode_atts( array(
 					'name' => false
 				), $atts) );

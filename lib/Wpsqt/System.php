@@ -234,7 +234,7 @@ class Wpsqt_System {
 				
 		$wpdb->query(
 			$wpdb->prepare("UPDATE `".WPSQT_TABLE_SECTIONS."` SET `name`=%s,`limit`=%s,`order`=%s,`difficulty`=%s WHERE `id` = %d",
-						 	array($sectionName,$sectionOrder,$sectionOrder,$difficulty,$sectionId) )
+						 	array($sectionName,$sectionCount,$sectionOrder,$difficulty,$sectionId) )
 				);
 		
 		do_action("wpsqt_update_section",$sectionId);		

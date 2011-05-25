@@ -1,6 +1,9 @@
 <?php
 require_once WPSQT_DIR.'lib/Wpsqt/Question.php';
 require_once WPSQT_DIR.'lib/Wpsqt/Mail.php';
+if ( !defined('DONOTCACHEPAGE') ){
+	define('DONOTCACHEPAGE',true);
+}
 
 	/**
 	 * Handles the main displaying and processing 
@@ -73,6 +76,7 @@ class Wpsqt_Shortcode {
 			$_SESSION['wpsqt'] = array();
 		}
 		
+		$_SESSION['wpsqt']['current_type'] = $type;
 		$this->_type = $type;
 		$this->_step = ( isset($_POST['step']) && ctype_digit($_POST['step']) ) ? intval($_POST['step']) : 0;
 		if ( $this->_step == 0 ){
@@ -82,6 +86,7 @@ class Wpsqt_Shortcode {
 			$_SESSION['wpsqt'][$identifier]['details'] = Wpsqt_System::getItemDetails($identifier, $type);
 			
 			$_SESSION['wpsqt']['current_id'] = $identifier;
+			$_SESSION['wpsqt']['item_id'] = $_SESSION['wpsqt'][$identifier]['details']['id'];
 			if ( !empty($_SESSION['wpsqt'][$identifier]['details']) ){
 				$_SESSION['wpsqt'][$identifier]['sections'] = $wpdb->get_results(
 														$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_SECTIONS."` WHERE item_id = %d",
@@ -304,9 +309,15 @@ class Wpsqt_Shortcode {
 		$orderBy = ($section["order"] == "random") ? "RAND()" : "id ".strtoupper($section["order"]);
 		$_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["questions"] = array();
 		
+		if ( !empty($_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]['limit']) ){
+			$end = " LIMIT 0,".$_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]['limit'];
+		} else {
+			$end = '';
+		}
+		
 		$rawQuestions = $wpdb->get_results(
 							$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_QUESTIONS.
-										   "` WHERE section_id = %d ORDER BY ".$orderBy, 
+										   "` WHERE section_id = %d ORDER BY ".$orderBy.$end, 
 										  array($section["id"])),ARRAY_A
 								);
 		
@@ -314,7 +325,7 @@ class Wpsqt_Shortcode {
 			$_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["questions"][] = Wpsqt_System::unserializeQuestion($rawQuestion, $this->_type);
 		}
 		
-		require WPSQT_DIR.'pages/site/'.$this->_type.'/section.php';
+		require Wpsqt_Core::pageView('site/'.$this->_type.'/section.php');
 	
 	}
 	
@@ -338,50 +349,59 @@ class Wpsqt_Shortcode {
 		$personName = (isset($_SESSION['wpsqt'][$quizName]['person']['name'])) ? $_SESSION['wpsqt'][$quizName]['person']['name'] :  'Anonymous';	
 		$timeTaken = microtime(true) - $_SESSION['wpsqt'][$quizName]['start_time'];
 		
-		if ( !isset($_SESSION['wpsqt'][$quizName]['details']['store_results']) ||  $_SESSION['wpsqt'][$quizName]['details']['store_results'] !== "no" ){	
-			$wpdb->query(
-				$wpdb->prepare("INSERT INTO `".WPSQT_TABLE_RESULTS."` (timetaken,person,sections,item_id,person_name,ipaddress) 
-								VALUES (%d,%s,%s,%d,%s,%s)",
-								   array($timeTaken,
-							   		 serialize($_SESSION['wpsqt'][$quizName]['person']), 
-							   		 serialize($_SESSION['wpsqt'][$quizName]['sections']),
-							   		 $_SESSION['wpsqt'][$quizName]['details']['id'],
-							   		 $personName,$_SERVER['REMOTE_ADDR'] ) )
-					);
-					
-			$_SESSION['wpsqt']['result_id'] = $wpdb->insert_id;
-		} else {			
-			$_SESSION['wpsqt']['result_id'] = null;
-		}
+		
 		
 		$totalPoints = 0;
 		$correctAnswers = 0;
 		$canAutoMark = true;
 		
 		foreach ( $_SESSION['wpsqt'][$quizName]['sections'] as $quizSection ){	
-			if ( $this->_type != "quiz" || $quizSection['can_automark'] == false ){
+			if ( $this->_type != "quiz" || ( isset($quizSection['can_automark']) && $quizSection['can_automark'] == false) ){
 				$canAutoMark = false;
 					break;
+			}
+			
+			foreach ( $quizSection['questions'] as $question ){
+				$totalPoints += $question['points'];
+			}
+					
+			if ( !isset($quizSection['stats']) ) {
+				continue;
 			}
 			
 			if ( isset($quizSection['stats']['correct']) ){	
 				$correctAnswers += $quizSection['stats']['correct'];	
 			}
-					
-			$totalPoints += $quizSection['stats']['correct'] + $quizSection['stats']['incorrect'];
 		
 		}
 		
 		if ( $canAutoMark === true ){
 			$_SESSION['wpsqt']['current_score'] = $correctAnswers." correct out of ".$totalPoints; 
-		} 
+		} else {
+			$_SESSION['wpsqt']['current_score'] = "quiz can't be auto marked";
+		}
 		
 		if ( $correctAnswers !== 0 ){
 			$percentRight = ( $correctAnswers / $totalPoints ) * 100;	
 		} else {
 			$percentRight = 0;
 		}
-	
+		
+		if ( !isset($_SESSION['wpsqt'][$quizName]['details']['store_results']) ||  $_SESSION['wpsqt'][$quizName]['details']['store_results'] !== "no" ){	
+			$wpdb->query(
+				$wpdb->prepare("INSERT INTO `".WPSQT_TABLE_RESULTS."` (timetaken,person,sections,item_id,person_name,ipaddress,score,total,percentage) 
+								VALUES (%d,%s,%s,%d,%s,%s,%d,%d,%d)",
+								   array($timeTaken,
+							   		 serialize($_SESSION['wpsqt'][$quizName]['person']), 
+							   		 serialize($_SESSION['wpsqt'][$quizName]['sections']),
+							   		 $_SESSION['wpsqt'][$quizName]['details']['id'],
+							   		 $personName,$_SERVER['REMOTE_ADDR'],$correctAnswers,$totalPoints,$percentRight ) )
+					);
+					
+			$_SESSION['wpsqt']['result_id'] = $wpdb->insert_id;
+		} else {			
+			$_SESSION['wpsqt']['result_id'] = null;
+		}
 		$emailAddress = get_option('wpsqt_contact_email');
 		
 		if ( $_SESSION['wpsqt'][$quizName]['details']['notificaton_type'] == 'instant' ){

@@ -36,6 +36,7 @@ class Wpsqt_Page_Options extends Wpsqt_Page {
 		$this->_pageVars['email'] = get_option("wpsqt_contact_email");
 		$this->_pageVars['docraptorApi'] = get_option("wpsqt_docraptor_api");
 		$this->_pageVars['pdfTemplate'] = get_option("wpsqt_pdf_template");
+		
 		$this->_pageView = "admin/misc/options.php";
 		
 	}

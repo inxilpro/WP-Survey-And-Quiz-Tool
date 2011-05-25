@@ -9,6 +9,9 @@
 	<h2>
 		WP Survey And Quiz Tool - Create Survey
 	</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 	
 	<?php if ( isset($errorArray) && !empty($errorArray) ) { ?>
 	<div class="error">

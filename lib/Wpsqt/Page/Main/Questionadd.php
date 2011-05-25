@@ -63,6 +63,9 @@ abstract class Wpsqt_Page_Main_Questionadd extends Wpsqt_Page {
 		foreach( $rawSections as $section ){
 			if ( $section['name'] !== false ){
 				$sections[] = $section['name'];
+				if ( $section['id'] == $this->_question['wpsqt_section_id'] ){
+					$this->_question['wpsqt_section'] = $section['name'];
+				}
 			}
 		}
 		$this->_pageVars['objForm'] = new Wpsqt_Form_Question($questionTypes, $sections);

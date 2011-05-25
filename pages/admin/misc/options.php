@@ -33,7 +33,7 @@
 				<th scope="row">Notification Group</th>
 				<td><select name="wpsqt_email_role">
 						<option value="none" <?php if ( !isset($emailRole) || empty($emailRole) || $emailRole == 'none') { ?> selected="yes"<?php }?>>None</option>
-						<?php foreach($wp_roles->role_names as $role => $name){ ?>
+						<?php global $wp_roles; foreach($wp_roles->role_names as $role => $name){ ?>
 						<option value="<?php echo $role; ?>" <?php if ($emailRole == $role) { ?> selected="yes"<?php }?>><?php echo $name; ?></option>
 						<?php } ?>
 				</select></td>

@@ -2,6 +2,9 @@
 	
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Form</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 
 	<?php if ( isset($enabled) && $enabled == 'no' ){ ?>
 		<div class="error">This quiz/survey doesn't currently have a contact form enabled. This form will enable the contact form on the quiz/survey.</div>

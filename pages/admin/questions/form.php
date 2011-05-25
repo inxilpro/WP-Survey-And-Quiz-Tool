@@ -7,6 +7,9 @@ if ( !isset($rowCount) ){
 
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Questions</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 	
 	<?php if ( isset($successMessage) ){ ?>
 		<div class="updated" id="question_added"><?php echo $successMessage; ?></div>

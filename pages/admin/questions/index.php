@@ -2,6 +2,8 @@
 
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Questions</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
 	
 	<?php if ( isset($_GET['new']) &&  $_GET['new'] == "true" ) { ?>
 	<div class="updated">
@@ -69,11 +71,12 @@
 				</tr>
 			<?php }
 				  else {
-				  	
+				  	$count = 0;
 					foreach ($questions as $rawQuestion) { 
+						$count++;
 						$question = Wpsqt_System::unserializeQuestion($rawQuestion, $_GET['subsection']);
 						?>
-			<tr>
+			<tr class="<?php echo ( $count % 2 ) ?  'wpsqt-odd' : 'wpsqt-even'; ?>">
 				<td><?php echo $question['id']; ?></td>
 				<td><?php echo stripslashes($question['name']); ?></td>
 				<td><?php echo ucfirst( stripslashes($question['type']) ); ?></td>

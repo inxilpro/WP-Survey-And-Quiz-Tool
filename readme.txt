@@ -2,7 +2,7 @@
 Contributors: Fubra,Backie
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.2-beta1
-Stable tag: 2.0-beta
+Stable tag: 2.0-beta2
 Requires At Least: 3.1
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
 
@@ -30,6 +30,7 @@ This is a beta release and shouldn't be classed as realiable. There will be bugs
 * Ability to have quizzes and surveys with or without contact forms.
 * Ability to have custom contact forms.
 * Ability to export and import quizzes,surveys and questions.
+* Ability to have PDF certifications using <a href="http://www.docraptor.com">DocRaptor</a>
 
 **Requirements**
 
@@ -47,6 +48,19 @@ Custom pages allows for the theming of the plugin pages without editing the plug
 Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
+
+= 2.0-beta2 = 
+
+* Added scores and percentage columns to quiz result list#
+* Added ability to send notification email 
+* Added navbar linking system for easier navigation throughout the plugin.
+* Added image option for quizzes
+* Added action in display question.
+* Fixed PDF feature
+* Fixed quiz review
+* Fixed quiz roles not appearing
+* Fixed various bugs
+
 
 = 2.0-beta =
 

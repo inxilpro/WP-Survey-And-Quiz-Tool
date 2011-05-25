@@ -1,3 +1,4 @@
+
 <?php 
 if ( isset($redirectUrl) ){
 ?>
@@ -18,6 +19,8 @@ if ( empty($validData) ){
 	<h2>
 		WP Survey And Quiz Tool - Survey Sections
 	</h2>
+	
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
 	
 	<?php if ( isset($successMessage) ) {?>
 		<div class='updated'><?php echo $successMessage; ?></div>

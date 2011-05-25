@@ -179,6 +179,9 @@ class Wpsqt_Upgrade {
 			$objUpdate = Wpsqt_Core::getObject( 'Wpsqt_Upgrade_1322' );
 			$objUpgrade->addObject( $objUpdate , 'Upgraded to 2.0' );
 		}
+		if ( version_compare($version, '2.0.0.1') < 0 ){
+			$this->addQuery("ALTER TABLE  `".WPSQT_TABLE_RESULTS."` ADD  `score` INT NULL ,ADD  `total` INT  NULL ,ADD  `percentage` INT NULL","Added scores columns to results");
+		}
 		apply_filters( 'wpsqt_upgrade_object', $objUpgrade, $verison );
 		
 		return $objUpgrade;

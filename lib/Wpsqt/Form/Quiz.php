@@ -30,6 +30,7 @@ class Wpsqt_Form_Quiz extends Wpsqt_Form {
 							'use_pdf' => 'yes',
 							'store_results' => 'yes',
 							'notification_email' => false,
+							'send_user' => 'yes',
 							'finish_message' => false);
 		}
 		
@@ -38,6 +39,7 @@ class Wpsqt_Form_Quiz extends Wpsqt_Form {
 			 ->addOption("wpsqt_limit_one", "Limit to one submission","yesno", $options['limit_one'], "Limit the quiz to one submission per IP")
 			 ->addOption("wpsqt_finish_display", "Finish Display",'select', $options['finish_display'], "What should be displayed on the finishing of the quiz", array("Finish message","Quiz Review"))
 			 ->addOption("wpsqt_status", "Status", "select", $options['status'], "Status of the quiz ethier enabled where users can take it or disabled where users can't.", array('enabled','disabled'))
+			 ->addOption("wpsqt_send_user", "Send notification email to user aswell", "yesno", $options["send_user"], "Should we send a notification email to the user who took the quiz" )
 			 ->addOption("wpsqt_contact", "Take contact details", "yesno", $options['contact'] ,"This will show a form for users to enter their contact details before proceeding")
 			 ->addOption("wpsqt_use_wp", "Use WordPress user details", "yesno", $options['use_wp'], "This will allow you to have the Quiz to use the user details for signed in users of your blog. If enabled the contact form will not be shown if enabled.")
 			 ->addOption("wpsqt_email_template", "Custom Email Template", "textarea", $options['email_template'], "The template of the email sent on notification. <strong>If empty the default one will be sent.</strong> <a href=\"#template_tokens\">Click Here</a> to see the tokens that can be used.", array(), false)
@@ -50,7 +52,8 @@ class Wpsqt_Form_Quiz extends Wpsqt_Form {
 		if ( array_key_exists('id', $options) ){
 			$this->addOption("wpsqt_custom_directory", "Custom Directory Location", "static",  WPSQT_DIR."/pages/custom/".$blog_id."/quiz-".$options['id'] ,false,array(),false);		
 		}
-			 
+
+		$this->options = $options;
 		apply_filters("wpsqt_form_quiz",$this);
 
 	}

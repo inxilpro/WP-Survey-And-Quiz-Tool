@@ -8,6 +8,9 @@ $hardPoints = 0;
 	
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Mark</h2>	
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 	
 	<?php if ( isset($successMessage) ){ ?>
 		<div class="updated" id="question_added"><?php echo $successMessage; ?></div>
@@ -64,24 +67,26 @@ $hardPoints = 0;
 					continue;
 				}
 				
-				foreach ($section['questions'] as $questionKey => $questionArray){ ?>
+				foreach ($section['questions'] as $questionKey => $questionArray){ 
+					$questionId = $questionArray['id'];
+					?>
 					
 				<h4><?php print stripslashes($questionArray['name']); ?></h4>
 				<?php if ( ucfirst($questionArray['type']) == 'Multiple' 
 						|| ucfirst($questionArray['type']) == 'Single'  ){
-						if ( isset($section['answers'][$questionKey]['mark']) 
-						  && $section['answers'][$questionKey]['mark'] == 'correct' ){
+						if ( isset($section['answers'][$questionId]['mark']) 
+						  && $section['answers'][$questionId]['mark'] == 'correct' ){
 							$currentPoints++;
 							$hardPoints++;
 						}
 						$totalPoints++;	
 					?>				
-					<b><u>Mark</u></b> - <?php if (isset($section['answers'][$questionKey]['mark'])) { echo $section['answers'][$questionKey]['mark']; } else { echo 'Incorrect'; } ?><br />
+					<b><u>Mark</u></b> - <?php if (isset($section['answers'][$questionId]['mark'])) { echo $section['answers'][$questionId]['mark']; } else { echo 'Incorrect'; } ?><br />
 					<b><u>Answers</u></b>
 					<p class="answer_given">
 						<ol>
 							<?php foreach ($questionArray['answers'] as $answerKey => $answer){ ?>
-								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionKey]['given']) &&  in_array($answerKey, $section['answers'][$questionKey]['given']) ) ? '#FF0000' :  '#000000' : '#00FF00' ; ?>"><?php echo stripslashes($answer['text']) ?></font><?php if (isset($section['answers'][$questionKey]['given']) && in_array($answerKey, $section['answers'][$questionKey]['given']) ){ ?> - Given<?php }?></li>
+								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : '#00FF00' ; ?>"><?php echo htmlentities(stripslashes($answer['text'])); ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
 							<?php } ?>
 						</ol>
 					</p>

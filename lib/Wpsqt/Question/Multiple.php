@@ -61,7 +61,7 @@ class Wpsqt_Question_Multiple extends Wpsqt_Question {
 			$default = ( isset($_POST['multiple_default']) && $_POST['multiple_default'] == $row ) ? 'yes' : 'no';	
 			$correct = ( isset($_POST["multiple_correct"][$row]) && $_POST["multiple_correct"][$row] != "" ) ? $_POST["multiple_correct"][$row] : 'no';
 					
-			$output["content"][] = array( "text" => $_POST["multiple_name"][$row] , "correct" => $correct, "default" => $default );
+			$output["content"][] = array( "text" => stripslashes($_POST["multiple_name"][$row]) , "correct" => $correct, "default" => $default );
 		 			
 		}
 		

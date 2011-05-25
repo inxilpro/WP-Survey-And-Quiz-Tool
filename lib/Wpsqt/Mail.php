@@ -66,6 +66,11 @@ class Wpsqt_Mail {
 	  		}
 		}
 		
+		if ( isset($_SESSION['wpsqt'][$quizName]['details']['send_user']) 
+		  && $_SESSION['wpsqt'][$quizName]['details']['send_user'] == "yes" ) {
+			$emailList[] = $_SESSION['wpsqt'][$quizName]['person']['email'];
+		}
+		
 		
 		if ( !isset($emailList) || empty($emailList) ){
 			$emailAddress = get_option('wpsqt_contact_email');

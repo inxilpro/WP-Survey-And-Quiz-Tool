@@ -2,6 +2,9 @@
 
 	<div id="icon-tools" class="icon32"></div>
 	<h2>PHP Test - Questions</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 
 	<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 		

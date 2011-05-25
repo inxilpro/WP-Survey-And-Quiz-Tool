@@ -4,6 +4,9 @@
 	<h2>
 		WP Survey And Quiz Tool - Quizes
 	</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 	
 	<div class="tablenav">
 		<div class="alignleft">

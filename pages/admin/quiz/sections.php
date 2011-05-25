@@ -1,3 +1,4 @@
+
 <div class="wrap">
 
 	<?php if ( isset($successMessage) ) {?>
@@ -8,6 +9,9 @@
 	<h2>
 		WP Survey And Quiz Tool - Quiz Sections
 	</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 	
 	<?php if ( isset($_GET['new']) &&  $_GET['new'] == "true" ) { ?>
 	<div class="updated">

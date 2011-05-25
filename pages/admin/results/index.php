@@ -1,7 +1,11 @@
+
 <div class="wrap">
 
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Results</h2>
+		
+	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
+	
 	
 	<?php if ( isset($message) ) { ?>
 	<div class="updated">
@@ -38,8 +42,10 @@
 		<table class="widefat post fixed" cellspacing="0">
 			<thead>
 				<tr>
-					<th class="manage-column" scope="col" width="25">ID</th>
+					<th class="manage-column" scope="col" width="35">ID</th>
 					<th class="manage-column column-title" scope="col">Title</th>
+					<th scope="col" width="60">Score</th>
+					<th scope="col" width="80">Percentage</th>
 					<th scope="col" width="75">Status</th>
 				</tr>			
 			</thead>
@@ -47,22 +53,28 @@
 				<tr>
 					<th class="manage-column" scope="col" width="25">ID</th>
 					<th class="manage-column column-title" scope="col">Title</th>
+					<th scope="col" width="60">Score</th>
+					<th scope="col" width="80">Percentage</th>
 					<th scope="col" width="75">Status</th>
 				</tr>			
 			</tfoot>
 			<tbody>
-				<?php foreach( $results as $result ){ ?>			
+				<?php foreach( $results as $result ){ 
+						$person = unserialize($result['person']);
+					?>			
 				<tr>
 					<th scope="row"><?php echo $result['id']; ?></th>
 					<td class="column-title">
 						<strong>
-							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo htmlentities($result['person_name']); ?></a>
+							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo htmlentities($result['person_name']);  if (isset($person['email'])){ ?> - <?php echo $person['email']; }  if (isset($result['ipaddress'])) { ?> - <?php  echo $result['ipaddress']; } ?></a>
 						</strong>
 						<div class="row-actions">
 							<span class="mark"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=mark&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">Mark</a> | </span>
 							<span class="delete"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=resultsdelete&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">Delete</a></span>
 						</div>
 					</td>
+					<td><?php echo $result['score']; ?>/<?php echo $result['total']; ?></td>
+					<td><?php echo $result['percentage']; ?>%</td>
 					<td><font color="<?php if ( $result['status'] == 'Unviewed' ) {?>#000000<?php } elseif ( $result['status'] == 'Accepted' ){ ?>#00FF00<?php } else { ?>#FF0000<?php } ?>"><?php echo ucfirst($result['status']); ?></font></td>
 				</tr>				
 				<?php } ?>
