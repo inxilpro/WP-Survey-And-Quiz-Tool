@@ -2,7 +2,7 @@
 Contributors: Fubra,Backie
 Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
 Tested up to: 3.2-beta1
-Stable tag: 2.0-beta2
+Stable tag: 2.0-beta3
 Requires At Least: 3.1
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
 
