@@ -225,10 +225,8 @@ END;
 		wp_enqueue_style("wpsqt-style",plugins_url('/css/style.css',WPSQT_FILE));
 		wp_enqueue_script("wpsqt-generic",plugins_url('/js/generic.js',WPSQT_FILE));
 		wp_enqueue_script("jquery-tools",plugins_url('/js/jquery.tools.min.js',WPSQT_FILE));
-		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'thickbox' );
 		wp_enqueue_style( 'thickbox' );
-		wp_enqueue_style( 'media' );
 
 	}
 	
