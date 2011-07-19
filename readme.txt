@@ -1,12 +1,12 @@
 === WP Survey And Quiz Tool ===
-Contributors: Fubra,Backie
-Tags: Quiz,test,exam,survey,results,email,quizzies,charts,google charts
-Tested up to: 3.2-beta1
-Stable tag: 2.0-beta5
-Requires At Least: 3.1
-Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
+Contributors: Fubra,Backie,olliea95
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
+Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool
+Requires at least: 3.1
+Tested up to: 3.2.1
+Stable tag: 2.1
 
-A highly customizable Quiz and Survey plugin to which allows for unlimited questions and sections.
+A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
 
 == Description ==
 
@@ -14,16 +14,16 @@ Allows users to create quizzes or surveys hosted on their WordPress install.
 
 ** BETA **
 
-This is a beta release and shouldn't be classed as realiable. There will be bugs and faults - hopefully not to many. Bug reports are curical to improving the plugin.
+This is a beta release and shouldn't be classed as reliable. There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin.
 
 **Features**
 
 * Unlimited Quizzes.
 * Unlimited Surveys.
 * Unlimited number of sections for quizzes and surveys.
-* Automarking for quizzes with all multiple choice questions.
+* Auto marking for quizzes with all multiple choice questions.
 * Ability to limit quizzes and surveys to one submission per IP address.
-* Ability to send customized notification emails.
+* Ability to send customised notification emails.
 * Ability to send notification emails to a single email address,multiple email addresses or a group of WordPress users.
 * Ability to have notification emails only be sent if the user got a certain score.
 * Ability to have surveys and quizzes be taken by registered WordPress members only.
@@ -49,6 +49,17 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog == 
 
+= 2.1 =
+
+* Fixed free text questions not displaying in results
+* Fixed email system when the user is logged in
+* Fixed marking free text questions
+* Fixed positioning of quiz/survey, the quiz/survey will now display wherever you place the shortcode, any content before/after will be placed accordingly
+* Fixed token replacement in the finish message
+* Quiz review page fixed - no longer repeats results many times and correctly displays free text answers
+* Many spelling/grammatical errors fixed
+* Some styling changes to the admin pages to make them look prettier
+
 = 2.0-beta2 = 
 
 * Added scores and percentage columns to quiz result list#
@@ -70,13 +81,13 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 * Added ability to have default answer choices on multiple choice questions
 * Fixed design flaws with custom forms.
 * Added image field for questions 
-* Added filters and improved extendablitiy
+* Added filters and improved extendibility
 * Whole bunch of other stuff
 
 == Upgrade Notice ==
 
-= 2.0-beta =
-Major rewrite of plugin, BETA version requires testing! Shouldn't be used in production.
+= 2.1 =
+A lot more stable than beta releases. There is still going to be a few bugs, please report them on the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">support forums</a>.
 
 == Installation ==
 

@@ -57,9 +57,9 @@
 						<td><input type="text" name="number[<?php echo $key; ?>]" value="<?php echo $data['limit']; ?>" size="10" id="number_<?php echo $key; ?>" /></td>
 						<td>
 							<select name="order[<?php echo $key; ?>]">
-								<option value="random"<?php if ($data['order'] == 'random'){?> selected="yes"<?php }?>>Random</option>
 								<option value="asc"<?php if ($data['order'] == 'asc'){?> selected="yes"<?php }?>>Ascending</option>
 								<option value="desc"<?php if ($data['order'] == 'desc'){?> selected="yes"<?php }?>>Descending</option>
+								<option value="random"<?php if ($data['order'] == 'random'){?> selected="yes"<?php }?>>Random</option>
 							</select>
 						</td>
 						<td>
@@ -81,23 +81,23 @@
 	<h4>Limit</h4>
 	
 	<p>The number of questions that will be shown in the section, if left blank it will default to zero. If the number of questions is zero then it will just return all the questions in the section.</p> 
-	<p>This field was designed to be used in conjuction with the random order to give random questions per quiz.</p>
+	<p>This field was designed to be used in conjunction with the random order to give random questions per quiz.</p>
 	
 	<a name="difficutly_def"></a>
 	<h4>Difficulty Meanings</h4>
 	
 	<ul>
-		<li><strong>Easy</strong> - All questions will be ranked as easy</li>
-		<li><strong>Medium</strong> - All questions will be ranked as medium - Suggested</li>
-		<li><strong>Hard</strong> - All questions will be ranked as hard</li>
+		<li><strong>Easy</strong> - All questions will be ranked as easy.</li>
+		<li><strong>Medium</strong> - All questions will be ranked as medium - Suggested.</li>
+		<li><strong>Hard</strong> - All questions will be ranked as hard.</li>
 		<li><strong>Mixed</strong> - An even number of questions from all sections, unless total number of questions is not dividable by 3. Then it will random choose which difficulty gets the most/least.</li>
 	</ul>
 	
 	<h4>Type Meanings</h4>
 
 	<ul>
-		<li><strong>Multiple Choice</strong> - Displays questions that are multiple choice both multiple and single correct answers. <strong>Has automarking</strong></li>
-		<li><strong>Text Input</strong>  - Displays questions that require text input by the user. <strong>No automarking.</strong></li>
+		<li><strong>Multiple Choice</strong> - Displays questions that are multiple choice both multiple and single correct answers. <strong>Has auto marking.</strong></li>
+		<li><strong>Text Input</strong>  - Displays questions that require text input by the user. <strong>No auto marking.</strong></li>
 	</ul>
 </div>
 <?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

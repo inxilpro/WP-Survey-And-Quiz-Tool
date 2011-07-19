@@ -1,3 +1,5 @@
+<div class="pre-content"></div>
+<div class="quiz">
 <h1><?php echo $_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["name"]; ?></h1>
 
 <form method="post" action="<?php echo esc_url($_SERVER["REQUEST_URI"]); ?>">
@@ -42,3 +44,5 @@ foreach ($_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["questions"] as 
 
 	<p><input type='submit' value='Next &raquo;' class='button-secondary' /></p>
 </form>
+</div>
+<div class="post-content"></div>

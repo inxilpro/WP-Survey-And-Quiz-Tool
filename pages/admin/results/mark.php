@@ -1,7 +1,7 @@
 <?php 
 $currentPoints = 0; 
 $totalPoints = 0;
-$hardPoints = 0; 
+$hardPoints = 0;
 ?>
 <div class="wrap">
 
@@ -33,8 +33,8 @@ $hardPoints = 0;
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<?php foreach($result['person'] as $fieldName => $fieldValue){?>
 				<tr>
-					<th scope="row"><?php echo htmlentities(strip_tags(stripslashes($fieldName))); ?></th>
-					<td><?php echo htmlentities(strip_tags(stripslashes($fieldValue))); ?></td>
+					<th scope="row"><?php echo htmlentities(strip_tags(stripslashes(ucwords($fieldName)))); ?></th>
+					<td><?php echo htmlentities(strip_tags(stripslashes(ucwords($fieldValue)))); ?></td>
 				</tr>
 				<?php }
 					  if (isset($result['ipaddress'])){
@@ -49,7 +49,7 @@ $hardPoints = 0;
 				</tr>
 				<?php } ?>
 				<tr>
-					<th scope="row">Timetaken</th>
+					<th scope="row">Time taken</th>
 					<td><?php echo $timeTaken; ?></td>
 				</tr>
 			</table>
@@ -60,7 +60,7 @@ $hardPoints = 0;
 		if ( is_array($result['sections']) ){
 			foreach ( $result['sections'] as $section ){ ?>
 			
-			<h3><?php echo $section['name']; ?></h3>
+			<h3 style="text-decoration:underline;">Section - <?php echo $section['name']; ?></h3>
 			
 			<?php
 				if (!isset($section['questions'])){
@@ -71,8 +71,8 @@ $hardPoints = 0;
 					$questionId = $questionArray['id'];
 					?>
 					
-				<h4><?php print stripslashes($questionArray['name']); ?></h4>
-				<?php if ( ucfirst($questionArray['type']) == 'Multiple' 
+				<h4><?php echo "<u>"; print stripslashes($questionArray['name']); echo "</u>"; ?></h4>
+				<?php if ( ucfirst($questionArray['type']) == 'Multiple'
 						|| ucfirst($questionArray['type']) == 'Single'  ){
 						if ( isset($section['answers'][$questionId]['mark']) 
 						  && $section['answers'][$questionId]['mark'] == 'correct' ){
@@ -80,25 +80,27 @@ $hardPoints = 0;
 							$hardPoints++;
 						}
 						$totalPoints++;	
-					?>				
-					<b><u>Mark</u></b> - <?php if (isset($section['answers'][$questionId]['mark'])) { echo $section['answers'][$questionId]['mark']; } else { echo 'Incorrect'; } ?><br />
-					<b><u>Answers</u></b>
+					?>
+					<div style="margin-left: 35px; margin-bottom: 40px;">
+					<b>Answers (Correct are marked green)</b>
 					<p class="answer_given">
 						<ol>
 							<?php foreach ($questionArray['answers'] as $answerKey => $answer){ ?>
-								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : '#00FF00' ; ?>"><?php echo htmlentities(stripslashes($answer['text'])); ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
+								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : 'green' ; ?>"><?php echo htmlentities(stripslashes($answer['text'])); ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
 							<?php } ?>
 						</ol>
 					</p>
+					<b>Correct/Incorrect</b> - <?php if (isset($section['answers'][$questionId]['mark'])) { if ($section['answers'][$questionId]['mark'] == "incorrect") { echo '<font style="color: red">Incorrect</font>'; } elseif ($section['answers'][$questionId]['mark'] == "correct") { echo '<font style="color: green">Correct</font>';} } else { echo '<font style="color: red">Incorrect</font>'; } ?><br /></div>
 				<?php } else { 
-					?>				
-					<b><u>Answer Given</u></b>
-					<p class="answer_given" style="background-color : #c0c0c0; border : 1px dashed black; padding : 5px;overflow:auto;height : 200px;"><?php if ( isset($section['answers'][$questionKey]['given']) && is_array($section['answers'][$questionKey]['given']) ){ echo nl2br(esc_html(stripslashes(current($section['answers'][$questionKey]['given'])))); } ?></p>
+					?>		
+					<div style="margin-left: 35px; margin-bottom: 40px;">		
+					<b>Answer Given</b>
+					<p class="answer_given" style="background-color : #c0c0c0; border : 1px dashed black; padding : 5px;overflow:auto;height : 200px; width: 500px;"><?php if ( isset($section['answers'][$questionId]['given']) && is_array($section['answers'][$questionId]['given']) ){ echo nl2br(esc_html(stripslashes(current($section['answers'][$questionId]['given'])))); } ?></p>
 					<p><b>Mark</b> <input type="hidden" name="old_mark[<?php echo $questionKey; ?>]" id="old_mark_<?php echo $questionKey; ?>" value="<?php echo (isset($questionArray['mark']) && ctype_digit($questionArray['mark']) ? $questionArray['mark'] : 0 ); ?>" /> <select name="mark[<?php echo $questionKey; ?>]" class="mark" id="current_mark_<?php echo $questionKey; ?>">
 						<?php for( $i = 0; $i <= $questionArray['points']; $i++ ){ 
 								if ( $i != 0) { $totalPoints++; }
 						?>
-								<option value="<?php echo $i; ?>" <?php   if ( isset($questionArray['mark']) && $questionArray['mark'] == $i ){ if ($i != 0){ $currentPoints++; } ?> selected="yes"<?php }?>><?php echo $i; ?></option>
+								<option value="<?php echo $i; ?>" <?php   if ( isset($questionArray['mark']) && $questionArray['mark'] == $i ){ if ($i != 0){ $currentPoints+=$i; } ?> selected="yes"<?php }?>><?php echo $i; ?></option>
 						<?php } ?>
 						</select> <b>Comment</b> : <input type="text" name="comment[<?php echo $questionKey; ?>]" value="<?php if ( isset($questionArray['comment']) ){ echo esc_html($questionArray['comment']); } ?>" /> 
 					<?php if ( isset($questionArray['hint']) && $questionArray['hint'] != "" ) { ?>- <a href="#" class="show_hide_hint">Show/Hide Hint</a></p>
@@ -106,12 +108,13 @@ $hardPoints = 0;
 						<h5>Hint</h5>
 						<p style="background-color : #c9c9c9;padding : 5px;"><?php echo nl2br(esc_html(stripslashes($questionArray['hint']))); ?></p>
 					</div>
-					<?php } else { ?></p><?php } ?>
+					
+					<?php } else { ?></p></div><?php } ?>
 				<?php } ?>
 			<?php } ?>
 		<?php } 
 		  } ?>
-	<p><font size="+3">Total Points <span id="total_points"><?php echo $currentPoints; ?></span> out of <?php echo $totalPoints; ?></font></p>
+	<p style="margin-top: 50px;"><font size="+3">Total Points <span id="total_points"><?php echo $currentPoints; ?></span> out of <?php echo $totalPoints; ?></font></p>
 	<select name="status">
 		<option value="Unviewed" <?php if ($result['status'] == 'Unviewed'){?> selected="yes"<?php } ?>>Unviewed</option>
 		<option value="Rejected" <?php if ($result['status'] == 'Rejected'){?> selected="yes"<?php } ?>>Rejected</option>

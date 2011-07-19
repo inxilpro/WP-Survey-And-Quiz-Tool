@@ -39,13 +39,13 @@ class Wpsqt_Form_Question extends Wpsqt_Form {
 		}
 		
 		
-		$this->addOption("wpsqt_name", "Question", "text", $options['question'], "The text for the question" )
+		$this->addOption("wpsqt_name", "Question", "text", $options['question'], "The text for the question (the actual question)." )
 			 ->addOption("wpsqt_type", "Type", "select", $options['type'], $typeHelpText, array_keys($questionTypes) )
-			 ->addOption("wpsqt_points", "Points", "select", $options['points'], "How much the question is worth", range(1,10))
-			 ->addOption("wpsqt_difficulty", "Difficulty", "select", $options['difficulty'], "The difficulty of the queston", array('Easy','Medium','Hard'))
-			 ->addOption("wpsqt_section", "Section", "select", $options['section'], "The section/page this question should be in/on", $sections)
+			 ->addOption("wpsqt_points", "Points", "select", $options['points'], "How many points the question is worth.", range(1,10))
+			 ->addOption("wpsqt_difficulty", "Difficulty", "select", $options['difficulty'], "The difficulty of the question.", array('Easy','Medium','Hard'))
+			 ->addOption("wpsqt_section", "Section", "select", $options['section'], "The section/page this question should be in/on.", $sections)
 			 ->addOption("wpsqt_required", "Required", "yesno", $options['required'], "Should the user be forced to answer the question to progress to the next step?")
-			 ->addOption("wpsqt_add_text", "Additional Text", "textarea", $options['add_text'], "Additional text/html for questions, good for usHow much the question is worthing html to display images.",array(),false)
+			 ->addOption("wpsqt_add_text", "Additional Text", "textarea", $options['add_text'], "Additional text/html for questions, good for using html to display images.",array(),false)
 			 ->addOption("wpsqt_image", "Image", "image", $options['image'], "The image that is to be associated with the question.", array(),  false );
 			
 		$this->options = $options;

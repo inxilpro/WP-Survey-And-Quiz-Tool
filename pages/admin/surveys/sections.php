@@ -62,9 +62,9 @@ if ( empty($validData) ){
 						<td><input type="text" name="number[<?php echo $key; ?>]" value="<?php echo $data['limit']; ?>" size="10" id="number_<?php echo $key; ?>" /></td>
 						<td>
 							<select name="order[<?php echo $key; ?>]">
-								<option value="random"<?php if ($data['order'] == 'random'){?> selected="yes"<?php }?>>Random</option>
 								<option value="asc"<?php if ($data['order'] == 'asc'){?> selected="yes"<?php }?>>Ascending</option>
 								<option value="desc"<?php if ($data['order'] == 'desc'){?> selected="yes"<?php }?>>Descending</option>
+								<option value="random"<?php if ($data['order'] == 'random'){?> selected="yes"<?php }?>>Random</option>
 							</select>
 						</td>
 						<td><input type="checkbox" name="delete[<?php echo $key; ?>]" value="yes" />
@@ -86,7 +86,7 @@ if ( empty($validData) ){
 	<h4>Type Meanings</h4>
 
 	<ul>
-		<li><strong>Multiple Choice</strong> - Displays options given aswell as a 'other' field which has a text input.</li>
+		<li><strong>Multiple Choice</strong> - Displays options given as well as a 'other' field which has a text input.</li>
 		<li><strong>Scale</strong>  - Displays a question with a scale of 1 to 10 for users to select.</li>
 	</ul>
 </div>

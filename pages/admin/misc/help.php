@@ -48,7 +48,7 @@
 				<li><a href="#number_of_questions">A quiz section doesn't always show the correct number of questions whys this?</a></li>				
 			</ol>
 		</li>
-		<li>Customization
+		<li>Customisation
 			<ol>
 				<li><a href="#change_layout">Can I change the quiz layout/style?</a></li>
 				<li><a href="#change_email">Can I change the email template?</a></li>
@@ -77,7 +77,7 @@
 	
 		<a name="display_quiz"></a>
 		<h4>How do I display a quiz on a page?</h4>
-		<p>To display a quiz on a page you need to use the shortcode, [wpsqt_quiz name=""] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new seperate page is advised. <em>Note you may want to disable comments.</em></p>
+		<p>To display a quiz on a page you need to use the shortcode, [wpsqt_quiz name=""] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new separate page is advised. <em>Note you may want to disable comments.</em></p>
 	
 	<h3>Survey</h3>
 	
@@ -99,7 +99,7 @@
 	
 		<a name="display_survey"></a>
 		<h4>How do I display a Survey on a page?</h4>
-		<p>To display a quiz on a page you need to use the shortcode, [wpsqt_survey name=""] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new seperate page is advised. <em>Note you may want to disable comments.</em></p>
+		<p>To display a quiz on a page you need to use the shortcode, [wpsqt_survey name=""] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new separate page is advised. <em>Note you may want to disable comments.</em></p>
 	
 	<h3>Questions</h3>
 	
@@ -127,7 +127,7 @@
 		
 		<a name="mark_result"></a>
 		<h4>How do I mark a result?</h4>	
-		<p>To mark a result, you go to <strong>`<em>Quizzes/Surveys</em>`</strong> -&gt; Find the quiz and hover over and click -&gt; <strong>`<em>Results</em>`</strong> then click <strong>`<em>Mark</em>`</strong>. Then you can then see the answers for multiple choice questions with the correct one in Green text and any ones given that are incorrect in red. For questions as text area type the answers are given in the Grey boxed area with the marking choice below it aswell as an area for comments. There is also a hint area which be shown and hidden.</p>
+		<p>To mark a result, you go to <strong>`<em>Quizzes/Surveys</em>`</strong> -&gt; Find the quiz and hover over and click -&gt; <strong>`<em>Results</em>`</strong> then click <strong>`<em>Mark</em>`</strong>. Then you can then see the answers for multiple choice questions with the correct one in Green text and any ones given that are incorrect in red. For questions as text area type the answers are given in the Grey boxed area with the marking choice below it as well as an area for comments. There is also a hint area which be shown and hidden.</p>
 		
 		<a name="automarking"></a>
 		<h4>What is auto marking?</h4>	
@@ -163,12 +163,12 @@
 		<h4>A quiz section doesn't always show the correct number of questions whys this?</h4>
 		<p>You will have set the difficulty to mixed. If you have set all your questions to the same difficulty please change the section difficulty to match. This is only to be used when there is an even number of questions for each difficulty and is advised to only be used when there are more questions than the question number.</p>
 		
-	<h3>Customization</h3>
+	<h3>Customisation</h3>
 	
 		<a name="change_layout"></a>
 		<h4>Can I change the quizzes/survey layout/style?</h4>
 		<p>
-			To customize the layout of survey and quizzes you will have to follow the following steps, this will allow you to create highly customized pages that won't be over written when a new update is released.
+			To customise the layout of survey and quizzes you will have to follow the following steps, this will allow you to create highly customised pages that won't be over written when a new update is released.
 			<ol>
 				<li>Goto configure quiz and locate the location of the custom pages directory for the quiz, each one is different.</li>
 				<li>Goto that directory if it doesn't exist create it.</li>
@@ -181,7 +181,7 @@
 
 		<a name="change_email"></a>
 		<h4>Can I change the notification email?</h4>
-		<p>To have a custom email, you just need to click options and edit the email template field. The tokens for the replacements are at the botoom of the page.</p>
+		<p>To have a custom email, you just need to click options and edit the email template field. The tokens for the replacements are at the bottom of the page.</p>
 
 
 <?php require_once WPSQT_DIR."/pages/admin/shared/image.php"; ?>

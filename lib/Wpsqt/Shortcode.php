@@ -286,8 +286,16 @@ class Wpsqt_Shortcode {
 			return;
 		} else {
 			// Show section.
-			do_action("wpsqt_".$this->_type."_step",$this->_step);			
-			
+			do_action("wpsqt_".$this->_type."_step",$this->_step);	
+			global $post;
+			$pageId = $post->ID;
+			$pageContent = get_post($pageId);
+			$content = $pageContent->post_content;
+			$content = nl2br($content);
+			$content = preg_replace('$\[wpsqt_(quiz|survey)\sname="(\w|\s)*"\]$', "", $content);
+			if (!empty($content)) {
+				echo $content;
+			}
 			$this->showSection();
 			return;
 		}
@@ -414,6 +422,8 @@ class Wpsqt_Shortcode {
 			$emailTrue = true;
 		} elseif ( $_SESSION['wpsqt'][$quizName]['details']['notificaton_type'] == 'instant-50'  
 					&& $percentRight > 50 ){
+			$emailTrue = true;
+		} elseif ( $_SESSION['wpsqt'][$quizName]['details']['send_user'] == 'yes' ) {
 			$emailTrue = true;
 		}
 		

@@ -71,17 +71,29 @@ class Wpsqt_Mail {
 			$emailList[] = $_SESSION['wpsqt'][$quizName]['person']['email'];
 		}
 		
+		if ( $_SESSION['wpsqt'][$quizName]['details']['notificaton_type'] == 'instant' ){
+			$emailTrue = true;
+		} elseif ( $_SESSION['wpsqt'][$quizName]['details']['notificaton_type'] == 'instant-100' 
+					&& $percentRight == 100 ) {
+			$emailTrue = true;	
+		} elseif ( $_SESSION['wpsqt'][$quizName]['details']['notificaton_type'] == 'instant-75' 
+					 && $percentRight > 75 ){
+			$emailTrue = true;
+		} elseif ( $_SESSION['wpsqt'][$quizName]['details']['notificaton_type'] == 'instant-50'  
+					&& $percentRight > 50 ){
+			$emailTrue = true;
+		}
 		
-		if ( !isset($emailList) || empty($emailList) ){
+		if ( !isset($emailList) || empty($emailList) || $emailTrue === TRUE ){
 			$emailAddress = get_option('wpsqt_contact_email');
 			if ( !empty($_SESSION['wpsqt'][$quizName]['details']['notification_email'])  ){
-				$emailAddress = $_SESSION['wpsqt'][$quizName]['details']['notification_email'];
+				$emailList[] = $_SESSION['wpsqt'][$quizName]['details']['notification_email'];
 			}
-			$emailList = explode(',', $emailAddress);
 		}
 
 		$emailSubject  = 'There is a new result!';
 		$headers = 'From: WPSQT Bot <'.$fromEmail.'>' . "\r\n";
+
 
 		foreach( $emailList  as $emailAddress ){
 			wp_mail($emailAddress,'WPSQT Notification',$emailMessage,$headers);

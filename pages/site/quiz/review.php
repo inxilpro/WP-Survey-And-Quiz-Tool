@@ -8,16 +8,9 @@ foreach ( $_SESSION['wpsqt'][$quizName]['sections'] as $section ){ ?>
 		
 		<?php
 			if (!isset($section['questions'])){
-				continue;
+				echo 'Error - no questions<br />Quitting.';
+				exit;
 			}
-			foreach ($section['questions'] as $questionKey => $questionArray){ ?>
-				<h3><?php echo $section['name']; ?></h3>
-			
-			<?php
-				if (!isset($section['questions'])){
-					continue;
-				}
-				
 				foreach ($section['questions'] as $questionKey => $questionArray){ 
 					$questionId = $questionArray['id'];
 				?>
@@ -44,7 +37,7 @@ foreach ( $_SESSION['wpsqt'][$quizName]['sections'] as $section ){ ?>
 				<?php } else { 
 					?>				
 					<b><u>Answer Given</u></b>
-					<p class="answer_given" style="background-color : #c0c0c0; border : 1px dashed black; padding : 5px;overflow:auto;height : 200px;"><?php if ( isset($section['answers'][$questionKey]['given']) && is_array($section['answers'][$questionKey]['given']) ){ echo nl2br(esc_html(stripslashes(current($section['answers'][$questionKey]['given'])))); } ?></p>
+					<p class="answer_given" style="background-color : #c0c0c0; border : 1px dashed black; padding : 5px;overflow:auto;height : 200px;"><?php if ( isset($section['answers'][$questionId]['given']) && is_array($section['answers'][$questionId]['given']) ){ echo nl2br(esc_html(stripslashes(current($section['answers'][$questionId]['given'])))); } ?></p>
 					<?php if ( isset($questionArray['hint']) && $questionArray['hint'] != "" ) { ?>- <a href="#" class="show_hide_hint">Show/Hide Hint</a></p>
 					<div class="hint">
 						<h5>Hint</h5>
@@ -54,6 +47,4 @@ foreach ( $_SESSION['wpsqt'][$quizName]['sections'] as $section ){ ?>
 				<?php } ?>
 			<?php } ?>
 		<?php } ?>
-	<?php } ?>
 	<p><font size="+3">Total Points <?php echo $_SESSION['wpsqt']['current_score']; ?></font></p>
-	

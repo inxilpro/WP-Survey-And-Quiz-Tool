@@ -15,9 +15,9 @@
 		</ul>
 	<?php } ?>
 	
-	<p>Our preferred method of contacting us is though the forums on wordpress.org however if you don't have an account or for some other reason can't or don't want to use that method we have provided a form below that will be emailed to us.</p>
+	<p>The preferred method of contacting us is through <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">the forums</a> on wordpress.org, however if you can't or don't want to use that method please use the form below which will be emailed to us.</p>
 	
-	<p><strong>Please note that using the below form will result in information such as your current wordpress version and plugin version being sent aswell.</strong>
+	<p><strong>Please note that using the form below will result in information such as your current WordPress version and plugin version being sent as well.</strong>
 		
 	<form method="post" action="<?php echo esc_url($_SERVER["REQUEST_URI"]); ?>">
 		

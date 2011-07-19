@@ -15,11 +15,9 @@
 		<dl class="wpsqt">
 			
 			<dt>Upgrade</dt>
-			<dd><strong><font color="#FF0000">REQUIRED</font></strong></dd>
+			<dd><strong><font color="#FF0000">MAY BE REQUIRED</font></strong></dd>
 			
-			<dt>Last Export</dt>
-			<dd>0-0-0000 00:00:00</dd>
-			
+			<p>Download the most recent version from <a href="http://wordpress.org/extend/plugins/wp-survey-and-quiz-tool/">WordPress Plugin Directory</a>.</p>
 			
 		</dl>				
 	</div>	

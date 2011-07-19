@@ -1,3 +1,5 @@
+<div class="pre-content"></div>
+<div class="quiz">
 <h1><?php echo $_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['name']; ?></h1>
 
 <?php if ( isset($_SESSION['wpsqt']['current_message']) ) { ?>
@@ -53,3 +55,5 @@ foreach ($_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['questions'] as 
 
 	<p><input type='submit' value='Next &raquo;' class='button-secondary' /></p>
 </form>
+</div>
+<div class="post-content"></div>

@@ -42,17 +42,17 @@
 			<tr>
 				<th scope="row">Notification Email</th>
 				<td><input type="text" name="wpsqt_email" value="<?php echo $email; ?>" size="30" /></td>
-				<td>This is the email that notifications will be sent to, seperate by commas to have more than one. <b>Notification Group will be used instead of it is selected.</b></td>
+				<td>This is the email that notifications will be sent to, separate by commas to have more than one. <b>Notification Group will be used instead of it is selected.</b></td>
 			</tr>
 			<tr>
 				<th scope="row">From Email</th>
 				<td><input type="text" name="wpsqt_from_email" value="<?php echo $fromEmail; ?>" size="30" /></td>
-				<td>This is the email from address that is used by the plugin anytime it sends an email..</td>
+				<td>This is the email from address that is used by the plugin anytime it sends an email.</td>
 			</tr>
 			<tr>
 				<th scope="row">Custom Email Template</th>
 				<td><textarea rows="8" name="wpsqt_email_template" cols="40"><?php echo $emailTemplate; ?></textarea></td>
-				<td valign="top">The template of the email sent on notification. <Strong>If empty default one will be sent.</Strong>. <a href="#template_tokens">Click here</a> to see the tokens for replacement.</td>
+				<td valign="top">The template of the email sent on notification. <Strong>If empty default one will be sent.</Strong> <a href="#template_tokens">Click here</a> to see the tokens for replacement.</td>
 			</tr>
 			<tr>
 				<th scope="row">Support Us!</th>
@@ -68,7 +68,7 @@
 			<tr>
 				<th scope="row">Custom PDF Template</th>
 				<td><textarea rows="8" name="wpsqt_pdf_template" cols="40"><?php echo $pdfTemplate; ?></textarea></td>
-				<td valign="top">The template of the PDF sent on notification. <Strong>If empty default one will be used.</Strong>. <a href="#template_tokens">Click here</a> to see the tokens for replacement.</td>
+				<td valign="top">The template of the PDF sent on notification. <Strong>If empty default one will be used.</Strong> <a href="#template_tokens">Click here</a> to see the tokens for replacement.</td>
 			</tr>
 		</table>
 	

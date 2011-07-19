@@ -34,7 +34,8 @@
 		
 		
 		
-		if ( $_SERVER['REQUEST_METHOD'] != "POST" ){		
+		if ( $_SERVER['REQUEST_METHOD'] != "POST" ) {
+		
 			$this->_pageVars['result'] = $rawResult;
 			$timeTaken = "";
 	
@@ -76,10 +77,16 @@
 				}
 			
 			}
-			$wpdb->query( 
+			/*
+$wpdb->query( 
 				$wpdb->prepare('UPDATE '.WPSQT_TABLE_RESULTS.' SET sections=%s,status=%s,mark=%d,total=%d WHERE id = %d', 
-							array( serialize($rawResult['sections']),$_POST['status'],$overallMark,$totalMark,$_GET['resultid']) ) 
+							array( serialize($rawResult['sections']),$_GET['status'],$overallMark,$totalMark,$_GET['resultid']) ) 
 						);
+*/
+			$ser = serialize($rawResult['sections']);
+			$ser = mysql_escape_string($ser);
+			$query = 'UPDATE '.WPSQT_TABLE_RESULTS.' SET status="'.$_POST['status'].'",sections="'.$ser.'" WHERE id="'.$_GET['resultid'].'"';
+			$wpdb->query($query);
 			$this->redirect(WPSQT_URL_MAIN."&section=results".
 							"&subsection=quiz&id=".
 							$_GET['id']."&marked=true");			
