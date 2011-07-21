@@ -82,35 +82,27 @@ function callback($buffer) {
 	$content = $pageContent->post_content;
 	
 	// Checks if it is a quiz/survey before removing the content and replacing etc.
-	if (strpos($content, "[wpsqt_")) {
+	
+if (strpos($content, "[wpsqt_")) {
 		// Splits it to before shortcode and after
 		$contentSplit = preg_split('$\[wpsqt_(quiz|survey)\sname\=\"(\w|\s)*\"\]$', $content);
 		// Clear out everything in the qcontent div
 		$buffer = preg_replace('/<div class="qcontent">(.)*?<\/div>/s', '', $buffer);
-		// Clear out everything in the content and before the pre-div.
-		$startPoint='<div id="content">';
-		$endPoint='<div class="pre-content">';
-		$newText='';
-		$buffer = replaceTags($startPoint, $endPoint, $newText, $buffer);
 		// Replaces the pre and post content divs with the content we split above
 		$buffer = str_replace('<div class="pre-content"></div>', '<div class="pre-content">'.nl2br($contentSplit[0]).'</div>', $buffer);
 		$buffer = str_replace('<div class="post-content"></div>', '<div class="post-content">'.nl2br($contentSplit[1]).'</div>', $buffer);
 	}
+
 	
-	// Replaces the pre and post content divs with the content we split above
-	$buffer = str_replace('<div class="pre-content"></div>', '<div class="pre-content">'.nl2br($contentSplit[0]).'</div>', $buffer);
-	$buffer = str_replace('<div class="post-content"></div>', '<div class="post-content">'.nl2br($contentSplit[1]).'</div>', $buffer);
 	// Returns the buffer for output
 	return $buffer;
 }
 
-function replaceTags($startPoint, $endPoint, $newText, $source) {
-	return preg_replace('#('.preg_quote($startPoint).')(.*)('.preg_quote($endPoint).')#si', '$1'.$newText.'$3', $source);
-}
 
 function buffer_end() { ob_end_flush(); }
 ob_start("callback");
 add_action('wp_footer', 'buffer_end');
+
 
 /**
  * Class for Installing plugin on activation.
