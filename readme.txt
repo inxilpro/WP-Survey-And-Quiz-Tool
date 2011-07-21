@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.1.1
+Stable tag: 2.2
 
 A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
 
@@ -49,7 +49,8 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 = 2.2 =
 
-* Fix multiple choice questions occasionally appearing with radio buttons
+* Fixed plugin stopping Super Cache from working correctly
+* Fixed multiple choice questions occasionally appearing with radio buttons
 
 = 2.1.1 =
 
