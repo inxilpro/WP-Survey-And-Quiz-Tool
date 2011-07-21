@@ -47,6 +47,10 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
 
+= 2.2 =
+
+* Fix multiple choice questions occasionally appearing with radio buttons
+
 = 2.1.1 =
 
 * Final fix to the positioning of the quiz/survey
