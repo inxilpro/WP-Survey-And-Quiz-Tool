@@ -42,6 +42,7 @@
 				<tr>
 					<th class="manage-column" scope="col" width="35">ID</th>
 					<th class="manage-column column-title" scope="col">Title</th>
+					<th class="col" width="100">Date</th>
 					<th scope="col" width="90">Score</th>
 					<th scope="col" width="90">Percentage</th>
 					<th scope="col" width="75">Status</th>
@@ -51,6 +52,7 @@
 				<tr>
 					<th class="manage-column" scope="col" width="25">ID</th>
 					<th class="manage-column column-title" scope="col">Title</th>
+					<th class="col" width="100">Date</th>
 					<th scope="col" width="90">Score</th>
 					<th scope="col" width="90">Percentage</th>
 					<th scope="col" width="75">Status</th>
@@ -69,6 +71,7 @@
 							<span class="delete"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=resultsdelete&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">Delete</a></span>
 						</div>
 					</td>
+					<td><?php /* ADD DATE FROM TABLE HERE */ ?></td>
 					<td><?php if($result['total'] == 0) {echo "Unable to auto mark";} else {echo $result['score']."/".$result['total'];} ?></td>
 					<td><?php if($result['total'] == 0) {echo "Unable to auto mark";} else {echo $result['percentage']."%";} ?></td>
 					<td><font color="<?php if ( $result['status'] == 'Unviewed' ) {?>#000000<?php } elseif ( $result['status'] == 'Accepted' ){ ?>green<?php } else { ?>#FF0000<?php } ?>"><?php echo ucfirst($result['status']); ?></font></td>
