@@ -187,8 +187,6 @@ class Wpsqt_Shortcode {
 			$this->_key = $this->_step;
 		}
 		
-		
-		
 		// if we are still here then we are to 
 		// show the section with some questions and stuff.
 		

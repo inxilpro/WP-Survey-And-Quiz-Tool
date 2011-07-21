@@ -33,6 +33,7 @@ class Wpsqt_Core {
 
 		add_shortcode( 'wpsqt_quiz' , array($this, 'shortcode_quiz') );
 		add_shortcode( 'wpsqt_survey' , array($this, 'shortcode_survey') );
+		add_shortcode( 'wpsqt' , array($this, 'shortcode') );
 
 		add_action('init', array($this,"init"));
 		add_action('admin_bar_menu', array($this,"adminbar"),999);
@@ -345,9 +346,8 @@ class Wpsqt_Core {
 		extract( shortcode_atts( array(
 					'name' => false
 				), $atts) );
-		require_once WPSQT_DIR.'lib/Wpsqt/Shortcode.php';
-		$objShortcode = new Wpsqt_Shortcode($name, 'survey');
-		return $objShortcode->display();
+				
+		return $this->_shortcode($name, 'survey');
 
 	}
 
@@ -360,8 +360,50 @@ class Wpsqt_Core {
 		extract( shortcode_atts( array(
 					'name' => false
 				), $atts) );
+				
+		return $this->_shortcode($name, 'quiz');
+		
+	}
+	
+	
+	/**
+	 * Method for new shortcode that will allow for type handler option.
+	 * 
+	 * @param array $atts
+	 * @since 2.2.2
+	 */
+	public function shortcode($atts)
+	{
+		if (empty($atts)) {
+			return;
+		}
+		
+		extract( shortcode_atts( array(
+					'name' => false,
+					'type' => false
+				), $atts) );
+				
+		return $this->_shortcode($name, $type);		
+	}
+	
+	/**
+	 * DRY method to show return the quizzes and surveys in the correct location.
+	 * 
+	 * @param string $identifer The name or numerical id of the quiz/survey
+	 * @param string $type If it is a quiz or a survey.
+	 * @since 2.2.2
+	 */
+	protected function _shortcode($identifer,$type) 
+	{
+		ob_start();
+		
 		require_once WPSQT_DIR.'lib/Wpsqt/Shortcode.php';
 		$objShortcode = new Wpsqt_Shortcode($name, 'quiz');
-		return $objShortcode->display();
+		$objShortcode->display();
+		
+		$content = ob_get_contents();
+		ob_end_clean();
+		
+		return $content;
 	}
 }

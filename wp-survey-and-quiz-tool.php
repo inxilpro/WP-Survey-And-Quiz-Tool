@@ -61,50 +61,6 @@ require_once WPSQT_DIR.'lib/Wpsqt/System.php';
 register_activation_hook ( __FILE__, 'wpsqt_main_install' );
 
 /**
- * Adds a div around the content to make replacement easier
- * @since 2.1
- */
-add_filter('the_content', 'Add_Divs');
-function Add_Divs($content) {
-	$content = '<div class="qcontent">' . $content;
-	$content .= '</div>';
-	return $content;
-}
-
-/**
- * Handles buffering so that content before/after the quiz will be placed accordingly
- * @since 2.1
- */
-function callback($buffer) {
-	// Grabs the actual page content (with shortcodes etc.)
-	global $post;
-	$pageContent = get_post($post->ID);
-	$content = $pageContent->post_content;
-	
-	// Checks if it is a quiz/survey before removing the content and replacing etc.
-	
-if (strpos($content, "[wpsqt_")) {
-		// Splits it to before shortcode and after
-		$contentSplit = preg_split('$\[wpsqt_(quiz|survey)\sname\=\"(\w|\s)*\"\]$', $content);
-		// Clear out everything in the qcontent div
-		$buffer = preg_replace('/<div class="qcontent">(.)*?<\/div>/s', '', $buffer);
-		// Replaces the pre and post content divs with the content we split above
-		$buffer = str_replace('<div class="pre-content"></div>', '<div class="pre-content">'.nl2br($contentSplit[0]).'</div>', $buffer);
-		$buffer = str_replace('<div class="post-content"></div>', '<div class="post-content">'.nl2br($contentSplit[1]).'</div>', $buffer);
-	}
-
-	
-	// Returns the buffer for output
-	return $buffer;
-}
-
-
-function buffer_end() { ob_end_flush(); }
-ob_start("callback");
-add_action('wp_footer', 'buffer_end');
-
-
-/**
  * Class for Installing plugin on activation.
  *
  * @since 2
