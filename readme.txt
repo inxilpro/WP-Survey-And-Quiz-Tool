@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.2
+Stable tag: 2.2.1
 
 A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
 
@@ -46,6 +46,12 @@ Custom pages allows for the theming of the plugin pages without editing the plug
 Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
+
+= 2.2.1 =
+
+* Temporarily removed the upgrade notice as it was misleading
+* Add 'date viewed' to the results table of a quiz
+* Many changes to the survey results page - including fixes and clarifications
 
 = 2.2 =
 
@@ -92,6 +98,9 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 * Whole bunch of other stuff
 
 == Upgrade Notice ==
+
+= 2.2.1 =
+Almost completely stable and loads of improvements over the beta release.
 
 = 2.1 =
 A lot more stable than beta releases. There is still going to be a few bugs, please report them on the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">support forums</a>.
