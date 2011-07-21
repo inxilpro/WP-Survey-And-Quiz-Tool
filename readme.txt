@@ -47,6 +47,10 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
 
+= 2.2.2 =
+
+* Yet again fixed the positioning of a quiz/survey - all fixed and its not being touched again!
+
 = 2.2.1 =
 
 * Temporarily removed the upgrade notice as it was misleading
