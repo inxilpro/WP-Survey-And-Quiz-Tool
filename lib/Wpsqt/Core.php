@@ -1,5 +1,4 @@
 <?php
-require_once WPSQT_DIR.'lib/Wpsqt/Shortcode.php';
 
 /**
  * Core class for handling functionality requried throught the plugin.
@@ -346,7 +345,7 @@ class Wpsqt_Core {
 		extract( shortcode_atts( array(
 					'name' => false
 				), $atts) );
-
+		require_once WPSQT_DIR.'lib/Wpsqt/Shortcode.php';
 		$objShortcode = new Wpsqt_Shortcode($name, 'survey');
 		return $objShortcode->display();
 
@@ -361,7 +360,7 @@ class Wpsqt_Core {
 		extract( shortcode_atts( array(
 					'name' => false
 				), $atts) );
-
+		require_once WPSQT_DIR.'lib/Wpsqt/Shortcode.php';
 		$objShortcode = new Wpsqt_Shortcode($name, 'quiz');
 		return $objShortcode->display();
 	}
