@@ -286,16 +286,7 @@ class Wpsqt_Shortcode {
 			return;
 		} else {
 			// Show section.
-			do_action("wpsqt_".$this->_type."_step",$this->_step);	
-			global $post;
-			$pageId = $post->ID;
-			$pageContent = get_post($pageId);
-			$content = $pageContent->post_content;
-			$content = nl2br($content);
-			$content = preg_replace('$\[wpsqt_(quiz|survey)\sname="(\w|\s)*"\]$', "", $content);
-			if (!empty($content)) {
-				echo $content;
-			}
+			do_action("wpsqt_".$this->_type."_step",$this->_step);
 			$this->showSection();
 			return;
 		}
@@ -332,7 +323,6 @@ class Wpsqt_Shortcode {
 		foreach ( $rawQuestions as $rawQuestion ){
 			$_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["questions"][] = Wpsqt_System::unserializeQuestion($rawQuestion, $this->_type);
 		}
-		
 		require Wpsqt_Core::pageView('site/'.$this->_type.'/section.php');
 	
 	}
