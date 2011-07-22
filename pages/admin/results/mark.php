@@ -112,7 +112,7 @@ $hardPoints = 0;
 					<?php } else { ?></p></div><?php } ?>
 				<?php } ?>
 			<?php } ?>
-		<?php } 
+		<?php }
 		  } ?>
 	<p style="margin-top: 50px;"><font size="+3">Total Points <span id="total_points"><?php echo $currentPoints; ?></span> out of <?php echo $totalPoints; ?></font></p>
 	<?php
