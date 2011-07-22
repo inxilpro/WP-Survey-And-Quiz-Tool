@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 
 A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
 
@@ -47,7 +47,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
 
-= 2.3 =
+= 2.2.2 =
 
 * Yet again fixed the positioning of a quiz/survey - all fixed and its not being touched again!
 * Fixed the marking of quizzes unable for auto mark
