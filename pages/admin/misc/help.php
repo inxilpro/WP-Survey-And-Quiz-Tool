@@ -5,7 +5,7 @@
 	
 	<h3>Help</h3>
 	<ol> 
-		<li>Quizes
+		<li>Quizzes
 			<ol>
 				<li><a href="#create_a_quiz">How to create a quiz?</a></li>
 				<li><a href="#edit_a_quiz">How to edit a quiz?</a></li>
@@ -16,11 +16,11 @@
 		</li>
 		<li>Survey
 			<ol>
-				<li><a href="#create_a_survey">How to create a quiz?</a></li>
-				<li><a href="#edit_a_survey">How to edit a quiz?</a></li>
-				<li><a href="#delete_a_survey">How to delete a quiz?</a></li>
-				<li><a href="#how_many_survey">How many quizzes can I have?</a></li>
-				<li><a href="#display_survey">How do I display a quiz on a page?</a></li>
+				<li><a href="#create_a_survey">How to create a survey?</a></li>
+				<li><a href="#edit_a_survey">How to edit a survey?</a></li>
+				<li><a href="#delete_a_survey">How to delete a survey?</a></li>
+				<li><a href="#how_many_survey">How many surveys can I have?</a></li>
+				<li><a href="#display_survey">How do I display a survey on a page?</a></li>
 			</ol>
 		</li>
 		<li>Questions
@@ -36,6 +36,7 @@
 				<li><a href="#mark_result">How do I mark results?</a></li>
 				<li><a href="#automarking">What is auto marking?</a></li>
 				<li><a href="#how_do_view_marked">How do I view results that have already been marked?</a></li>
+				<li><a href="#show_results">How do I show all results for a particular user?</a></li>
 			</ol>
 		</li>
 		<li>Sections
@@ -136,6 +137,10 @@
 		<a name="how_do_view_marked"></a>
 		<h4>How do I view results that have already been marked?</h4>	
 		<p>When a result is marked the <strong>`<em>Mark</em>`</strong> button disappears and is replaced with the score. The score is click-able and will lead you to the marking page where you can update the score and whatnot.</p>
+		
+		<a name="show_results"></a>
+		<h4>How do I show the results for a particular user?</h4>	
+		<p>Use the shortcode [wpsqt_results username="admin"].  This will list the results for that user that have been marked as Accepted.</p>
 
 	<h3>Sections</h3>
 

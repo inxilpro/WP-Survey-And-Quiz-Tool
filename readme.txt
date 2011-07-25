@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 
 A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
 
@@ -46,6 +46,10 @@ Custom pages allows for the theming of the plugin pages without editing the plug
 Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
+
+= 2.2.3 =
+
+* Added new shortcode to be able to display the results for a user
 
 = 2.2.2 =
 
