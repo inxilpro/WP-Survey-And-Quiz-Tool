@@ -4,6 +4,10 @@ require_once WPSQT_DIR.'lib/Wpsqt/Mail.php';
 if ( !defined('DONOTCACHEPAGE') ){
 	define('DONOTCACHEPAGE',true);
 }
+if (!defined ('exclude_from_search') ) {
+	//define('exclude_from_search',true);
+}
+
 
 	/**
 	 * Handles the main displaying and processing 
