@@ -86,7 +86,7 @@ class Wpsqt_Shortcode {
 			$this->_errors['name'] = "The name is missing for ".$type;
 		}
 		
-		$this->_acceptableTypes = apply_filters("wpsqt_shortcode_types");
+		$this->_acceptableTypes = apply_filters("wpsqt_shortcode_types",$this->_acceptableTypes);
 		$this->_acceptableTypes = array_map("strtolower",$this->_acceptableTypes);
 		if ( !in_array($type, $this->_acceptableTypes) ) {
 			$this->_errors['type'] = "Invalid type given";
