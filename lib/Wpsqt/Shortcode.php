@@ -153,7 +153,7 @@ class Wpsqt_Shortcode {
 				$message = "Invalid type given";
 			}
 			$message = apply_filters("wpsqt_".$this->_type."_error",$message, $this->_errors);
-			return $message;
+			echo $message;
 		}
 		$quizName = $_SESSION['wpsqt']['current_id'];
 		
