@@ -352,7 +352,7 @@ class Wpsqt_Core {
 
 	}
 
-	public function shortcode_quiz( $atts ){
+	public function shortcode_quiz( $atts ) {
 	
 		if ( empty($atts) ){
 			return;
@@ -373,8 +373,7 @@ class Wpsqt_Core {
 	 * @param array $atts
 	 * @since 2.2.2
 	 */
-	public function shortcode($atts)
-	{
+	public function shortcode($atts) {
 		if (empty($atts)) {
 			return;
 		}
@@ -394,12 +393,11 @@ class Wpsqt_Core {
 	 * @param string $type If it is a quiz or a survey.
 	 * @since 2.2.2
 	 */
-	protected function _shortcode($identifer,$type) 
-	{
+	protected function _shortcode($identifer,$type)	{
 		ob_start();
 		
 		require_once WPSQT_DIR.'lib/Wpsqt/Shortcode.php';
-		$objShortcode = new Wpsqt_Shortcode($name, $type);
+		$objShortcode = new Wpsqt_Shortcode($identifer, $type);
 		$objShortcode->display();
 		
 		$content = ob_get_contents();

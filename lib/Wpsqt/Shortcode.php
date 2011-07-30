@@ -61,6 +61,8 @@ class Wpsqt_Shortcode {
 	 */
 	protected $_identifier;
 	
+	protected $_acceptableTypes = array('quiz','survey');
+	
 	/**
 	 * Starts the shortcode off firstly checks to see 
 	 * if there is a wpsqt key item in the session 
@@ -78,6 +80,16 @@ class Wpsqt_Shortcode {
 		
 		if ( !isset($_SESSION['wpsqt']) ){
 			$_SESSION['wpsqt'] = array();
+		}
+		
+		if ( empty($identifier) ) {
+			$this->_errors['name'] = "The name is missing for ".$type;
+		}
+		
+		$this->_acceptableTypes = apply_filters("wpsqt_shortcode_types");
+		$this->_acceptableTypes = array_map("strtolower",$this->_acceptableTypes);
+		if ( !in_array($type, $this->_acceptableTypes) ) {
+			$this->_errors['type'] = "Invalid type given";
 		}
 		
 		$_SESSION['wpsqt']['current_type'] = $type;
@@ -135,6 +147,10 @@ class Wpsqt_Shortcode {
 				$message = "PHP Sessions error. Check your sessions settings.";
 			} elseif ( isset($this->_error["noexist"]) ){
 				$message = "No such quiz/survey";
+			} elseif ( isset($this->_errors['name']) ) {
+				$message = "No quiz identifier/name was given";
+			} elseif ( isset($this->_errors["type"]) ){
+				$message = "Invalid type given";
 			}
 			$message = apply_filters("wpsqt_".$this->_type."_error",$message, $this->_errors);
 			return $message;
