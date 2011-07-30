@@ -4,6 +4,10 @@ require_once WPSQT_DIR.'lib/Wpsqt/Mail.php';
 if ( !defined('DONOTCACHEPAGE') ){
 	define('DONOTCACHEPAGE',true);
 }
+if (!defined ('exclude_from_search') ) {
+	//define('exclude_from_search',true);
+}
+
 
 	/**
 	 * Handles the main displaying and processing 
@@ -338,7 +342,9 @@ class Wpsqt_Shortcode {
 		
 		if ( $_SESSION['wpsqt'][$quizName]['details']['use_wp'] == 'yes'){
 			$objUser = wp_get_current_user();
-			$_SESSION['wpsqt'][$quizName]['person']['name'] = $objUser->user_login;		
+			$_SESSION['wpsqt'][$quizName]['person']['name'] = $objUser->user_login;
+			$_SESSION['wpsqt'][$quizName]['person']['fname'] = $objUser->first_name;
+			$_SESSION['wpsqt'][$quizName]['person']['lname'] = $objUser->last_name;		
 			$_SESSION['wpsqt'][$quizName]['person']['email'] = $objUser->user_email;
 		} 
 			

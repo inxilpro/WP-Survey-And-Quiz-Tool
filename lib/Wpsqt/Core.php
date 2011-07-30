@@ -34,7 +34,8 @@ class Wpsqt_Core {
 		add_shortcode( 'wpsqt_quiz' , array($this, 'shortcode_quiz') );
 		add_shortcode( 'wpsqt_survey' , array($this, 'shortcode_survey') );
 		add_shortcode( 'wpsqt' , array($this, 'shortcode') );
-
+		add_shortcode( 'wpsqt_results', array($this, 'shortcode_results') );
+		
 		add_action('init', array($this,"init"));
 		add_action('admin_bar_menu', array($this,"adminbar"),999);
 
@@ -398,12 +399,36 @@ class Wpsqt_Core {
 		ob_start();
 		
 		require_once WPSQT_DIR.'lib/Wpsqt/Shortcode.php';
-		$objShortcode = new Wpsqt_Shortcode($name, 'quiz');
+		$objShortcode = new Wpsqt_Shortcode($name, $type);
 		$objShortcode->display();
 		
 		$content = ob_get_contents();
 		ob_end_clean();
 		
 		return $content;
+	}
+	
+	public function shortcode_results( $atts ) {
+		global $wpdb;
+		extract( shortcode_atts( array(
+					'username' => false
+		), $atts) );
+		if ($username != false) {
+			$sql = 'SELECT * FROM `'.WPSQT_TABLE_RESULTS.'` WHERE `person_name` = "'.$username.'" AND `status` = "Accepted"';
+			$return = $wpdb->get_results($sql, 'ARRAY_A');
+			foreach ($return as $result) {
+				$sql = 'SELECT * FROM `'.WPSQT_TABLE_QUIZ_SURVEYS.'` WHERE `id` = "'.$result['item_id'].'"';
+				$return = $wpdb->get_results($sql, 'ARRAY_A');
+				if (empty($return)) {
+					continue;
+				}
+				return  "<h3>Results for ".$return[0]['name']."</h3>".
+						"<p>Score: ".$result['score']."/".$result['total']."</p>".
+						"<p>Percentage: ".$result['percentage']."</p>".
+						"<br /><br />";
+			}
+		} else {
+			return 'No ID was supplied for this results page. The shortcode should look like [wpsqt_results username="12"';
+		}
 	}
 }
