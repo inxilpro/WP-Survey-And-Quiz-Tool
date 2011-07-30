@@ -154,6 +154,7 @@ class Wpsqt_Shortcode {
 			}
 			$message = apply_filters("wpsqt_".$this->_type."_error",$message, $this->_errors);
 			echo $message;
+			return;
 		}
 		$quizName = $_SESSION['wpsqt']['current_id'];
 		
