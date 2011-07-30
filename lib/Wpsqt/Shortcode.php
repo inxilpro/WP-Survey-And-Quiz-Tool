@@ -116,9 +116,9 @@ class Wpsqt_Shortcode {
 		
 		if ( empty($_SESSION['wpsqt'][$identifier]['details']) ){
 			if ( !isset($noquiz) ){
-				$this->_error['session'] = true;
+				$this->_errors['session'] = true;
 			} else {
-				$this->_error['noexist'] = true;
+				$this->_errors['noexist'] = true;
 			}
 		}
 					
@@ -141,11 +141,11 @@ class Wpsqt_Shortcode {
 		global $wpdb;
 		
 		// Check and see if there is a major issue.
-		if ( !empty($this->_error) ){
+		if ( !empty($this->_errors) ){
 			global $message;
-			if ( isset($this->_error["session"]) ){
+			if ( isset($this->_errors["session"]) ){
 				$message = "PHP Sessions error. Check your sessions settings.";
-			} elseif ( isset($this->_error["noexist"]) ){
+			} elseif ( isset($this->_errors["noexist"]) ){
 				$message = "No such quiz/survey";
 			} elseif ( isset($this->_errors['name']) ) {
 				$message = "No quiz identifier/name was given";
