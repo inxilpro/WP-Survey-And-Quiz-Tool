@@ -47,9 +47,10 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
 
-= 2.2.3 =
+= 2.3 =
 
 * Added new shortcode to be able to display the results for a user
+* Added widget for displaying top scores
 * Various bug fixes
 * Conflicts with other plugins solved
 
