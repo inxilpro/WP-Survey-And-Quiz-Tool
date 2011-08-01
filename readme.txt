@@ -50,6 +50,8 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 = 2.2.3 =
 
 * Added new shortcode to be able to display the results for a user
+* Various bug fixes
+* Conflicts with other plugins solved
 
 = 2.2.2 =
 
