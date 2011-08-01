@@ -51,6 +51,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 * Added new shortcode to be able to display the results for a user
 * Added widget for displaying top scores
+* Added a pass mark feature - doesn't do anything yet
 * Various bug fixes
 * Conflicts with other plugins solved
 
