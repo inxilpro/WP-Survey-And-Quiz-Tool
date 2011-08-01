@@ -61,6 +61,8 @@ class Wpsqt_Shortcode {
 	 */
 	protected $_identifier;
 	
+	protected $_acceptableTypes = array('quiz','survey');
+	
 	/**
 	 * Starts the shortcode off firstly checks to see 
 	 * if there is a wpsqt key item in the session 
@@ -78,6 +80,16 @@ class Wpsqt_Shortcode {
 		
 		if ( !isset($_SESSION['wpsqt']) ){
 			$_SESSION['wpsqt'] = array();
+		}
+		
+		if ( empty($identifier) ) {
+			$this->_errors['name'] = "The name is missing for ".$type;
+		}
+		
+		$this->_acceptableTypes = apply_filters("wpsqt_shortcode_types",$this->_acceptableTypes);
+		$this->_acceptableTypes = array_map("strtolower",$this->_acceptableTypes);
+		if ( !in_array($type, $this->_acceptableTypes) ) {
+			$this->_errors['type'] = "Invalid type given";
 		}
 		
 		$_SESSION['wpsqt']['current_type'] = $type;
@@ -104,9 +116,9 @@ class Wpsqt_Shortcode {
 		
 		if ( empty($_SESSION['wpsqt'][$identifier]['details']) ){
 			if ( !isset($noquiz) ){
-				$this->_error['session'] = true;
+				$this->_errors['session'] = true;
 			} else {
-				$this->_error['noexist'] = true;
+				$this->_errors['noexist'] = true;
 			}
 		}
 					
@@ -129,15 +141,20 @@ class Wpsqt_Shortcode {
 		global $wpdb;
 		
 		// Check and see if there is a major issue.
-		if ( !empty($this->_error) ){
+		if ( !empty($this->_errors) ){
 			global $message;
-			if ( isset($this->_error["session"]) ){
+			if ( isset($this->_errors["session"]) ){
 				$message = "PHP Sessions error. Check your sessions settings.";
-			} elseif ( isset($this->_error["noexist"]) ){
+			} elseif ( isset($this->_errors["noexist"]) ){
 				$message = "No such quiz/survey";
+			} elseif ( isset($this->_errors['name']) ) {
+				$message = "No quiz identifier/name was given";
+			} elseif ( isset($this->_errors["type"]) ){
+				$message = "Invalid type given";
 			}
 			$message = apply_filters("wpsqt_".$this->_type."_error",$message, $this->_errors);
-			return $message;
+			echo $message;
+			return;
 		}
 		$quizName = $_SESSION['wpsqt']['current_id'];
 		
@@ -190,8 +207,6 @@ class Wpsqt_Shortcode {
 		} else {
 			$this->_key = $this->_step;
 		}
-		
-		
 		
 		// if we are still here then we are to 
 		// show the section with some questions and stuff.
