@@ -38,6 +38,10 @@ class Wpsqt_Core {
 		
 		add_action('init', array($this,"init"));
 		add_action('admin_bar_menu', array($this,"adminbar"),999);
+		
+		// Register the top scores widget
+		require_once WPSQT_DIR.'lib/Wpsqt/Widget.php';
+		add_action( 'widgets_init', create_function('', 'return register_widget("Wpsqt_Top_Widget");') );
 
 	}
 

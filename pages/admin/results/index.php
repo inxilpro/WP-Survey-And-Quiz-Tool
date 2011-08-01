@@ -42,20 +42,22 @@
 				<tr>
 					<th class="manage-column" scope="col" width="35">ID</th>
 					<th class="manage-column column-title" scope="col">Title</th>
-					<th scope="col" width="90">Score</th>
+					<th scope="col" width="75">Score</th>
 					<th scope="col" width="90">Percentage</th>
+					<th scope="col" width="75">Pass/Fail</th>
 					<th scope="col" width="75">Status</th>
-					<th class="col" width="100">Date Viewed</th>
+					<th scope="col" width="100">Date Viewed</th>
 				</tr>			
 			</thead>
 			<tfoot>
 				<tr>
 					<th class="manage-column" scope="col" width="25">ID</th>
 					<th class="manage-column column-title" scope="col">Title</th>
-					<th scope="col" width="90">Score</th>
+					<th scope="col" width="75">Score</th>
 					<th scope="col" width="90">Percentage</th>
+					<th scope="col" width="75">Pass/Fail</th>
 					<th scope="col" width="75">Status</th>
-					<th class="col" width="100">Date Viewed</th>
+					<th scope="col" width="100">Date Viewed</th>
 				</tr>			
 			</tfoot>
 			<tbody>
@@ -73,6 +75,7 @@
 					</td>
 					<td><?php if($result['total'] == 0) {echo "Unable to auto mark";} else {echo $result['score']."/".$result['total'];} ?></td>
 					<td><?php if($result['total'] == 0) {echo "Unable to auto mark";} else {echo $result['percentage']."%";} ?></td>
+					<td>Fail</td>
 					<td><font color="<?php if ( ucfirst($result['status']) == 'Unviewed' ) {?>#000000<?php } elseif ( $result['status'] == 'Accepted' ){ ?>green<?php } else { ?>#FF0000<?php } ?>"><?php echo ucfirst($result['status']); ?></font></td>
 					<td><?php if ($result['timestamp'] != 0) {echo $result['timestamp'];} else {echo '&nbsp;&nbsp;-';} ?></td>
 				</tr>
