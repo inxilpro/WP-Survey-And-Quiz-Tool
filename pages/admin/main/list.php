@@ -5,6 +5,7 @@
 		WP Survey And Quiz Tool - Survey/Quizzes 
 		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=quiz" class="button add-new-h2">Add New Quiz</a>
 		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=survey" class="button add-new-h2">Add New Survey</a>
+		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=poll" class="button add-new-h2">Add New Poll</a>
 	</h2>
 	
 	<?php if ( isset($_GET['delete']) && $_GET['delete'] == "true" ){

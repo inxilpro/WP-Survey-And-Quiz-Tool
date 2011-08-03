@@ -54,9 +54,12 @@ abstract class Wpsqt_Page_Main_Questionadd extends Wpsqt_Page {
 		
 		if ( $this->_type == "survey" ) {
 			$questionTypes = Wpsqt_System::getSurveyQuestionTypes();
+		} else if ($this->_type == "poll") {
+			$questionTypes = Wpsqt_System::getPollQuestionTypes();
 		} else {
 			$questionTypes = Wpsqt_System::getQuizQuestionTypes();
 		}
+		
 		
 		$rawSections = Wpsqt_System::fetchSections($_GET['id']);
 		$sections = array();
@@ -77,9 +80,13 @@ abstract class Wpsqt_Page_Main_Questionadd extends Wpsqt_Page {
 			$objQuestion =  Wpsqt_Question::getObject($type);
 			$questionObjects[$type] = $objQuestion;
 			$this->_pageVars['subForm'] .= $objQuestion->processValues($this->_question)->form();
-		}
+		};
 		
-		$this->_pageView = "admin/questions/form.php";
+		if ($this->_type == "poll") {
+			$this->_pageView = "admin/questions/pollform.php";
+		} else {
+			$this->_pageView = "admin/questions/form.php";
+		}
 		if ( $_SERVER['REQUEST_METHOD'] == "POST" ){
 
 			$this->_pageVars['errorArray'] = $this->_pageVars['objForm']->getMessages($_POST);

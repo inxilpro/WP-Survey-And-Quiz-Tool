@@ -1,10 +1,9 @@
 <?php
-require_once WPSQT_DIR.'lib/Wpsqt/Page/Main/Addnew.php';
+require_once WPSQT_DIR.'lib/Wpsqt/Page/Main/Edit.php';
 require_once WPSQT_DIR.'lib/Wpsqt/Form/Poll.php';
-require_once WPSQT_DIR.'lib/Wpsqt/Tokens.php';
 
 	/**
-	 * Handles adding new polls to the database.
+	 * Handles the editing of the polls.
 	 * 
 	 * @author Ollie Armstrong
 	 * @copyright Fubra Limited 2010-2011, all rights reserved.
@@ -12,18 +11,15 @@ require_once WPSQT_DIR.'lib/Wpsqt/Tokens.php';
   	 * @package WPSQT
 	 */
 
-class Wpsqt_Page_Main_Addnew_Poll extends Wpsqt_Page_Main_Addnew {
+class Wpsqt_Page_Main_Edit_Poll extends Wpsqt_Page_Main_Edit {
 	
-	/**
-	 * (non-PHPdoc)
-	 * @see Wpsqt_Page::process()
-	 */
 	public function process(){
 		
-		$this->_subsection = "Poll";
 		$this->_pageView = "admin/poll/create.php";
-		$this->_doInsert();
+		$this->_subsection = "Poll";
+		$this->_doUpdate();
 		
+		return;
 	}
 	
 }

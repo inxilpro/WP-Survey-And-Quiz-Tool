@@ -453,4 +453,12 @@ class Wpsqt_System {
 		
 	}
 	
+	public static function getPollQuestionTypes(){
+		
+		$questions = array('Single' => 'Multiple choice question with a signle correct answer.','Multiple' => 'Multiple choice question with mulitple correct answers.');
+		
+		return apply_filters('wpsqt_survey_question_types', $questions );
+		
+	}
+	
 }
