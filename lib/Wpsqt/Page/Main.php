@@ -22,13 +22,15 @@ class Wpsqt_Page_Main extends Wpsqt_Page {
 		$itemsPerPage = get_option("wpsqt_number_of_items");	
 		$quizResults = Wpsqt_System::getAllItemDetails('quiz');
 		$surveyResults = Wpsqt_System::getAllItemDetails('survey');
+		$pollResults = Wpsqt_System::getAllItemDetails('poll');
 			
 		$type = isset($_GET['type']) ? $_GET['type'] : '';
 		$currentPage = isset($_GET['pageno'] )? $_GET['pageno'] : 1;
 		$startNumber = ( ($currentPage - 1) * $itemsPerPage );	
 		$quizNo   = sizeof($quizResults);
 		$surveyNo = sizeof($surveyResults);
-		$totalNo  = $quizNo + $surveyNo;
+		$pollNo	  = sizeof($pollResults);
+		$totalNo  = $quizNo + $surveyNo + $pollNo;
 		
 		switch ($type){		
 			case 'quiz':
@@ -36,9 +38,12 @@ class Wpsqt_Page_Main extends Wpsqt_Page {
 				break;
 			case 'survey':
 				$results = $surveyResults;
-				break;	
+				break;
+			case 'poll':
+				$results = $pollResults;
+				break;
 			default:
-				$results = array_merge($quizResults,$surveyResults);
+				$results = array_merge($quizResults,$surveyResults,$pollResults);
 				break;	
 		}
 		
@@ -54,6 +59,7 @@ class Wpsqt_Page_Main extends Wpsqt_Page {
 								  'currentPage' => $currentPage,
 								  'quizNo' => $quizNo,
 								  'surveyNo' => $surveyNo,
+								  'pollNo' => $pollNo,
 								  'totalNo' => $totalNo,
 								  'type' => $type );
 		
