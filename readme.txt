@@ -1,7 +1,7 @@
 === WP Survey And Quiz Tool ===
 Contributors: Fubra,Backie,olliea95
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
-Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool
+Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling
 Requires at least: 3.1
 Tested up to: 3.2.1
 Stable tag: 2.4
@@ -18,7 +18,8 @@ There will be bugs and faults - hopefully not too many. Bug reports are crucial 
 
 * Unlimited Quizzes.
 * Unlimited Surveys.
-* Unlimited number of sections for quizzes and surveys.
+* Unlimited Polls.
+* Unlimited number of sections for quizzes, surveys and polls.
 * Auto marking for quizzes with all multiple choice questions.
 * Ability to limit quizzes and surveys to one submission per IP address.
 * Ability to send customised notification emails.
