@@ -17,7 +17,7 @@
 		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		
 		<?php
-		$pollName = $_SESSION['wpsqt']['current_id'];
+		$pollName = ucwords($quizName);
 		$pollId = $_SESSION['wpsqt'][$pollName]['details']['id'];
 		
 		// GETS ALL THE RESULTS FOR THIS POLL
