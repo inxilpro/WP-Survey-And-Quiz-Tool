@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.2.3
+Stable tag: 2.3
 
 A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
 

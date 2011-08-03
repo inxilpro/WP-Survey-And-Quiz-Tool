@@ -28,6 +28,9 @@
 				</li> 
 				<li>
 					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey" <?php if ($type == "survey") { ?>  class="current"<?php } ?>  id="survey_link">Surveys <span class="count">(<?php echo $surveyNo; ?>)</span></a>			
+				</li>
+				<li>
+					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=poll" <?php if ($type == "poll") { ?>  class="current"<?php } ?>  id="survey_link">Polls <span class="count">(<?php echo $pollNo; ?>)</span></a>			
 				</li> 
 			</ul>
 		
