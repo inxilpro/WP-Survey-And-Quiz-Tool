@@ -61,7 +61,7 @@ class Wpsqt_Shortcode {
 	 */
 	protected $_identifier;
 	
-	protected $_acceptableTypes = array('quiz','survey');
+	protected $_acceptableTypes = array('quiz','survey', 'poll');
 	
 	/**
 	 * Starts the shortcode off firstly checks to see 
