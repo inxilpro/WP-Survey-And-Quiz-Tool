@@ -92,7 +92,7 @@ function wpsqt_main_install(){
 				  `meta` longtext NOT NULL,
 				  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				  PRIMARY KEY (`id`)
-				) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_RESULTS."`(
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -108,7 +108,7 @@ function wpsqt_main_install(){
 				  `total` INT  NULL ,
 				  `percentage` INT NULL,
 				  PRIMARY KEY (`id`)
-				) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_FORMS."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -119,7 +119,7 @@ function wpsqt_main_install(){
 				  `validation` varchar(355) NOT NULL,
 				  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				  PRIMARY KEY (`id`)
-				) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_QUIZ_SURVEYS."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -128,7 +128,7 @@ function wpsqt_main_install(){
 				  `type` varchar(266) NOT NULL,
 				  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				  PRIMARY KEY (`id`)
-				) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");	
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");	
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_SECTIONS."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -139,7 +139,7 @@ function wpsqt_main_install(){
 				  `difficulty` varchar(255) NOT NULL,
 				  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				  UNIQUE KEY `id` (`id`)
-				) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_SURVEY_CACHE."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -148,7 +148,7 @@ function wpsqt_main_install(){
 				  `item_id` int(11) NOT NULL,
 				  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				  PRIMARY KEY (`id`)
-				) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
 }
 
