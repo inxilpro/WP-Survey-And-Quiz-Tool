@@ -47,7 +47,7 @@ EOT;
 					echo '<tr>';
 					echo '<td>'.$answer['text'].'</td>';
 					echo '<td>'.$answer['count'].'</td>';
-					echo '<td>'.$percentage.'%</td>';
+					echo '<td>'.round($percentage, 2).'%</td>';
 					echo '</tr>';
 				}
 				echo <<< EOT
