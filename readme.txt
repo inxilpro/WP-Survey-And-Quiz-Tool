@@ -12,7 +12,7 @@ A highly customisable Quiz and Survey plugin to which allows for unlimited quest
 
 Allows users to create quizzes or surveys hosted on their WordPress install.
 
-There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin.
+There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin. Please report all bugs and issues you find to the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 **Features**
 
