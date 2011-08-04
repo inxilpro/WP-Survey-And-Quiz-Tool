@@ -23,6 +23,15 @@
 				<li><a href="#display_survey">How do I display a survey on a page?</a></li>
 			</ol>
 		</li>
+		<li>Poll
+			<ol>
+				<li><a href="#create_a_poll">How to create a poll?</a></li>
+				<li><a href="#edit_a_poll">How to edit a poll?</a></li>
+				<li><a href="#delete_a_poll">How to delete a poll?</a></li>
+				<li><a href="#how_many_poll">How many polls can I have?</a></li>
+				<li><a href="#display_poll">How do I display a poll on a page?</a></li>
+			</ol>
+		</li>
 		<li>Questions
 			<ol>
 				<li><a href="#create_a_question">How to create a questions?</a></li>
@@ -78,7 +87,7 @@
 	
 		<a name="display_quiz"></a>
 		<h4>How do I display a quiz on a page?</h4>
-		<p>To display a quiz on a page you need to use the shortcode, [wpsqt_quiz name=""] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new separate page is advised. <em>Note you may want to disable comments.</em></p>
+		<p>To display a quiz on a page you need to use the shortcode, [wpsqt name="Quiz Name" type="quiz"] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new separate page is advised. <em>Note you may want to disable comments.</em></p>
 	
 	<h3>Survey</h3>
 	
@@ -100,7 +109,30 @@
 	
 		<a name="display_survey"></a>
 		<h4>How do I display a Survey on a page?</h4>
-		<p>To display a quiz on a page you need to use the shortcode, [wpsqt_survey name=""] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new separate page is advised. <em>Note you may want to disable comments.</em></p>
+		<p>To display a quiz on a page you need to use the shortcode, [wpsqt name="Survey Name" type="survey"] in put in the name of the quiz you want to display in between the quote marks. You can do this in a post or in a page, a new separate page is advised. <em>Note you may want to disable comments.</em></p>
+		
+	<h3>Poll</h3>
+	
+		<a name="create_a_poll"></a>
+		<h4>How to create a poll?</h4>	
+		<p>To create a quiz you need to go to <strong>`<em>Quizzes/Surveys</em>`</strong> -&gt; then click <strong>`</strong><em>Add New Poll</em>`</strong> button. Then complete the form and click the <strong>`<em>Save Poll</em>`</strong> button.</p>
+		
+		<a name="edit_a_poll"></a>
+		<h4>How to edit a poll?</h4>	
+		<p>To edit a poll you need to goto <strong>`<em>Quizzes/Surveys</em>`</strong> then locate the poll in the table list. When poll is located click <strong>`<em>Edit</em>`</strong>.</p>
+	
+		<a name="delete_a_poll"></a>
+		<h4>How to delete a poll?</h4>	
+		<p>To delete a poll you need to go to <strong>`<em>Quizzes/Surveys</em>`</strong> then locate the poll in the table list. When poll is located click <strong>`<em>Delete</em>`</strong>.</p>
+	
+		<a name="how_many_poll"></a>
+		<h4>How many polls can I have?</h4>	
+		<p>You can have as many as you would like. If you have issues creating new polls please report this to us.</p>
+	
+		<a name="display_poll"></a>
+		<h4>How do I display a Poll on a page?</h4>
+		<p>To display a poll on a page you need to use the shortcode, [wpsqt name="Poll Name" type="poll"]. You can do this in a post or in a page, a new separate page is advised. <em>Note you may want to disable comments.</em></p>
+
 	
 	<h3>Questions</h3>
 	
