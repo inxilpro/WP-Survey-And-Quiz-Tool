@@ -22,15 +22,25 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 			$currentVersion = get_option("wpsqt_version");
 			$needUpdate = get_option("wpsqt_update_required");
 			if ($needUpdate == '1') {
-				switch($currentVersion) {
-					case '2.5':
-					echo 'Updating to 2.5';
+				switch($oldVersion) {
+					case '2.4.3':
+					echo '<p>Updating to 2.5</p>';
 					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_RESULTS."` ADD `pass` BOOLEAN NOT NULL");
-					echo 'Added the `pass` column';
+					echo '<p>Added the `pass` column</p>';
+					case '2.5':
+					echo '<p>Updating to 2.5.1</p>';
+					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_QUIZ_SURVEYS."` DEFAULT  CHARACTER SET utf8 COLLATE utf8_general_ci");
+					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_SECTIONS."` DEFAULT  CHARACTER SET utf8 COLLATE utf8_general_ci");
+					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_QUESTIONS."` DEFAULT  CHARACTER SET utf8 COLLATE utf8_general_ci");
+					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_FORMS."` DEFAULT  CHARACTER SET utf8 COLLATE utf8_general_ci");
+					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_RESULTS."` DEFAULT  CHARACTER SET utf8 COLLATE utf8_general_ci");
+					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_SURVEY_CACHE."` DEFAULT  CHARACTER SET utf8 COLLATE utf8_general_ci");
+					$wpdb->query("ALTER TABLE  `".WPSQT_TABLE_QUIZ_SURVEYS."` CHANGE  `name`  `name` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+					echo '<p>Updated. Return to the <a href="'.WPSQT_URL_MAIN.'">main page</a> to ensure the notice disappears</p>';
 					break;
 				}
 			} else {
-				echo 'You are up to date';
+				echo '<p>You are up to date.</p>';
 			}
 			update_option("wpsqt_update_required",false);
 			exit;
