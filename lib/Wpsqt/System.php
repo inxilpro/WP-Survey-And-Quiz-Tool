@@ -356,7 +356,7 @@ class Wpsqt_System {
 	
 	public static function fetchValidators(){
 		
-		$validators = array("None","Text","Number"); 
+		$validators = array("None","Text","Number","Email"); 
 		
 		$validators = apply_filters("wpsqt_validators",$validators);
 		

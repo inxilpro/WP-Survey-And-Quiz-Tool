@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 
 A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
 
@@ -48,12 +48,17 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
 
+= 2.4.3 =
+
+* Updated the documentation
+* Fixed poll results not showing when the poll name isn't capitalised
+
 = 2.4.2 =
 
 * Changed default database collation to UTF8 - will not update old tables
 * Fixed poll finish to show results if set
 * Increased the size of the question title field - will not update old tables
-* Fixed most notices and warnnings
+* Fixed most notices and warnings
 
 = 2.4.1 =
 

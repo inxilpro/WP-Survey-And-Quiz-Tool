@@ -17,12 +17,14 @@
 		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		
 		<?php
-		$pollName = ucwords($quizName);
+		$pollName = $quizName;
 		if (isset($_SESSION['wpsqt'][$pollName])) {
 			$pollId = $_SESSION['wpsqt'][$pollName]['details']['id'];
 			
 			// GETS ALL THE RESULTS FOR THIS POLL
 			$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
+		} else {
+			echo "I think you have an issue with the shortcode you used. Please copy and paste the poll name to ensure that it is capitalised correctly.";
 		}
 		
 		if (empty($results)) {
