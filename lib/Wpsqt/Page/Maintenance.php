@@ -14,6 +14,8 @@ class Wpsqt_Page_Maintenance extends Wpsqt_Page {
 
 	public function process(){
 		
+		if(get_option('wpsqt_update_required') == '1')
+			$update = true;
 		$this->_pageView = "admin/maintenance/index.php";
 			
 	}

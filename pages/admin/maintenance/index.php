@@ -14,11 +14,12 @@
 	
 	<div class="wpsqt-maintenance">
 		<dl class="wpsqt">
+		
+			<dt>Version:</dt>
+			<dd><?php echo WPSQT_VERSION; ?></dd>
 			
-			<dt>Upgrade</dt>
-			<dd><strong><font color="#FF0000">MAY BE REQUIRED</font></strong></dd>
-			
-			<p>Download the most recent version from <a href="http://wordpress.org/extend/plugins/wp-survey-and-quiz-tool/">WordPress Plugin Directory</a>.</p>
+			<dt>Upgrade:</dt>
+			<dd><strong><?php if(get_option('wpsqt_update_required') == '1') { echo '<font color="#FF0000">Required</font>'; } else { echo '<font color="green">You are up to date</font>'; } ?></strong></dd>
 			
 		</dl>				
 	</div>	
