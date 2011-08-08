@@ -374,6 +374,8 @@ class Wpsqt_Shortcode {
 		$correctAnswers = 0;
 		$canAutoMark = true;
 		
+		$passMark = (int)$_SESSION['wpsqt'][$quizName]['details']['pass_mark'];
+		
 		foreach ( $_SESSION['wpsqt'][$quizName]['sections'] as $quizSection ){	
 			if ( $this->_type != "quiz" || ( isset($quizSection['can_automark']) && $quizSection['can_automark'] == false) ){
 				$canAutoMark = false;
@@ -406,15 +408,27 @@ class Wpsqt_Shortcode {
 			$percentRight = 0;
 		}
 		
+		
+		// Check if pass
+		$pass = '0';
+		if ($percentRight >= $passMark)
+			$pass = '1';
+		
+		if ($pass == '1') {
+			$status = 'Accepted';
+		} else {
+			$status = 'unviewed';
+		}
+		
 		if ( !isset($_SESSION['wpsqt'][$quizName]['details']['store_results']) ||  $_SESSION['wpsqt'][$quizName]['details']['store_results'] !== "no" ){	
 			$wpdb->query(
-				$wpdb->prepare("INSERT INTO `".WPSQT_TABLE_RESULTS."` (timetaken,person,sections,item_id,person_name,ipaddress,score,total,percentage) 
-								VALUES (%d,%s,%s,%d,%s,%s,%d,%d,%d)",
+				$wpdb->prepare("INSERT INTO `".WPSQT_TABLE_RESULTS."` (timetaken,person,sections,item_id,person_name,ipaddress,score,total,percentage,status,pass) 
+								VALUES (%d,%s,%s,%d,%s,%s,%d,%d,%d,%s,%d)",
 								   array($timeTaken,
 							   		 serialize($_SESSION['wpsqt'][$quizName]['person']), 
 							   		 serialize($_SESSION['wpsqt'][$quizName]['sections']),
 							   		 $_SESSION['wpsqt'][$quizName]['details']['id'],
-							   		 $personName,$_SERVER['REMOTE_ADDR'],$correctAnswers,$totalPoints,$percentRight ) )
+							   		 $personName,$_SERVER['REMOTE_ADDR'],$correctAnswers,$totalPoints,$percentRight,$status,$pass ) )
 					);
 					
 			$_SESSION['wpsqt']['result_id'] = $wpdb->insert_id;
