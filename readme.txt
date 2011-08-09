@@ -1,7 +1,7 @@
 === WP Survey And Quiz Tool ===
 Contributors: Fubra,Backie,olliea95
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
-Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling
+Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.2.1
 Stable tag: 2.5.1
@@ -10,9 +10,11 @@ A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited
 
 == Description ==
 
-Allows users to create quizzes or surveys hosted on their WordPress install.
+Allows users to create quizzes, surveys or polls hosted on their WordPress install.
 
 There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin. Please report all bugs and issues you find to the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
+
+For full changelog and development history, see the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool">GitHub repo</a>.
 
 **Features**
 

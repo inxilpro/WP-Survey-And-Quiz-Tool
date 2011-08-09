@@ -374,7 +374,8 @@ class Wpsqt_Shortcode {
 		$correctAnswers = 0;
 		$canAutoMark = true;
 		
-		$passMark = (int)$_SESSION['wpsqt'][$quizName]['details']['pass_mark'];
+		if ($_SESSION['wpsqt'][$quizName]['details']['type'] == 'quiz')
+			$passMark = (int)$_SESSION['wpsqt'][$quizName]['details']['pass_mark'];
 		
 		foreach ( $_SESSION['wpsqt'][$quizName]['sections'] as $quizSection ){	
 			if ( $this->_type != "quiz" || ( isset($quizSection['can_automark']) && $quizSection['can_automark'] == false) ){
@@ -408,16 +409,19 @@ class Wpsqt_Shortcode {
 			$percentRight = 0;
 		}
 		
-		
-		// Check if pass
+		$status = 'unviewed';
 		$pass = '0';
-		if ($percentRight >= $passMark)
-			$pass = '1';
 		
-		if ($pass == '1') {
-			$status = 'Accepted';
-		} else {
-			$status = 'unviewed';
+		if ($_SESSION['wpsqt'][$quizName]['details']['type'] == 'quiz') {
+			// Check if pass
+			if ($percentRight >= $passMark)
+				$pass = '1';
+			
+			if ($pass == '1') {
+				$status = 'Accepted';
+			} else {
+				$status = 'unviewed';
+			}
 		}
 		
 		if ( !isset($_SESSION['wpsqt'][$quizName]['details']['store_results']) ||  $_SESSION['wpsqt'][$quizName]['details']['store_results'] !== "no" ){	

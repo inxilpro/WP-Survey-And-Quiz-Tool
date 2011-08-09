@@ -38,6 +38,7 @@
 					<td><select name="type[<?php echo $key; ?>]"/>
 							<option value="text" <?php if ($field['type'] == 'type'){ ?> selected="selected"<?php }?>>Text</option>
 							<option value="textarea" <?php if ($field['type'] == 'textarea'){ ?> selected="selected"<?php }?>>Textarea</option>
+							<option value="select" <?php if ($field['type'] == 'select') { ?> selected="selected"<?php }?>>Radio Buttons</option>
 						</select></td>
 					<td><select name="required[<?php echo $key; ?>]">
 							<option value="no" <?php if ($field['required'] == 'no'){ ?> selected="selected"<?php }?>>No</option>

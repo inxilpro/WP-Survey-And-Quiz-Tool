@@ -7,7 +7,7 @@ $objTokens->setDefaultValues();
 ?>
 
 <?php
-	$pollName = ucwords($quizName);
+	$pollName = $quizName;
 	$pollId = $_SESSION['wpsqt'][$pollName]['details']['id'];
 	
 	if ($_SESSION['wpsqt'][$pollName]['details']['finish_display'] == 'Poll results') {
