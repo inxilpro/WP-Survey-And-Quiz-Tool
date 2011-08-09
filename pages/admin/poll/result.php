@@ -63,13 +63,23 @@
 EOT;
 					$total = 0;
 					foreach ($question['answers'] as $answer) {
+						if (!isset($answer['count']))
+							$answer['count'] = '0';
 						$total += $answer['count'];
 					}
 					foreach($question['answers'] as $answer) {
-						$percentage = $answer['count'] / $total * 100;
+						if (isset($answer['count'])) {
+							$percentage = $answer['count'] / $total * 100;
+						} else {
+							$percentage = '0';
+						}
 						echo '<tr>';
 						echo '<td>'.$answer['text'].'</td>';
-						echo '<td>'.$answer['count'].'</td>';
+						if (isset($answer['count'])) {
+							echo '<td>'.$answer['count'].'</td>';
+						} else {
+							echo '<td>0</td>';
+						}
 						echo '<td>'.round($percentage, 2).'%</td>';
 						echo '</tr>';
 					}
