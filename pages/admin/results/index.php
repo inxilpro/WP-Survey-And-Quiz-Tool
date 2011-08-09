@@ -46,6 +46,7 @@
 					<th scope="col" width="90">Percentage</th>
 					<th scope="col" width="75">Pass/Fail</th>
 					<th scope="col" width="75">Status</th>
+					<th scope="col" width="75">Date</th>
 				</tr>			
 			</thead>
 			<tfoot>
@@ -56,6 +57,7 @@
 					<th scope="col" width="90">Percentage</th>
 					<th scope="col" width="75">Pass/Fail</th>
 					<th scope="col" width="75">Status</th>
+					<th scope="col" width="75">Date</th>
 				</tr>			
 			</tfoot>
 			<tbody>
@@ -75,6 +77,8 @@
 					<td><?php if($result['total'] == 0) {echo "Unable to auto mark";} else {echo $result['percentage']."%";} ?></td>
 					<td><font color="<?php if ($result['pass'] == 1) {echo "green";} else {echo "#FF0000";} ?>"><?php if ($result['pass'] == 1) {echo "Pass";} else {echo "Fail";} ?></font></td>
 					<td><font color="<?php if ( ucfirst($result['status']) == 'Unviewed' ) {?>#000000<?php } elseif ( $result['status'] == 'Accepted' ){ ?>green<?php } else { ?>#FF0000<?php } ?>"><?php echo ucfirst($result['status']); ?></font></td>
+					<td><?php if (!empty($result['datetaken'])) { echo date('d-m-y G:i:s',$result['datetaken']); } else { echo '-'; } ?>
+					</td>
 				</tr>
 				<?php } ?>
 			</tbody>
