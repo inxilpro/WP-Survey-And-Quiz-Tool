@@ -97,6 +97,7 @@ function wpsqt_main_install(){
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_RESULTS."`(
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
 				  `item_id` int(11) NOT NULL,
+				  `datetaken` varchar(255) NOT NULL,
 				  `timetaken` int(11) NOT NULL,
 				  `person` longtext NOT NULL,
 				  `sections` longtext NOT NULL,
