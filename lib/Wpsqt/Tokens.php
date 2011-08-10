@@ -121,7 +121,7 @@ class Wpsqt_Tokens {
 		$this->setTokenValue('HOSTNAME'    , gethostbyaddr($_SERVER['REMOTE_ADDR']) );
 		$this->setTokenValue('USER_AGENT'  , $_SERVER['HTTP_USER_AGENT'] );		
 		$this->setTokenValue('SCORE'       , ( isset($_SESSION['wpsqt']['current_score']) ) ? $_SESSION['wpsqt']['current_score'] : '');
-		$this->setTokenValue('RESULT_URL'  , WPSQT_URL_MAIN."&section=results&subsection=mark&id=".$_SESSION['wpsqt']['item_id']."&resultid=".$_SESSION['wpsqt']['result_id'] );
+		$this->setTokenValue('RESULT_URL'  , WPSQT_URL_MAIN."&section=results&subsection=mark&id=".$_SESSION['wpsqt']['result_id'] );
 		$this->setTokenValue('USER_EMAIL'  , ( isset($_SESSION['wpsqt'][$quizName]['person']['email']) ) ? $_SESSION['wpsqt'][$quizName]['person']['email'] : '');
 		$this->setTokenValue('USER_NAME'   , ( isset($_SESSION['wpsqt'][$quizName]['person']['name']) ) ? $_SESSION['wpsqt'][$quizName]['person']['name'] : 'Anonymous User');
 		$this->setTokenValue('USER_FNAME'   , ( isset($_SESSION['wpsqt'][$quizName]['person']['fname']) ) ? $_SESSION['wpsqt'][$quizName]['person']['fname'] : 'Anonymous');
