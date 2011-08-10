@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
@@ -49,6 +49,11 @@ Custom pages allows for the theming of the plugin pages without editing the plug
 Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
+
+= 2.5.3 =
+
+* Update the URL in the email notification to point to the correct resultid
+* Remove htmlentities and stripslashes on the additional text field so HTML can actually be used
 
 = 2.5.2 =
 
@@ -157,6 +162,12 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == Upgrade Notice ==
 
+= 2.5.2 =
+Fixes for new poll system, doc updates, general bug fixes. Worth updating!
+
+= 2.4 =
+Lots of new features, mainly polls.
+
 = 2.2.1 =
 Almost completely stable and loads of improvements over the beta release.
 
@@ -167,6 +178,7 @@ A lot more stable than beta releases. There is still going to be a few bugs, ple
 
 * Download/upload plugin to wp-content/plugins directory
 * Activate Plugin within Admin Dashboard.
+* Run the upgrade script if prompted to
 
 == Screenshots ==
 

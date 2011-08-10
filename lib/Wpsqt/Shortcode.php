@@ -424,10 +424,6 @@ class Wpsqt_Shortcode {
 			}
 		}
 		
-		//$dateTaken = $_SESSION['wpsqt'][$quizName]['start_time'];
-		
-		echo '<pre>'; var_dump($_SESSION['wpsqt'][$quizName]['start_time']); echo '</pre>';
-		
 		if ( !isset($_SESSION['wpsqt'][$quizName]['details']['store_results']) ||  $_SESSION['wpsqt'][$quizName]['details']['store_results'] !== "no" ){	
 			$wpdb->query(
 				$wpdb->prepare("INSERT INTO `".WPSQT_TABLE_RESULTS."` (datetaken,timetaken,person,sections,item_id,person_name,ipaddress,score,total,percentage,status,pass) 
