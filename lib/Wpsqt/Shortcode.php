@@ -105,7 +105,7 @@ class Wpsqt_Shortcode {
 			$_SESSION['wpsqt']['item_id'] = $_SESSION['wpsqt'][$identifier]['details']['id'];
 			if ( !empty($_SESSION['wpsqt'][$identifier]['details']) ){
 				$_SESSION['wpsqt'][$identifier]['sections'] = $wpdb->get_results(
-														$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_SECTIONS."` WHERE item_id = %d",
+														$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_SECTIONS."` WHERE item_id = %d ORDER BY `id` ASC",
 																		array($_SESSION['wpsqt'][$identifier]['details']['id'])), ARRAY_A
 												);			
 			} else {
