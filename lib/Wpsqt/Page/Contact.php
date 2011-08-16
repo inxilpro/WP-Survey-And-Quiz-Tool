@@ -52,7 +52,7 @@ class Wpsqt_Page_Contact extends Wpsqt_Page {
 		   			$message .= 'WPSQT Version: '.WPSQT_VERSION.PHP_EOL;
 		   			$message .= 'PHP Version: '.PHP_VERSION.PHP_EOL;
 		   			$message .= 'WordPress Version: '.$wp_version.PHP_EOL;
-		   			$message .= 'Message: '.(stripslashes($_POST['message'])).PHP_EOL;
+		   			$message .= 'Message: '.esc_html(wp_kses_stripslashes($_POST['message'])).PHP_EOL;
 		   			   			
 					if ( !wp_mail(WPSQT_CONTACT_EMAIL, 'WPSQT : '.stripslashes($_POST['reason']), $message, $headers) ){
 						$errorArray[] = 'Unable to send email, please check wordpress settings';

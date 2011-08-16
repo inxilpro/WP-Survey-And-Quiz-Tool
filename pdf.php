@@ -58,7 +58,7 @@ if ( filter_input(INPUT_GET, 'html') ){
 	$objTokens->setDefaultValues();
 	$pdfTemplate  = $objTokens->doReplacement($pdfTemplate);
 	
-	$resultUrl = (get_bloginfo('url').'/wp-admin/admin.php?page=wpsqt-menu&type=quiz&action=results&id='.$quizId
+	$resultUrl = esc_html(get_bloginfo('url').'/wp-admin/admin.php?page=wpsqt-menu&type=quiz&action=results&id='.$quizId
 					.'&subaction=mark&subid='.$resultDetails['id']);
 	$pdfTemplate = str_ireplace('%RESULT_URL%', $resultUrl, $pdfTemplate);
 	$url = plugins_url('pdf.php?html=true&id='.$_GET['id'].'&quizid='.$_GET['quizid'],__FILE__);

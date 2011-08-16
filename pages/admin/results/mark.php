@@ -33,8 +33,8 @@ $hardPoints = 0;
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<?php foreach($result['person'] as $fieldName => $fieldValue){?>
 				<tr>
-					<th scope="row"><?php echo (strip_tags(stripslashes(ucwords($fieldName)))); ?></th>
-					<td><?php echo (strip_tags(stripslashes(ucwords($fieldValue)))); ?></td>
+					<th scope="row"><?php echo esc_html(strip_tags(wp_kses_stripslashes(ucwords($fieldName)))); ?></th>
+					<td><?php echo esc_html(strip_tags(wp_kses_stripslashes(ucwords($fieldValue)))); ?></td>
 				</tr>
 				<?php }
 					  if (isset($result['ipaddress'])){

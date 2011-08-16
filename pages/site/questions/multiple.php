@@ -1,7 +1,7 @@
 			<ul>
 			<?php foreach ( $question['answers'] as $answerKey => $answer ){ ?>
 				<li>
-					<input type="<?php echo ($question['type'] == 'Single' ) ? 'radio' : 'checkbox'; ?>" name="answers[<?php echo $questionKey; ?>][]" value="<?php echo $answerKey; ?>" id="answer_<?php echo $question['id']; ?>_<?php echo $answerKey;?>" <?php if ( (isset($answer['default']) && $answer['default'] == 'yes') || in_array($answerKey, $givenAnswer)) {  ?> checked="checked" <?php } ?> /> <label for="answer_<?php echo $question['id']; ?>_<?php echo $answerKey;?>"><?php echo ( $answer['text'] ); ?></label> 
+					<input type="<?php echo ($question['type'] == 'Single' ) ? 'radio' : 'checkbox'; ?>" name="answers[<?php echo $questionKey; ?>][]" value="<?php echo $answerKey; ?>" id="answer_<?php echo $question['id']; ?>_<?php echo $answerKey;?>" <?php if ( (isset($answer['default']) && $answer['default'] == 'yes') || in_array($answerKey, $givenAnswer)) {  ?> checked="checked" <?php } ?> /> <label for="answer_<?php echo $question['id']; ?>_<?php echo $answerKey;?>"><?php echo esc_html( $answer['text'] ); ?></label> 
 				</li>
 			<?php } 
 				if (    $question['type'] == 'Multiple Choice' 
