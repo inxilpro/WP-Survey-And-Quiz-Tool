@@ -14,7 +14,7 @@
 			<?php   $i = 0;
 					foreach( $answers as $key => $answer ) { ?>
 				<tr>
-					<td><input type="text" name="multiple_name[<?php echo $i; ?>]" value="<?php echo htmlentities(stripslashes($answer["text"])); ?>" /></td>
+					<td><input type="text" name="multiple_name[<?php echo $i; ?>]" value="<?php echo (stripslashes($answer["text"])); ?>" /></td>
 					<td><input type="checkbox" name="multiple_correct[<?php echo  $i; ?>]" <?php if ( $answer["correct"] == "yes" ){ ?> checked="checked"<?php }?> value="yes" /></td>
 					<td><input type="radio" name="multiple_default" <?php if ( isset($answer["default"]) && $answer["default"] == "yes" ){ ?> checked="checked"<?php }?> value="<?php echo $i; ?>" /></td>
 					<td><input type="checkbox" name="multiple_delete[<?php echo  $i; ?>]" value="yes" /></td>

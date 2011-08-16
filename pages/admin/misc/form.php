@@ -6,7 +6,7 @@
 				<td valign="top">
 				<?php switch ($option["type"]) {
 					case "text": ?>
-				<input id="<?php echo $name; ?>" maxlength="255" size="50" name="<?php echo $name; ?>" value="<?php echo htmlentities(stripslashes($option["value"])); ?>" />
+				<input id="<?php echo $name; ?>" maxlength="255" size="50" name="<?php echo $name; ?>" value="<?php echo (stripslashes($option["value"])); ?>" />
 				<?php
 						 break;
 					case "select":
@@ -28,7 +28,7 @@
 						break;
 					case "textarea":
 						?>
-						<textarea name="<?php echo $name; ?>" rows="8" cols="40"><?php echo htmlentities(stripslashes($option["value"])); ?></textarea>
+						<textarea name="<?php echo $name; ?>" rows="8" cols="40"><?php echo (stripslashes($option["value"])); ?></textarea>
 						<?php
 						break;
 					case "static":
