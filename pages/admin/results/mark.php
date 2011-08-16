@@ -33,8 +33,8 @@ $hardPoints = 0;
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<?php foreach($result['person'] as $fieldName => $fieldValue){?>
 				<tr>
-					<th scope="row"><?php echo htmlentities(strip_tags(stripslashes(ucwords($fieldName)))); ?></th>
-					<td><?php echo htmlentities(strip_tags(stripslashes(ucwords($fieldValue)))); ?></td>
+					<th scope="row"><?php echo (strip_tags(stripslashes(ucwords($fieldName)))); ?></th>
+					<td><?php echo (strip_tags(stripslashes(ucwords($fieldValue)))); ?></td>
 				</tr>
 				<?php }
 					  if (isset($result['ipaddress'])){
@@ -86,7 +86,7 @@ $hardPoints = 0;
 					<p class="answer_given">
 						<ol>
 							<?php foreach ($questionArray['answers'] as $answerKey => $answer){ ?>
-								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : 'green' ; ?>"><?php echo htmlentities(stripslashes($answer['text'])); ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
+								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : 'green' ; ?>"><?php echo (stripslashes($answer['text'])); ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
 							<?php } ?>
 						</ol>
 					</p>
