@@ -9,7 +9,7 @@
 	<div class="tablenav">
 		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo ($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
@@ -60,7 +60,7 @@
 	<div class="tablenav">
 		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo htmlentities($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo ($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">

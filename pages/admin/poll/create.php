@@ -27,7 +27,7 @@
 		<?php $objForm->display(); ?>
 				
 		<p class="submit">
-			<input class="button-primary" type="submit" name="Save" value="Save Quiz" id="submitbutton" />
+			<input class="button-primary" type="submit" name="Save" value="Save Poll" id="submitbutton" />
 		</p>
 		
 	</form>

@@ -1,18 +1,19 @@
 === WP Survey And Quiz Tool ===
 Contributors: Fubra,Backie,olliea95
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
-Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling
+Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.4.2
-
-A highly customisable Quiz and Survey plugin to which allows for unlimited questions and sections.
+Stable tag: 2.5.7
+A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
 == Description ==
 
-Allows users to create quizzes or surveys hosted on their WordPress install.
+Allows users to create quizzes, surveys or polls hosted on their WordPress install.
 
 There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin. Please report all bugs and issues you find to the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
+
+For full changelog and development history, see the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool">GitHub repo</a>.
 
 **Features**
 
@@ -48,12 +49,56 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == ChangeLog ==
 
+=======
+= 2.5.7 =
+
+* Removed all the uses of htmlentities as it was encoding as ISO to a UTF8 table
+
+= 2.5.6 =
+
+* Various bug fixes
+
+= 2.5.5 =
+
+* Added option for custom survey finish message
+
+= 2.5.4 =
+
+* Fixed install script to install a correct database
+
+= 2.5.3 =
+
+* Update the URL in the email notification to point to the correct resultid
+* Remove htmlentities and stripslashes on the additional text field so HTML can actually be used
+
+= 2.5.2 =
+
+* Made the maintenance menu more informative
+* Once again fixed the poll results display
+* Added a date taken column to the results page of quizzes, any results pre this update will not have a date
+
+= 2.5.1 =
+
+* Slight change to the upgrade script
+
+= 2.5 =
+
+* Quizzes now auto approve if passed
+* Pass/Fail column now works as intended
+* Removed the 'date viewed' column as that was misleading
+* Finally fixed the upgrade script - please now use this if prompted
+
+= 2.4.3 =
+
+* Updated the documentation
+* Fixed poll results not showing when the poll name isn't capitalised
+
 = 2.4.2 =
 
 * Changed default database collation to UTF8 - will not update old tables
 * Fixed poll finish to show results if set
 * Increased the size of the question title field - will not update old tables
-* Fixed most notices and warnnings
+* Fixed most notices and warnings
 
 = 2.4.1 =
 
@@ -133,6 +178,12 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
 
 == Upgrade Notice ==
 
+= 2.5.2 =
+Fixes for new poll system, doc updates, general bug fixes. Worth updating!
+
+= 2.4 =
+Lots of new features, mainly polls.
+
 = 2.2.1 =
 Almost completely stable and loads of improvements over the beta release.
 
@@ -143,6 +194,7 @@ A lot more stable than beta releases. There is still going to be a few bugs, ple
 
 * Download/upload plugin to wp-content/plugins directory
 * Activate Plugin within Admin Dashboard.
+* Run the upgrade script if prompted to
 
 == Screenshots ==
 

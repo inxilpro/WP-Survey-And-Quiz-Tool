@@ -5,7 +5,11 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: Allows wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
+<<<<<<< HEAD
 Version: 2.4.2
+=======
+Version: 2.5.7
+>>>>>>> b891531d5298cffecc4ce5666ca6def2cdde8959
 
 WP Survey And Quiz Tool
 Copyright (C) 2011  Fubra Limited
@@ -50,7 +54,11 @@ define( 'WPSQT_TABLE_SURVEY_CACHE'   , $wpdb->get_blog_prefix().'wpsqt_survey_ca
 define( 'WPSQT_URL_MAIN'             , admin_url('admin.php?page='.WPSQT_PAGE_MAIN) );
 define( 'WPSQT_URL_MAINENTANCE'      , admin_url('admin.php?page='.WPSQT_PAGE_MAINTENANCE) );
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
+<<<<<<< HEAD
 define( 'WPSQT_VERSION'              , '2.4.2' );
+=======
+define( 'WPSQT_VERSION'              , '2.5.7' );
+>>>>>>> b891531d5298cffecc4ce5666ca6def2cdde8959
 define( 'WPSQT_DIR'                  , dirname(__FILE__).'/' );
 define( 'WPSQT_FILE'     , __FILE__ );
 
@@ -84,7 +92,7 @@ function wpsqt_main_install(){
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_QUESTIONS."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
-				  `name` varchar(255) NOT NULL,
+				  `name` varchar(512) NOT NULL,
 				  `type` varchar(255) NOT NULL,
 				  `item_id` int(11) NOT NULL,
 				  `section_id` int(11) NOT NULL,
@@ -108,6 +116,7 @@ function wpsqt_main_install(){
 				  `score` INT NULL ,
 				  `total` INT  NULL ,
 				  `percentage` INT NULL,
+				  `pass` BOOLEAN NOT NULL,
 				  PRIMARY KEY (`id`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 

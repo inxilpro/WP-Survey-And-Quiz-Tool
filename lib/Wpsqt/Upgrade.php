@@ -183,6 +183,10 @@ class Wpsqt_Upgrade {
 		if ( version_compare($version, '2.0.0.3') < 0 ){
 			$objUpgrade->addQuery("ALTER TABLE  `".WPSQT_TABLE_RESULTS."` ADD  `score` INT NULL , ADD  `total` INT  NULL , ADD  `percentage` INT NULL","Added scores columns to results");
 		}
+		
+		if (version_compare($version, '2.4') < 0) {
+			echo "Upgrading db to 2.4";
+		}
 		apply_filters( 'wpsqt_upgrade_object', $objUpgrade, $version );
 	
 		return $objUpgrade;

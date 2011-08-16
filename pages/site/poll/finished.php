@@ -7,7 +7,7 @@ $objTokens->setDefaultValues();
 ?>
 
 <?php
-	$pollName = ucwords($quizName);
+	$pollName = $quizName;
 	$pollId = $_SESSION['wpsqt'][$pollName]['details']['id'];
 	
 	if ($_SESSION['wpsqt'][$pollName]['details']['finish_display'] == 'Poll results') {
@@ -47,7 +47,7 @@ EOT;
 					echo '<tr>';
 					echo '<td>'.$answer['text'].'</td>';
 					echo '<td>'.$answer['count'].'</td>';
-					echo '<td>'.$percentage.'%</td>';
+					echo '<td>'.round($percentage, 2).'%</td>';
 					echo '</tr>';
 				}
 				echo <<< EOT

@@ -40,7 +40,7 @@
 					<th scope="row"><?php echo $result['id']; ?></th>
 					<td class="column-title">
 						<strong>
-							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=survey&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo htmlentities($result['person_name']);  if (isset($person['email'])){ ?> - <?php echo $person['email']; }  if (isset($result['ipaddress'])) { ?> - <?php  echo $result['ipaddress']; } ?></a>
+							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=survey&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo ($result['person_name']);  if (isset($person['email'])){ ?> - <?php echo $person['email']; }  if (isset($result['ipaddress'])) { ?> - <?php  echo $result['ipaddress']; } ?></a>
 						</strong>
 						<div class="row-actions">
 							<span class="view"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=view&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">View</a> | </span>

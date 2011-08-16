@@ -17,6 +17,8 @@ class Wpsqt_Mail {
 	 * @since 2.0
 	 */
 	public static function sendMail(){
+	
+		global $wpdb;
 		
 		$quizName = $_SESSION['wpsqt']['current_id'];
 		

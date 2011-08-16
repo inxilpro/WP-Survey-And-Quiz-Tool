@@ -46,7 +46,7 @@
 					<th scope="col" width="90">Percentage</th>
 					<th scope="col" width="75">Pass/Fail</th>
 					<th scope="col" width="75">Status</th>
-					<th scope="col" width="100">Date Viewed</th>
+					<th scope="col" width="75">Date</th>
 				</tr>			
 			</thead>
 			<tfoot>
@@ -57,7 +57,7 @@
 					<th scope="col" width="90">Percentage</th>
 					<th scope="col" width="75">Pass/Fail</th>
 					<th scope="col" width="75">Status</th>
-					<th scope="col" width="100">Date Viewed</th>
+					<th scope="col" width="75">Date</th>
 				</tr>			
 			</tfoot>
 			<tbody>
@@ -66,7 +66,7 @@
 					<th scope="row"><?php echo $result['id']; ?></th>
 					<td class="column-title">
 						<strong>
-							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo htmlentities($result['person_name']);  if (isset($person['email'])){ ?> - <?php echo $person['email']; }  if (isset($result['ipaddress'])) { ?> - <?php  echo $result['ipaddress']; } ?></a>
+							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo ($result['person_name']);  if (isset($person['email'])){ ?> - <?php echo $person['email']; }  if (isset($result['ipaddress'])) { ?> - <?php  echo $result['ipaddress']; } ?></a>
 						</strong>
 						<div class="row-actions">
 							<span class="mark"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=mark&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">Mark</a> | </span>
@@ -75,9 +75,10 @@
 					</td>
 					<td><?php if($result['total'] == 0) {echo "Unable to auto mark";} else {echo $result['score']."/".$result['total'];} ?></td>
 					<td><?php if($result['total'] == 0) {echo "Unable to auto mark";} else {echo $result['percentage']."%";} ?></td>
-					<td>Fail</td>
+					<td><font color="<?php if ($result['pass'] == 1) {echo "green";} else {echo "#FF0000";} ?>"><?php if ($result['pass'] == 1) {echo "Pass";} else {echo "Fail";} ?></font></td>
 					<td><font color="<?php if ( ucfirst($result['status']) == 'Unviewed' ) {?>#000000<?php } elseif ( $result['status'] == 'Accepted' ){ ?>green<?php } else { ?>#FF0000<?php } ?>"><?php echo ucfirst($result['status']); ?></font></td>
-					<td><?php if ($result['timestamp'] != 0) {echo $result['timestamp'];} else {echo '&nbsp;&nbsp;-';} ?></td>
+					<td><?php if (!empty($result['datetaken'])) { echo date('d-m-y G:i:s',$result['datetaken']); } else { echo '-'; } ?>
+					</td>
 				</tr>
 				<?php } ?>
 			</tbody>

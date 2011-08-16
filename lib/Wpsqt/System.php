@@ -356,7 +356,7 @@ class Wpsqt_System {
 	
 	public static function fetchValidators(){
 		
-		$validators = array("None","Text","Number"); 
+		$validators = array("None","Text","Number","Email"); 
 		
 		$validators = apply_filters("wpsqt_validators",$validators);
 		
@@ -448,6 +448,14 @@ class Wpsqt_System {
 									  'Dropdown' => 'Multiple choice question with mulitple correct answers.',
 									  'Likert' => '',
 									  'Free Text' => '');
+		
+		return apply_filters('wpsqt_survey_question_types', $questions );
+		
+	}
+	
+	public static function getPollQuestionTypes(){
+		
+		$questions = array('Single' => 'Multiple choice question with a signle correct answer.','Multiple' => 'Multiple choice question with mulitple correct answers.');
 		
 		return apply_filters('wpsqt_survey_question_types', $questions );
 		

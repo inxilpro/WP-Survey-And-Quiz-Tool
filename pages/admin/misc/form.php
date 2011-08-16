@@ -6,35 +6,35 @@
 				<td valign="top">
 				<?php switch ($option["type"]) {
 					case "text": ?>
-				<input id="<?php echo $name; ?>" maxlength="255" size="50" name="<?php echo $name; ?>" value="<?php echo htmlentities(stripslashes($option["value"])); ?>" />
+				<input id="<?php echo $name; ?>" maxlength="255" size="50" name="<?php echo $name; ?>" value="<?php echo (stripslashes($option["value"])); ?>" />
 				<?php
 						 break;
-					case "select":						
-						?>						
+					case "select":
+						?>
 						<select id="<?php echo $name; ?>" name="<?php echo $name; ?>">
 							<?php foreach( $option["args"] as $arg ){ ?>
 							<option value="<?php echo $arg; ?>"<?php if ($option["value"] == $arg) { ?> selected="selected"<?php } ?>><?php echo $arg; ?></option>
 							<?php } ?>
 						</select>
-						<?php 
+						<?php
 						break;
 					case "yesno":
-						?>						
+						?>
 						<input type="radio" name="<?php echo $name; ?>" value="no" <?php if ( empty($option["value"]) || $option["value"] == 'no' ){ ?> checked="checked"<?php } ?> id="<?php echo $name; ?>_no" />
 						<label for="<?php echo $name; ?>_no">No</label>
 						<input type="radio" name="<?php echo $name; ?>" value="yes" <?php if ( $option["value"] == 'yes' ) {?> checked="checked"<?php } ?> id="<?php echo $name; ?>_yes" />
 						<label for="<?php echo $name; ?>_yes">Yes</label>
-						<?php 						
+						<?php
 						break;
 					case "textarea":
-						?>						
-						<textarea name="<?php echo $name; ?>" rows="8" cols="40"><?php echo htmlentities(stripslashes($option["value"])); ?></textarea>
-						<?php 						
+						?>
+						<textarea name="<?php echo $name; ?>" rows="8" cols="40"><?php echo (stripslashes($option["value"])); ?></textarea>
+						<?php
 						break;
-					case "static":						
-						?>						
+					case "static":
+						?>
 						<span style="background-color : #F2F5A9;"><?php echo $option["value"]; ?></span>
-						<?php 	
+						<?php
 						break;
 					case 'image':
 						$media_upload_iframe_src = "media-upload.php?question_id=".$name."&amp;app=wpsqt&amp;TB_iframe=true&amp;cb=" . rand();
