@@ -47,6 +47,8 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_RESULTS."` ADD `datetaken` VARCHAR(255) NOT NULL AFTER `item_id`");
 					case '2.5.4':
 					echo '<h4>Updating to 2.5.5</h4>';
+					case '2.5.5':
+					echo '<h4>Updating to 2.5.6</h4>';
 					echo '<p><strong>Updated. Return to the <a href="'.WPSQT_URL_MAIN.'">main page</a> to ensure the notice disappears</strong></p>';
 					break;
 				}

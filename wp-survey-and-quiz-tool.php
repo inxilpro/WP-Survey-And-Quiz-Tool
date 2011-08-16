@@ -5,7 +5,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: Allows wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 2.5.5
+Version: 2.5.6
 
 WP Survey And Quiz Tool
 Copyright (C) 2011  Fubra Limited
