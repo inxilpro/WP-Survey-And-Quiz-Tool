@@ -30,7 +30,7 @@ foreach ( $_SESSION['wpsqt'][$quizName]['sections'] as $section ){ ?>
 					<p class="answer_given">
 						<ol>
 							<?php foreach ($questionArray['answers'] as $answerKey => $answer){ ?>
-								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : '#00FF00' ; ?>"><?php echo (stripslashes($answer['text'])); ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
+								  <li><font color="<?php echo ( $answer['correct'] != 'yes' ) ?  (isset($section['answers'][$questionId]['given']) &&  in_array($answerKey, $section['answers'][$questionId]['given']) ) ? '#FF0000' :  '#000000' : '#00FF00' ; ?>"><?php echo esc_html(stripslashes($answer['text'])); ?></font><?php if (isset($section['answers'][$questionId]['given']) && in_array($answerKey, $section['answers'][$questionId]['given']) ){ ?> - Given<?php }?></li>
 							<?php } ?>
 						</ol>
 					</p>

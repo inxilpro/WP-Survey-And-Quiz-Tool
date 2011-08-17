@@ -9,7 +9,7 @@
 	<div class="tablenav">
 		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo ($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo esc_url($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
@@ -47,8 +47,8 @@
 					foreach ($questions as $question) { ?>
 			<tr>
 				<td><?php echo $question['id']; ?></td>
-				<td><?php echo stripslashes($question['text']); ?></td>
-				<td><?php echo ucfirst( stripslashes($question['type']) ); ?></td>
+				<td><?php echo wp_kses_stripslashes($question['text']); ?></td>
+				<td><?php echo ucfirst( wp_kses_stripslashes($question['type']) ); ?></td>
 				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-edit&id=<?php echo $question['surveyid']; ?>&questionid=<?php echo $question['id']; ?>" class="button-secondary" title="Edit Question">Edit</a></td>
 				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-delete&id=<?php echo $question['surveyid']; ?>&questionid=<?php echo $question['id']; ?>" class="button-secondary" title="Delete Question">Delete</a></td>
 			</tr>
@@ -60,7 +60,7 @@
 	<div class="tablenav">
 		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
-			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo ($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey&action=question-create&id=<?php echo esc_url($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">

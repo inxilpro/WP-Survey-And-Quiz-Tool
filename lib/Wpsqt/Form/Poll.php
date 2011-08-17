@@ -38,6 +38,7 @@ class Wpsqt_Form_Poll extends Wpsqt_Form {
 		}
 
 		$this->options = $options;
+
 		apply_filters("wpsqt_form_poll",$this);
 
 	}
