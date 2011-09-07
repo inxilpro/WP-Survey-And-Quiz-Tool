@@ -5,7 +5,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: Allows wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 2.5.8
+Version: 2.5.9
 
 WP Survey And Quiz Tool
 Copyright (C) 2011  Fubra Limited
@@ -50,7 +50,7 @@ define( 'WPSQT_TABLE_SURVEY_CACHE'   , $wpdb->get_blog_prefix().'wpsqt_survey_ca
 define( 'WPSQT_URL_MAIN'             , admin_url('admin.php?page='.WPSQT_PAGE_MAIN) );
 define( 'WPSQT_URL_MAINENTANCE'      , admin_url('admin.php?page='.WPSQT_PAGE_MAINTENANCE) );
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '2.5.8' );
+define( 'WPSQT_VERSION'              , '2.5.9' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__).'/' );
 define( 'WPSQT_FILE'     , __FILE__ );
 
@@ -59,6 +59,19 @@ require_once WPSQT_DIR.'lib/Wpsqt/System.php';
 
 // Call Wpsqt_Installer Class to write in WPSQT tables on activation 
 register_activation_hook ( __FILE__, 'wpsqt_main_install' );
+	
+$oldVersion = get_option('wpsqt_version');
+
+update_option('wpsqt_version',WPSQT_VERSION);
+if ( !get_option('wpsqt_number_of_items') ){
+	update_option('wpsqt_number_of_items',25);
+}
+// Simple way of checking if an it's an update or not.
+if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
+	update_option('wpsqt_update_required',true);
+	update_option('wpsqt_old_version',$oldVersion);
+	return ;
+}
 
 /**
  * Class for Installing plugin on activation.
@@ -66,21 +79,8 @@ register_activation_hook ( __FILE__, 'wpsqt_main_install' );
  * @since 2
  */
 function wpsqt_main_install(){
-	
+
 	global $wpdb;
-	
-	$oldVersion = get_option('wpsqt_version');
-	
-	update_option('wpsqt_version',WPSQT_VERSION);
-	if ( !get_option('wpsqt_number_of_items') ){
-		update_option('wpsqt_number_of_items',25);
-	}
-	// Simple way of checking if an it's an update or not.
-	if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
-		update_option('wpsqt_update_required',true);
-		update_option('wpsqt_old_version',$oldVersion);
-		return ;
-	}
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `".WPSQT_TABLE_QUESTIONS."` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -22,6 +22,8 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 			$currentVersion = get_option("wpsqt_version");
 			$needUpdate = get_option("wpsqt_update_required");
 			if ($needUpdate == '1') {
+				if ((int)$oldVersion < 2.4.3)
+					require_once('fullUpgrade.php');
 				switch($oldVersion) {
 					case '2.4.3':
 					echo '<h4>Updating to 2.5</h4>';
@@ -45,13 +47,9 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 					case '2.5.3':
 					echo '<h4>Updating to 2.5.4</h4>';
 					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_RESULTS."` ADD `datetaken` VARCHAR(255) NOT NULL AFTER `item_id`");
-					case '2.5.4':
-					echo '<h4>Updating to 2.5.5</h4>';
-					case '2.5.5':
-					echo '<h4>Updating to 2.5.6</h4>';
-					echo '<p><strong>Updated. Return to the <a href="'.WPSQT_URL_MAIN.'">main page</a> to ensure the notice disappears</strong></p>';
 					break;
 				}
+				echo '<p><strong>Updated. Return to the <a href="'.WPSQT_URL_MAIN.'">main page</a> to ensure the notice disappears</strong></p>';
 			} else {
 				echo '<p>You are up to date.</p>';
 			}

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.5.8
+Stable tag: 2.5.9
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
 == Description ==
@@ -45,9 +45,27 @@ Currently 30+ filters and hooks to use throughout the plugin to help extend it w
 
 Custom pages allows for the theming of the plugin pages without editing the plugin.
 
-Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
+Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>.
+
+**For those having issues with results not saving**
+
+If you have upgraded from a version 2.x.x and the results are not saving, please follow these instructions.
+
+1. Make sure you have the latest version of the plugin
+1. Deactivate plugin
+1. Activate plugin
+1. In the WPSQT menu click Maintenance
+1. Select the Upgrade tab
+1. Click the Upgrade button
+1. Repeat all previous steps once more
+
+Any further issues then feel free to create a thread on the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 == ChangeLog ==
+
+= 2.5.9 =
+
+* Changed the upgrade script so deactivation/activation isn't required after update
 
 = 2.5.8 =
 
