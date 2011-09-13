@@ -13,15 +13,23 @@
 	</div>
 	
 	<div class="wpsqt-maintenance">
-		<dl class="wpsqt">
+		<h3>Check For Updates</h3>
 		
-			<dt>Version:</dt>
-			<dd><?php echo WPSQT_VERSION; ?></dd>
+			<?php if (isset($version)) { ?>
+				<dl class="wpsqt">
+					<dt>Current Version:</dt>
+					<dd><?php echo WPSQT_VERSION; ?></dd>
+					
+					<dt>Most Recent Version:</dt>
+					<dd><?php echo $version; ?></dd>
+					
+					<dd><strong><?php if(version_compare(WPSQT_VERSION, $version) < 0) { echo '<font color="#FF0000">Update required, visit the plugin update page to do so.</font>'; } else { echo '<font color="green">You are up to date</font>'; } ?></strong></dd>
+				</dl>
+			<?php } ?>
 			
-			<dt>Upgrade:</dt>
-			<dd><strong><?php if(get_option('wpsqt_update_required') == '1') { echo '<font color="#FF0000">Required</font>'; } else { echo '<font color="green">You are up to date</font>'; } ?></strong></dd>
-			
-		</dl>				
+		
+		
+		<form action="" method="post"><input class="button-primary" type="submit" name="check-version" value="Check Version" id="submitbutton" /></form>			
 	</div>	
 	
 	
