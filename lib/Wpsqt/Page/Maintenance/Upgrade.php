@@ -19,10 +19,10 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 			
 			print "<h3>UPDATING</h3>".PHP_EOL;
 			$oldVersion = get_option("wpsqt_old_version");
-			$currentVersion = get_option("wpsqt_version");
+			$currentVersion = WPSQT_VERSION;
 			$needUpdate = get_option("wpsqt_update_required");
 			if ($needUpdate == '1') {
-				if ((int)$oldVersion < 2.4.3)
+				if (version_compare($oldVersion, '2.4.3') <= 0)
 					require_once('fullUpgrade.php');
 				switch($oldVersion) {
 					case '2.4.3':
@@ -50,6 +50,8 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 					break;
 				}
 				echo '<p><strong>Updated. Return to the <a href="'.WPSQT_URL_MAIN.'">main page</a> to ensure the notice disappears</strong></p>';
+				update_option('wpsqt_version',WPSQT_VERSION);
+
 			} else {
 				echo '<p>You are up to date.</p>';
 			}

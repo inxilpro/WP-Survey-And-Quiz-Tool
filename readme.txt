@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.5.9
+Stable tag: 2.6
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
 == Description ==
@@ -24,7 +24,7 @@ For full changelog and development history, see the <a href="https://github.com/
 * Auto marking for quizzes with all multiple choice questions.
 * Ability to limit quizzes and surveys to one submission per IP address.
 * Ability to send customised notification emails.
-* Ability to send notification emails to a single email address,multiple email addresses or a group of WordPress users.
+* Ability to send notification emails to a single email address, multiple email addresses or a group of WordPress users.
 * Ability to have notification emails only be sent if the user got a certain score.
 * Ability to have surveys and quizzes be taken by registered WordPress members only.
 * Ability to have quizzes and surveys with or without contact forms.
@@ -62,6 +62,12 @@ If you have upgraded from a version 2.x.x and the results are not saving, please
 Any further issues then feel free to create a thread on the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 == ChangeLog ==
+
+= 2.6 =
+
+* Optimised the upgrade checking so the database isn't being written to on every page load
+* Fixed an issue with the version comparing
+* Fixed issue viewing total results on a survey when there are no results
 
 = 2.5.9 =
 

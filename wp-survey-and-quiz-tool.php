@@ -5,7 +5,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: Allows wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 2.5.9
+Version: 2.6
 
 WP Survey And Quiz Tool
 Copyright (C) 2011  Fubra Limited
@@ -50,7 +50,7 @@ define( 'WPSQT_TABLE_SURVEY_CACHE'   , $wpdb->get_blog_prefix().'wpsqt_survey_ca
 define( 'WPSQT_URL_MAIN'             , admin_url('admin.php?page='.WPSQT_PAGE_MAIN) );
 define( 'WPSQT_URL_MAINENTANCE'      , admin_url('admin.php?page='.WPSQT_PAGE_MAINTENANCE) );
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '2.5.9' );
+define( 'WPSQT_VERSION'              , '2.6' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__).'/' );
 define( 'WPSQT_FILE'     , __FILE__ );
 
@@ -61,8 +61,6 @@ require_once WPSQT_DIR.'lib/Wpsqt/System.php';
 register_activation_hook ( __FILE__, 'wpsqt_main_install' );
 	
 $oldVersion = get_option('wpsqt_version');
-
-update_option('wpsqt_version',WPSQT_VERSION);
 if ( !get_option('wpsqt_number_of_items') ){
 	update_option('wpsqt_number_of_items',25);
 }
@@ -70,7 +68,6 @@ if ( !get_option('wpsqt_number_of_items') ){
 if ( !empty($oldVersion) && $oldVersion != WPSQT_VERSION ){
 	update_option('wpsqt_update_required',true);
 	update_option('wpsqt_old_version',$oldVersion);
-	return ;
 }
 
 /**
