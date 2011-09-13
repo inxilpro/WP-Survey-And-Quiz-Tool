@@ -34,9 +34,7 @@ class Wpsqt_Upgrade {
 	 * @param string $verison
 	 */
 	public static function getUpdate( $version ){
-		
 		global $wpdb;
-		
 		$objUpgrade = new Wpsqt_Upgrade();
 		
 		$oldQuizTable = $wpdb->get_blog_prefix().'wpsqt_quiz';
@@ -53,7 +51,7 @@ class Wpsqt_Upgrade {
 		$oldSurveySectionsTable = $wpdb->get_blog_prefix().'wpsqt_survey_sections';		
 		
 		
-		if ( !version_compare($version, "1.3") < 0 ){
+		if ( version_compare($version, "1.3") < 0 ){
 			$objUpgrade->addQuery("ALTER TABLE `".$oldQuizTable."` ADD `use_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
 			$objUpgrade->addQuery("ALTER TABLE `".$oldQuizSectionTable."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
 			$objUpgrade->addQuery("ALTER TABLE `".$oldSurveySectionsTable."` ADD `orderby` VARCHAR( 255 ) NOT NULL DEFAULT 'random'");
@@ -64,17 +62,18 @@ class Wpsqt_Upgrade {
 			$objUpgrade->addQuery("ALTER TABLE `".$oldSurveyTable."` ADD `email_template` TEXT NULL DEFAULT NULL");
 		}
 		
-		if ( !version_compare($version, "1.3.1") < 0 ){
+		if ( version_compare($version, "1.3.1") < 0 ){
 			// 1.3.1
 			$objUpgrade->addQuery("ALTER TABLE `".$oldSurveyQuestionsTable."` ADD `include_other` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
 		}
 		
-		if ( !version_compare($version, "1.3.2") < 0 ){
+		if ( version_compare($version, "1.3.2") < 0 ){
 			// 1.3.2
 			$objUpgrade->addQuery("ALTER TABLE `".$oldQuizTable."` ADD `display_review` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
+			echo 'ran…';
 		}
 		
-		if ( !version_compare($version, "1.3.16") < 0 ){
+		if ( version_compare($version, "1.3.16") < 0 ){
 			// 1.3.16
 			$objUpgrade->addQuery("CREATE TABLE IF NOT EXISTS `".$oldSurveySingleResultsTable."` (
 						  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -88,7 +87,7 @@ class Wpsqt_Upgrade {
 						) ENGINE=MyISAM  DEFAULT CHARSET=latin1;");
 		}
 		
-		if ( !version_compare($version, "1.3.21") < 0 ){
+		if ( version_compare($version, "1.3.21") < 0 ){
 			// 1.3.21
 			
 			foreach (array( $oldQuizTable,$oldQuizSectionTable,$oldQuizQuestionTable,
@@ -157,22 +156,22 @@ class Wpsqt_Upgrade {
 						  CHANGE  `user_agent`  `user_agent` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 		
-		if ( !version_compare($version, "1.3.22") < 0 ){
+		if ( version_compare($version, "1.3.22") < 0 ){
 			// 1.3.22
 			$wpdb->query("ALTER TABLE `".$oldQuizResultsTable."` CHANGE `sections` `sections` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		}
 		
-		if ( !version_compare($version, "1.3.23") < 0 ){
+		if ( version_compare($version, "1.3.23") < 0 ){
 			// 1.3.23
 			$wpdb->query("ALTER TABLE `".$oldQuizTable."` ADD `email_wp_user` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
 		}
 	
-		if ( !version_compare($version, "1.3.24") < 0 ){
+		if ( version_compare($version, "1.3.24") < 0 ){
 			$wpdb->query("ALTER TABLE `".$oldQuizTable."` CHANGE  `additional` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");		  
 		}
 		
-		if ( !version_compare($version, "1.3.27") < 0 ){
-			$wpdb->query("ALTER TABLE  `".$oldQuizTable."` ADD  `limit_one` VARCHAR( 255 ) NULL DEFAULT NULL");		  
+		if ( version_compare($version, "1.3.27") < 0 ){
+			$wpdb->query("ALTER TABLE  `".$oldQuizTable."` ADD  `limit_one` VARCHAR( 255 ) NULL DEFAULT NULL");		
 		}
 				
 		if ( version_compare($version, '2.0.0') < 0 ){
@@ -182,10 +181,6 @@ class Wpsqt_Upgrade {
 		
 		if ( version_compare($version, '2.0.0.3') < 0 ){
 			$objUpgrade->addQuery("ALTER TABLE  `".WPSQT_TABLE_RESULTS."` ADD  `score` INT NULL , ADD  `total` INT  NULL , ADD  `percentage` INT NULL","Added scores columns to results");
-		}
-		
-		if (version_compare($version, '2.4') < 0) {
-			echo "Upgrading db to 2.4";
 		}
 		apply_filters( 'wpsqt_upgrade_object', $objUpgrade, $version );
 	
@@ -236,7 +231,6 @@ class Wpsqt_Upgrade {
 	public function execute(){
 		
 		global $wpdb;
-		print "start<br />";
 		flush();
 		ob_flush();
 		foreach ( $this->objects as $objectData ){

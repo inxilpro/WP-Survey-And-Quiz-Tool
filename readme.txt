@@ -63,6 +63,11 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.6.1 =
+
+* Included update checker
+* Included legacy upgrade script - versions pre 2.1 should now work when updated
+
 = 2.6 =
 
 * Optimised the upgrade checking so the database isn't being written to on every page load

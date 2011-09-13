@@ -21,9 +21,13 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 			$oldVersion = get_option("wpsqt_old_version");
 			$currentVersion = WPSQT_VERSION;
 			$needUpdate = get_option("wpsqt_update_required");
+			require_once WPSQT_DIR.'lib/Wpsqt/Upgrade.php';
 			if ($needUpdate == '1') {
-				if (version_compare($oldVersion, '2.4.3') <= 0)
-					require_once('fullUpgrade.php');
+				if (version_compare($oldVersion, '2.1') <= 0) {
+					$objUpgrade = new Wpsqt_Upgrade;
+					$objUpgrade->getUpdate(0);
+					$objUpgrade->execute();
+				}
 				switch($oldVersion) {
 					case '2.4.3':
 					echo '<h4>Updating to 2.5</h4>';
