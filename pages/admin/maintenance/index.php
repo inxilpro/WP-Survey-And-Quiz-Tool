@@ -14,22 +14,18 @@
 	
 	<div class="wpsqt-maintenance">
 		<h3>Check For Updates</h3>
-		
-			<?php if (isset($version)) { ?>
-				<dl class="wpsqt">
-					<dt>Current Version:</dt>
-					<dd><?php echo WPSQT_VERSION; ?></dd>
-					
-					<dt>Most Recent Version:</dt>
-					<dd><?php echo $version; ?></dd>
-					
-					<dd><strong><?php if(version_compare(WPSQT_VERSION, $version) < 0) { echo '<font color="#FF0000">Update required, visit the plugin update page to do so.</font>'; } else { echo '<font color="green">You are up to date</font>'; } ?></strong></dd>
-				</dl>
-			<?php } ?>
+			<dl class="wpsqt">
+				<dt>Most recent version of plugin:</dt>
+				<dd><?php echo $version; ?></dd>
+				
+				<dt>Current version you are running:</dt>
+				<dd><?php echo WPSQT_VERSION; ?></dd>
+				
+				<dt>Database upgrade required: </dt>
+				<dd><?php if (isset($update) && $update == true) { echo 'Yes'; } else { echo 'No'; }?></dd>
+			</dl>
 			
-		
-		
-		<form action="" method="post"><input class="button-primary" type="submit" name="check-version" value="Check Version" id="submitbutton" /></form>			
+			<p></p><strong><?php if(version_compare(WPSQT_VERSION, $version) < 0) { echo '<font color="#FF0000">Update required, visit the plugin update page to do so.</font>'; } else { echo '<font color="green">You are currently running the most recent version of the plugin</font>'; if(isset($update) && $update == true) { echo '<font color="#FF0000">&nbsp;but you need to <a href="'.WPSQT_URL_MAINENTANCE.'&section=upgrade">upgrade your database</a>.</font>'; } else { echo '<font color="green">&nbsp;and no upgrades are necessary.</font>'; } } ?></strong></p>
 	</div>	
 	
 	
