@@ -11,7 +11,7 @@ A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited
 
 Allows users to create quizzes, surveys or polls hosted on their WordPress install.
 
-There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin. Please report all bugs and issues you find to the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
+There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin. Please report all bugs and issues you find to the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/issues?sort=created&direction=desc&state=open">GitHub issue tracking page</a>. If you are not able to report the issue there than please use the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 For full changelog and development history, see the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool">GitHub repo</a>.
 
@@ -66,6 +66,8 @@ Any further issues then feel free to create a thread on the <a href="http://word
 = 2.6.2 =
 
 * Fixed sent from email field in Options page not working
+* Amend documentation
+* Issues should now be reported on GitHub
 
 = 2.6.1 =
 
