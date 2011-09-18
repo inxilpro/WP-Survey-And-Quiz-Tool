@@ -63,6 +63,10 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.6.2 =
+
+* Fixed sent from email field in Options page not working
+
 = 2.6.1 =
 
 * Included update checker
