@@ -66,7 +66,8 @@ Any further issues then feel free to create a thread on the <a href="http://word
 = 2.6.2 =
 
 * Fixed sent from email field in Options page not working
-* Amend documentation
+* Fixed poll limit to one submission per IP
+* Amended documentation
 * Issues should now be reported on GitHub
 
 = 2.6.1 =

@@ -146,7 +146,7 @@ class Wpsqt_Shortcode {
 			if ( isset($this->_errors["session"]) ){
 				$message = "PHP Sessions error. Check your sessions settings.";
 			} elseif ( isset($this->_errors["noexist"]) ){
-				$message = "No such quiz/survey";
+				$message = "No such quiz/survey/poll";
 			} elseif ( isset($this->_errors['name']) ) {
 				$message = "No quiz identifier/name was given";
 			} elseif ( isset($this->_errors["type"]) ){
@@ -157,6 +157,16 @@ class Wpsqt_Shortcode {
 			return;
 		}
 		$quizName = $_SESSION['wpsqt']['current_id'];
+		
+		if ($this->_type == 'poll' && isset($_SESSION['wpsqt'][$quizName]['details']['limit_one']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one'] == 'yes') {
+			$item_id = $_SESSION['wpsqt'][$quizName]['details']['id'];
+			$ip = $_SERVER['REMOTE_ADDR'];
+			$results = $wpdb->get_results('SELECT * FROM `'.WPSQT_TABLE_RESULTS. '` WHERE `ipaddress` = "'.$ip.'" AND `item_id` = "'.$item_id.'"', ARRAY_A);
+			if (count($results) != 0) {
+				echo 'You appear to have already taken this poll.';
+				return;
+			}
+		}
 		
 		// handle contact form and all the stuff that comes with it.
 		if ( isset($_SESSION['wpsqt'][$quizName]['details']['contact']) && $_SESSION['wpsqt'][$quizName]['details']['contact'] == "yes" && $this->_step <= 1 ){
