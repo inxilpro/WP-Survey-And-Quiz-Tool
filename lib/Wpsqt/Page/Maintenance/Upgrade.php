@@ -50,6 +50,9 @@ class Wpsqt_Page_Maintenance_Upgrade extends Wpsqt_Page {
 					echo '<h4>Updating to 2.5.3</h4>';
 					case '2.5.3':
 					echo '<h4>Updating to 2.5.4</h4>';
+					case '2.6.2':
+					echo '<h4>Updating to 2.6.3</h4>';
+					$wpdb->query("ALTER TABLE  `".WPSQT_TABLE_QUIZ_SURVEYS."` CHANGE  `name`  `name` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 					$wpdb->query("ALTER TABLE `".WPSQT_TABLE_RESULTS."` ADD `datetaken` VARCHAR(255) NOT NULL AFTER `item_id`");
 					break;
 				}

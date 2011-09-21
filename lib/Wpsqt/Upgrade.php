@@ -70,7 +70,6 @@ class Wpsqt_Upgrade {
 		if ( version_compare($version, "1.3.2") < 0 ){
 			// 1.3.2
 			$objUpgrade->addQuery("ALTER TABLE `".$oldQuizTable."` ADD `display_review` VARCHAR( 3 ) NOT NULL DEFAULT 'no'");
-			echo 'ran…';
 		}
 		
 		if ( version_compare($version, "1.3.16") < 0 ){
