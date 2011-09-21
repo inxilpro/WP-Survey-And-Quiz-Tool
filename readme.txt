@@ -69,6 +69,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 * Tidied up the update checker
 * Updated the database backup feature
 * Add option to run all previous upgrades
+* Rolled out limit to IP for quizzes
 * Allow longer quiz/survey/poll name
 
 = 2.6.2 =
