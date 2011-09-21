@@ -1,10 +1,10 @@
 <?php
 
 	/**
-	 * Handles the complete uninstalling of the plugin.
+	 * Handles the complete upgrading of the plugin.
 	 * 
 	 * 
-	 * @author Iain Cambridge
+	 * @author Ollie Armstrong
 	 * @copyright Fubra Limited 2010-2011, all rights reserved.
   	 * @license http://www.gnu.org/licenses/gpl.html GPL v3 
   	 * @package WPSQT
@@ -24,6 +24,9 @@ class Wpsqt_Page_Maintenance_Debug extends Wpsqt_Page {
 			$objUpgrade = new Wpsqt_Upgrade;
 			$objUpgrade->getUpdate(0);
 			$objUpgrade->execute();
+			$needUpdate = 1;
+			$oldVersion = '2.4.3';
+			require_once WPSQT_DIR.'lib/Wpsqt/Page/Maintenance/upgradeScript.php';
 			echo '<p>You are up to date.</p>';
 			exit;
 			
