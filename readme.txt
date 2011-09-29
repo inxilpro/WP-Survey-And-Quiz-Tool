@@ -63,6 +63,11 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.6.4 =
+
+* Updated the menu so it's hopefully more user friendly
+* Fixed the total survey results page when there's a free text question
+
 = 2.6.3 =
 
 * Proofread documentation

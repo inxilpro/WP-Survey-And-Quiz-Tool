@@ -32,9 +32,30 @@
 							?>
 			 
 							<img src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" />
-					<?php } else { ?>
-							<?php var_dump($question); ?>
-					<?php } ?>	
+					<?php } else if ($question['type'] == "Free Text") { 
+					
+							$i = 1; // Variable used to count answers - used later
+							
+							?> <em>All answers for this question</em> <?php
+							
+							foreach($uncachedresults as $uresult) {
+								$usection = unserialize($uresult['sections']);
+								
+								foreach($usection as $result) {
+									
+									foreach($result['answers'] as $uanswerkey => $uanswer) {
+										if($uanswerkey == $questonKey && in_array($uanswerkey, $freetextq)) {
+											echo '<p>'.$i.') '.$uanswer['given'][0].'</p>';
+											$i++;
+										}
+										
+									}
+								}
+								
+							}
+						  } else {
+								echo 'Something went really wrong, please report this bug to the forum. Here\'s a var dump which might make you feel better.<pre>'; var_dump($question); echo '</pre>';
+						  } ?>	
 				
 		<?php }
 		}
