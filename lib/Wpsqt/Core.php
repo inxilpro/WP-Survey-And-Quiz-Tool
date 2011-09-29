@@ -25,8 +25,7 @@ class Wpsqt_Core {
 		->_addPage(WPSQT_PAGE_OPTIONS, "Options", "Options", "manage_options", "Options", WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_MAINTENANCE, 'Maintenance', 'Maintenance', 'manage_options', 'Maintenance', WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_CONTACT, "Contact", "Contact", 'manage_options', "Contact", WPSQT_PAGE_MAIN)
-		->_addPage(WPSQT_PAGE_HELP, "Help", "Help", "manage_options", "Help",WPSQT_PAGE_MAIN)
-		->_addPage(WPSQT_PAGE_CATN, 'CatN', "CatN PHP Experts", 'manage_options', "Catn",WPSQT_PAGE_MAIN);
+		->_addPage(WPSQT_PAGE_HELP, "Help", "Help", "manage_options", "Help",WPSQT_PAGE_MAIN);
 
 		add_action("init",array($this, "create_nonce" ) );
 		add_action("wp_footer",array($this,"show_footer"));
@@ -42,7 +41,6 @@ class Wpsqt_Core {
 		// Register the top scores widget
 		require_once WPSQT_DIR.'lib/Wpsqt/Widget.php';
 		add_action( 'widgets_init', create_function('', 'return register_widget("Wpsqt_Top_Widget");') );
-
 	}
 
 
