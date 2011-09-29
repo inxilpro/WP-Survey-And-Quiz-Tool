@@ -22,6 +22,9 @@ class Wpsqt_Core {
 	public function __construct(){
 
 		$this->_addPage(WPSQT_PAGE_MAIN, "WPSQT", "WPSQT", "manage_options", "Main")
+		->_addPage(WPSQT_PAGE_MAIN.'&type=quiz', "Quizzes", "Quizzes", "manage_options", "Quizzes", WPSQT_PAGE_MAIN)
+		->_addPage(WPSQT_PAGE_MAIN.'&type=survey', "Surveys", "Surveys", "manage_options", "Surveys", WPSQT_PAGE_MAIN)
+		->_addPage(WPSQT_PAGE_MAIN.'&type=poll', "Polls", "Polls", "manage_options", "Polls", WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_OPTIONS, "Options", "Options", "manage_options", "Options", WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_MAINTENANCE, 'Maintenance', 'Maintenance', 'manage_options', 'Maintenance', WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_CONTACT, "Contact", "Contact", 'manage_options', "Contact", WPSQT_PAGE_MAIN)
