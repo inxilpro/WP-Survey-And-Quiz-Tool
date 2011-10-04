@@ -179,6 +179,17 @@ class Wpsqt_Shortcode {
 				return;
 			}
 		}
+		
+		// Checks if limiting is enabled and if the user has already taken the survey
+		if ($this->_type == 'survey' && isset($_SESSION['wpsqt'][$quizName]['details']['limit_one']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one'] == 'yes') {
+			$item_id = $_SESSION['wpsqt'][$quizName]['details']['id'];
+			$ip = $_SERVER['REMOTE_ADDR'];
+			$results = $wpdb->get_results('SELECT * FROM `'.WPSQT_TABLE_RESULTS. '` WHERE `ipaddress` = "'.$ip.'" AND `item_id` = "'.$item_id.'"', ARRAY_A);
+			if (count($results) != 0) {
+				echo 'You appear to have already taken this survey.';
+				return;
+			}
+		}
 			
 		
 		// handle contact form and all the stuff that comes with it.
