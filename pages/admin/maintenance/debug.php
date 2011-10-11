@@ -15,6 +15,16 @@
 	
 	<div class="wpsqt-maintenance">
 		<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
+			<p style="text-align:center;">
+				<input class="button-primary" type="submit" name="ManualDb" value="Manually Install Database Tables" id="submitbutton" />
+			</p>
+		
+			<p style="text-align:center;">This will manually install the database tables.</p>
+			<p style="text-align:center;font-weight: bold;">Only run this if you received the notice to or are on a multisite install. Make sure you have a backup.</p>
+		
+		</form>
+		<hr />
+		<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 			
 			<p style="text-align:center;">
 				<input class="button-primary" type="submit" name="AllUpgrades" value="Run All Previous Upgrades" id="submitbutton" />

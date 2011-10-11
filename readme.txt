@@ -63,6 +63,11 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.6.5 =
+
+* Added limit to one submission for surveys
+* Fixed multisite issues
+
 = 2.6.4 =
 
 * Updated the menu so it's hopefully more user friendly

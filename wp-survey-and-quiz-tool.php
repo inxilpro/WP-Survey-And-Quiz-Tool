@@ -152,6 +152,9 @@ function wpsqt_main_install(){
 }
 
 if (is_admin()){
+	if (is_multisite() && get_option('wpsqt_manual') != 1) {
+		echo '<div class="error">WPSQT is not fully compatible with multisite installations. You will need to create the database tables <a href="'.WPSQT_URL_MAINENTANCE.'&section=debug">manually</a>.</div>';
+	}
 	require_once WPSQT_DIR.'lib/Wpsqt/Admin.php';
 	$objWpsqtPlugin = new Wpsqt_Admin();
 } else {

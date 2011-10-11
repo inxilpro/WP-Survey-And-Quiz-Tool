@@ -96,7 +96,6 @@ class Wpsqt_Mail {
 		$emailSubject  = 'There is a new result!';
 		$headers = 'From: WPSQT Bot <'.$fromEmail.'>' . "\r\n";
 
-
 		foreach( $emailList  as $emailAddress ){
 			wp_mail($emailAddress,'WPSQT Notification',$emailMessage,$headers);
 		}	

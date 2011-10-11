@@ -17,7 +17,13 @@ class Wpsqt_Page_Maintenance_Debug extends Wpsqt_Page {
 	
 		global $wpdb;
 		
-		if ( $_SERVER['REQUEST_METHOD'] == "POST" ) {
+		if ( $_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['ManualDb']) ) {
+			wpsqt_main_install();
+			update_option('wpsqt_manual', '1');
+		}
+		
+		
+		if ( $_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['AllUpgrades']) ) {
 			
 			print "<h3>Running all upgrades</h3>".PHP_EOL;
 			require_once WPSQT_DIR.'lib/Wpsqt/Upgrade.php';
