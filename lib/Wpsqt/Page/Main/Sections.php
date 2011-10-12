@@ -26,6 +26,8 @@ abstract class Wpsqt_Page_Main_Sections extends Wpsqt_Page {
 					$nameNeeded[] = $row;
 					continue;
 				}
+				$sectionName = wp_kses_stripslashes($_POST['section_name'][$row]);
+				
 				if ( !isset($_POST['number'][$row]) 
 				  || $_POST['number'][$row] == "" ){
 					$_POST['number'][$row] = 0;			
@@ -34,7 +36,7 @@ abstract class Wpsqt_Page_Main_Sections extends Wpsqt_Page {
 				if ( !isset($_POST['sectionid'][$row]) 
 				   || empty($_POST['sectionid'][$row]) ){
 					$difficulty = ( isset($_POST['difficulty'][$row]) ) ? $_POST['difficulty'][$row] : false;
-					Wpsqt_System::insertSection( $_GET['id'] , $_POST['section_name'][$row], 
+					Wpsqt_System::insertSection( $_GET['id'] , $sectionName, 
 												 $_POST['number'][$row], $_POST['order'][$row],
 												 $difficulty);
 					continue;
@@ -45,7 +47,7 @@ abstract class Wpsqt_Page_Main_Sections extends Wpsqt_Page {
 					Wpsqt_System::deleteSection($_POST['sectionid'][$row]);
 				} else {
 					$difficulty = ( isset($_POST['difficulty'][$row]) ) ? $_POST['difficulty'][$row] : false;
-					Wpsqt_System::updateSection($_POST['sectionid'][$row], $_POST['section_name'][$row], 
+					Wpsqt_System::updateSection($_POST['sectionid'][$row], $sectionName, 
 												$_POST['number'][$row], $_POST['order'][$row],
 												$difficulty);
 				}				
