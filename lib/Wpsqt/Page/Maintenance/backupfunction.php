@@ -3,7 +3,7 @@
 /* backup the db OR just a table */
 function backup_tables($host,$user,$pass,$name,$tables = '*')
 {
-	
+	$return = '';
 	$link = mysql_connect($host,$user,$pass);
 	mysql_select_db($name,$link);
 	

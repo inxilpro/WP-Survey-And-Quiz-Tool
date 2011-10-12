@@ -60,7 +60,6 @@
 		</li>
 		<li>Customisation
 			<ol>
-				<li><a href="#change_layout">Can I change the quiz layout/style?</a></li>
 				<li><a href="#change_email">Can I change the email template?</a></li>
 			</ol>
 		</li>
@@ -200,21 +199,7 @@
 		<h4>A quiz section doesn't always show the correct number of questions whys this?</h4>
 		<p>You will have set the difficulty to mixed. If you have set all your questions to the same difficulty please change the section difficulty to match. This is only to be used when there is an even number of questions for each difficulty and is advised to only be used when there are more questions than the question number.</p>
 		
-	<h3>Customisation</h3>
-	
-		<a name="change_layout"></a>
-		<h4>Can I change the quizzes/survey layout/style?</h4>
-		<p>
-			To customise the layout of survey and quizzes you will have to follow the following steps, this will allow you to create highly customised pages that won't be over written when a new update is released.
-			<ol>
-				<li>Goto configure quiz and locate the location of the custom pages directory for the quiz, each one is different.</li>
-				<li>Goto that directory if it doesn't exist create it.</li>
-				<li>Copy the pages/site directory into the custom pages directory.</li>
-				<li>Edit files in the custom pages directory.</li>
-				<li>Enjoy new custom pages.</li>
-			</ol>
-		</p>		
-
+	<h3>Customisation</h3>	
 
 		<a name="change_email"></a>
 		<h4>Can I change the notification email?</h4>

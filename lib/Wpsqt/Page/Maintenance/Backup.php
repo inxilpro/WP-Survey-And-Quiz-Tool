@@ -14,7 +14,11 @@
 class Wpsqt_Page_Maintenance_Backup extends Wpsqt_Page {
 	
 		
-	public function process(){	
+	public function process(){
+		if (!is_writable(WPSQT_DIR.'db-backups')) {
+			echo '<div class="error">The backup folder <strong>wp-content/plugins/wp-survey-and-quiz-tool/db-backups</strong> is not writable or doesn\'t exist, please create this folder or change it\'s permissions to <strong>777</strong>.</div>';
+			$this->_pageVars['dirwriteable'] = false;
+		}
 		if ( $_SERVER['REQUEST_METHOD'] == "POST" && !empty($_POST['host'])&& !empty($_POST['user'])&& !empty($_POST['pass'])&& !empty($_POST['database']) ) {
 			$tables = array(WPSQT_TABLE_QUIZ_SURVEYS,WPSQT_TABLE_SECTIONS,WPSQT_TABLE_QUESTIONS,WPSQT_TABLE_FORMS,WPSQT_TABLE_RESULTS,WPSQT_TABLE_SURVEY_CACHE);
 			require_once('backupfunction.php');

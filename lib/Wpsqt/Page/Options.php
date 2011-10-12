@@ -20,7 +20,7 @@ class Wpsqt_Page_Options extends Wpsqt_Page {
 			update_option("wpsqt_email_role",$_POST['wpsqt_email_role']);
 			update_option("wpsqt_email_template",$_POST['wpsqt_email_template']);
 			update_option("wpsqt_support_us",$_POST['wpsqt_support_us']);
-			update_option("wpsqt_email_from",$_POST['wpsqt_from_email']);
+			update_option("wpsqt_from_email",$_POST['wpsqt_from_email']);
 			update_option("wpsqt_contact_email",$_POST['wpsqt_email']);
 			update_option("wpsqt_docraptor_api",$_POST['wpsqt_docraptor_api']);
 			update_option("wpsqt_pdf_template",$_POST['wpsqt_pdf_template']);
@@ -32,7 +32,7 @@ class Wpsqt_Page_Options extends Wpsqt_Page {
 		$this->_pageVars['emailRole'] = get_option("wpsqt_email_role");
 		$this->_pageVars['emailTemplate'] = get_option("wpsqt_email_template");
 		$this->_pageVars['supportUs'] = get_option("wpsqt_support_us");
-		$this->_pageVars['fromEmail'] = get_option("wpsqt_email_from");
+		$this->_pageVars['fromEmail'] = get_option("wpsqt_from_email");
 		$this->_pageVars['email'] = get_option("wpsqt_contact_email");
 		$this->_pageVars['docraptorApi'] = get_option("wpsqt_docraptor_api");
 		$this->_pageVars['pdfTemplate'] = get_option("wpsqt_pdf_template");

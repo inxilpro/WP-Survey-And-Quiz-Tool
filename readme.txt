@@ -4,14 +4,14 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.5.7
+Stable tag: 2.6.4
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
 == Description ==
 
 Allows users to create quizzes, surveys or polls hosted on their WordPress install.
 
-There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin. Please report all bugs and issues you find to the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
+There will be bugs and faults - hopefully not too many. Bug reports are crucial to improving the plugin. Please report all bugs and issues you find to the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/issues?sort=created&direction=desc&state=open">GitHub issue tracking page</a>. If you are not able to report the issue there then please use the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 For full changelog and development history, see the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool">GitHub repo</a>.
 
@@ -24,7 +24,7 @@ For full changelog and development history, see the <a href="https://github.com/
 * Auto marking for quizzes with all multiple choice questions.
 * Ability to limit quizzes and surveys to one submission per IP address.
 * Ability to send customised notification emails.
-* Ability to send notification emails to a single email address,multiple email addresses or a group of WordPress users.
+* Ability to send notification emails to a single email address, multiple email addresses or a group of WordPress users.
 * Ability to have notification emails only be sent if the user got a certain score.
 * Ability to have surveys and quizzes be taken by registered WordPress members only.
 * Ability to have quizzes and surveys with or without contact forms.
@@ -45,11 +45,65 @@ Currently 30+ filters and hooks to use throughout the plugin to help extend it w
 
 Custom pages allows for the theming of the plugin pages without editing the plugin.
 
-Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>
+Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>.
+
+**For those having issues with results not saving**
+
+If you have upgraded from a version 2.x.x and the results are not saving, please follow these instructions.
+
+1. Make sure you have the latest version of the plugin
+1. Deactivate plugin
+1. Activate plugin
+1. In the WPSQT menu click Maintenance
+1. Select the Upgrade tab
+1. Click the Upgrade button
+1. Repeat all previous steps once more
+
+Any further issues then feel free to create a thread on the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 == ChangeLog ==
 
-=======
+= 2.6.4 =
+
+* Updated the menu so it's hopefully more user friendly
+* Fixed the total survey results page when there's a free text question
+* Fixed issue where URLs were being encoded in additional text field and not decoded
+
+= 2.6.3 =
+
+* Proofread documentation
+* Tidied up the update checker
+* Updated the database backup feature
+* Add option to run all previous upgrades
+* Rolled out limit to IP for quizzes
+* Allow longer quiz/survey/poll name
+
+= 2.6.2 =
+
+* Fixed sent from email field in Options page not working
+* Fixed poll limit to one submission per IP
+* Amended documentation
+* Issues should now be reported on GitHub
+
+= 2.6.1 =
+
+* Included update checker
+* Included legacy upgrade script - versions pre 2.1 should now work when updated
+
+= 2.6 =
+
+* Optimised the upgrade checking so the database isn't being written to on every page load
+* Fixed an issue with the version comparing
+* Fixed issue viewing total results on a survey when there are no results
+
+= 2.5.9 =
+
+* Changed the upgrade script so deactivation/activation isn't required after update
+
+= 2.5.8 =
+
+* Re added XSS protection
+
 = 2.5.7 =
 
 * Removed all the uses of htmlentities as it was encoding as ISO to a UTF8 table
