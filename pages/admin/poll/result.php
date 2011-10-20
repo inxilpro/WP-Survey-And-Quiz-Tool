@@ -24,72 +24,79 @@
 			// GETS ALL THE RESULTS FOR THIS POLL
 			$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
 		} else {
-			echo "I think you have an issue with the shortcode you used. Please copy and paste the poll name to ensure that it is spelt capitalised correctly.";
+			echo "I think you have an issue with the shortcode you used. Please copy and paste the poll name to ensure that it is spelt and capitalised correctly.";
 		}
 		
 		if (empty($results)) {
 			echo '<h2>No results yet</h2>';
 		} else {
-			foreach($_SESSION['wpsqt'][$pollName]['sections'][0]['questions'] as $question) {
-				foreach ($results as $result) {
-					$section = unserialize($result['sections']);
-					$questionId = $question['id'];
-					$questionAnswer = $section[0]['answers'][$questionId];
-					$questionAnswer = $questionAnswer['given'][0];
-					if (!isset($question['answers'][$questionAnswer]['count'])) {
-						$question['answers'][$questionAnswer]['count'] = 1;
-					} else {
-						$question['answers'][$questionAnswer]['count'] += 1;
-					}
-				}
-				echo '<h3>'.$question['name'].'</h3>';
-				echo <<< EOT
-				<table class="widefat post fixed" cellspacing="0">
-					<thead>
-						<tr>
-							<th class="manage-column column-title" scope="col">Answer</th>
-							<th scope="col" width="75">Votes</th>
-							<th scope="col" width="90">Percentage</th>
-						</tr>			
-					</thead>
-					<tfoot>
-						<tr>
-							<th class="manage-column column-title" scope="col">Answer</th>
-							<th scope="col" width="75">Votes</th>
-							<th scope="col" width="90">Percentage</th>
-						</tr>			
-					</tfoot>
-					<tbody>
-EOT;
-					$total = 0;
-					foreach ($question['answers'] as $answer) {
-						if (!isset($answer['count']))
-							$answer['count'] = '0';
-						$total += $answer['count'];
-					}
-					foreach($question['answers'] as $answer) {
-						if (isset($answer['count'])) {
-							$percentage = $answer['count'] / $total * 100;
+			if (!isset($_SESSION['wpsqt'][$pollName]['sections'][0]['questions'])) {
+				echo 'Something went wrong with WPSQT on the poll result page - please report this to the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/issues?sort=created&direction=desc&state=open">GitHub issue tracking page</a>. Maybe press back and try again?';
+				exit;
+			}
+			foreach($_SESSION['wpsqt'][$pollName]['sections'] as $section) {
+				foreach($section['questions'] as $question) {
+					foreach ($results as $result) {
+						$section = unserialize($result['sections']);
+						$questionId = $question['id'];
+						$questionAnswer = $section[0]['answers'][$questionId];
+						$questionAnswer = $questionAnswer['given'][0];
+						if (!isset($question['answers'][$questionAnswer]['count'])) {
+							$question['answers'][$questionAnswer]['count'] = 1;
 						} else {
-							$percentage = '0';
+							$question['answers'][$questionAnswer]['count'] += 1;
 						}
-						echo '<tr>';
-						echo '<td>'.$answer['text'].'</td>';
-						if (isset($answer['count'])) {
-							echo '<td>'.$answer['count'].'</td>';
-						} else {
-							echo '<td>0</td>';
-						}
-						echo '<td>'.round($percentage, 2).'%</td>';
-						echo '</tr>';
 					}
+					echo '<h3>'.$question['name'].'</h3>';
 					echo <<< EOT
-						<tr>
-	
-					</tbody>
-				</table>
+					<table class="widefat post fixed" cellspacing="0">
+						<thead>
+							<tr>
+								<th class="manage-column column-title" scope="col">Answer</th>
+								<th scope="col" width="75">Votes</th>
+								<th scope="col" width="90">Percentage</th>
+							</tr>			
+						</thead>
+						<tfoot>
+							<tr>
+								<th class="manage-column column-title" scope="col">Answer</th>
+								<th scope="col" width="75">Votes</th>
+								<th scope="col" width="90">Percentage</th>
+							</tr>			
+						</tfoot>
+						<tbody>
 EOT;
-	
+						$total = 0;
+						foreach ($question['answers'] as $answer) {
+							if (!isset($answer['count']))
+								$answer['count'] = '0';
+							$total += $answer['count'];
+						}
+						foreach($question['answers'] as $answer) {
+							if (isset($answer['count'])) {
+								$percentage = $answer['count'] / $total * 100;
+							} else {
+								$percentage = '0';
+							}
+							echo '<tr>';
+							echo '<td>'.$answer['text'].'</td>';
+							if (isset($answer['count'])) {
+								echo '<td>'.$answer['count'].'</td>';
+							} else {
+								echo '<td>0</td>';
+							}
+							echo '<td>'.round($percentage, 2).'%</td>';
+							echo '</tr>';
+						}
+						echo <<< EOT
+							<tr>
+		
+						</tbody>
+					</table>
+EOT;
+		
+				}
+
 			}
 		}
 		?>
