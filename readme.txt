@@ -67,6 +67,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 * Added limit to one submission for surveys
 * Fixed multisite issues
+* Fixed issues with section names containing quotes
 
 = 2.6.4 =
 

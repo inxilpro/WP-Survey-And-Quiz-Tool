@@ -69,7 +69,7 @@ class Wpsqt_Mail {
 		}
 		
 		if ( isset($_SESSION['wpsqt'][$quizName]['details']['send_user']) 
-		  && $_SESSION['wpsqt'][$quizName]['details']['send_user'] == "yes" ) {
+		  && $_SESSION['wpsqt'][$quizName]['details']['send_user'] == "yes" && isset($_SESSION['wpsqt'][$quizName]['person']['email']) ) {
 			$emailList[] = $_SESSION['wpsqt'][$quizName]['person']['email'];
 		}
 		
