@@ -487,7 +487,7 @@ class Wpsqt_Shortcode {
 		} elseif ( isset($_SESSION['wpsqt'][$quizName]['details']['notificaton_type']) && $_SESSION['wpsqt'][$quizName]['details']['notificaton_type'] == 'instant-50'  
 					&& $percentRight > 50 ){
 			$emailTrue = true;
-		} elseif ( isset($_SESSION['wpsqt'][$quizName]['details']['notificaton_type']) && $_SESSION['wpsqt'][$quizName]['details']['send_user'] == 'yes' ) {
+		} elseif ( isset($_SESSION['wpsqt'][$quizName]['details']['notificaton_type']) && isset($_SESSION['wpsqt'][$quizName]['details']['send_user']) && $_SESSION['wpsqt'][$quizName]['details']['send_user'] == 'yes' ) {
 			$emailTrue = true;
 		}
 		
@@ -569,8 +569,7 @@ class Wpsqt_Shortcode {
 					}						
 					continue;
 				}	
-				
-				$givenAnswer = (int) current($section['answers'][$question['id']]['given']);
+				$givenAnswer = (int) $section['answers'][$question['id']]['given'];
 				$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]++;			}	
 				
 		}
