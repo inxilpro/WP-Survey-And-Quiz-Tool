@@ -67,7 +67,7 @@
 								}
 								$googleChartUrl .= '&chm=N,000000,0,,10|N,000000,1,,10|N,000000,2,,10'; // Adds the count above bars
 								$googleChartUrl .= '&chds=0,'.(++$maxValue); // Sets scaling to a little bit more than max value
-								$googleChartUrl .= '&chxt=x'; // Sets labelling to x-axis only
+								$googleChartUrl .= '&chxt=x&chxl=0:|1|2|3|4|5|6|7|8|9|10'; // Sets labelling to x-axis only
 								$googleChartUrl .= '&chd=t:'.implode(',', $valueArray); // Chart data
 								$googleChartUrl .= '&chtt='.$question['name']; // Chart title
 								?><img src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" /><?php

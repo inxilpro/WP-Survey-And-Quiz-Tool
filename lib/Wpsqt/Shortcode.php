@@ -554,7 +554,7 @@ class Wpsqt_Shortcode {
 				} elseif ( $cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Likert" || 
 						   $cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Scale" ){							   	
 				 	if ( empty($cachedSections[$sectionKey]['questions'][$question['id']]['answers']) ) {
-						for ( $i = 0; $i < 10; ++$i ){
+						for ( $i = 1; $i <= 10; ++$i ){
 							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$i] = array('count' => 0);	
 						}	
 					}							
