@@ -22,6 +22,11 @@ class Wpsqt_Page_Maintenance_Debug extends Wpsqt_Page {
 			update_option('wpsqt_manual', '1');
 		}
 		
+		if ( $_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['ResetSession']) ) {
+			$_SESSION['wpsqt'] = array();
+			echo '<pre>'; var_dump($_SESSION); echo '</pre>';
+		}
+		
 		
 		if ( $_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['AllUpgrades']) ) {
 			

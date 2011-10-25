@@ -16,6 +16,16 @@
 	<div class="wpsqt-maintenance">
 		<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
 			<p style="text-align:center;">
+				<input class="button-primary" type="submit" name="ResetSession" value="Reset Session Data" id="submitbutton" />
+			</p>
+		
+			<p style="text-align:center;">This will reset the session variable.</p>
+			<p style="text-align:center;font-weight: bold;">Only run this if you have been told to. Make sure you have a backup.</p>
+		
+		</form>
+		<hr />
+		<form method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>">
+			<p style="text-align:center;">
 				<input class="button-primary" type="submit" name="ManualDb" value="Manually Install Database Tables" id="submitbutton" />
 			</p>
 		
