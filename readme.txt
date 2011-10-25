@@ -49,7 +49,7 @@ Developed by <a href="http://www.catn.com">PHP Hosting Experts CatN</a>.
 
 **For those having issues with results not saving**
 
-If you have upgraded from a version 2.x.x and the results are not saving, please follow these instructions.
+If you have upgraded from a version 1.x.x and nothing appears to be saving, please follow these instructions.
 
 1. Make sure you have the latest version of the plugin
 1. Deactivate plugin
@@ -63,14 +63,11 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
-= 2.6.7 =
-
-* Fixed fatal error on PDF creation
-* Fixed likert results on single and total views
-
 = 2.6.6 =
 
 * Fixed poll results view failing
+* Fixed fatal error on PDF creation
+* Fixed likert results on single and total views
 
 = 2.6.5 =
 

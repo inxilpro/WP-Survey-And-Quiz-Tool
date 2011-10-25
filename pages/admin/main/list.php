@@ -2,44 +2,44 @@
 
 	<div id="icon-tools" class="icon32"></div>
 	<h2>
-		WP Survey And Quiz Tool - Survey/Quizzes 
+		WP Survey And Quiz Tool - Survey/Quizzes
 		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=quiz" class="button add-new-h2">Add New Quiz</a>
 		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=survey" class="button add-new-h2">Add New Survey</a>
 		<a href="<?php echo WPSQT_URL_MAIN; ?>&section=addnew&subsection=poll" class="button add-new-h2">Add New Poll</a>
 	</h2>
-	
+
 	<?php if ( isset($_GET['delete']) && $_GET['delete'] == "true" ){
 		?>
 	<div class="updated">
 		<strong>Quiz/Survey successfully deleted!</strong>
 	</div>
-		<?php 
+		<?php
 	}?>
-	
+
 	<form method="post" action="">
-	
+
 		<div class="tablenav">
-	
+
 			<ul class="subsubsub">
 				<li>
-					<a href="<?php echo WPSQT_URL_MAIN; ?>" <?php if ($type == "all") { ?>  class="current"<?php } ?> id="all_link">All <span class="count">(<?php echo $totalNo; ?>)</span></a> |			
-				</li> 
-				<li>
-					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz" <?php if ($type =="quiz") { ?>  class="current"<?php } ?> id="quiz_link">Quizzes <span class="count">(<?php echo $quizNo; ?>)</span></a> |			
-				</li> 
-				<li>
-					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey" <?php if ($type == "survey") { ?>  class="current"<?php } ?>  id="survey_link">Surveys <span class="count">(<?php echo $surveyNo; ?>)</span></a>			
+					<a href="<?php echo WPSQT_URL_MAIN; ?>" <?php if ($type == "") { ?>  class="current"<?php } ?> id="all_link">All <span class="count">(<?php echo $totalNo; ?>)</span></a> |
 				</li>
 				<li>
-					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=poll" <?php if ($type == "poll") { ?>  class="current"<?php } ?>  id="survey_link">Polls <span class="count">(<?php echo $pollNo; ?>)</span></a>			
-				</li> 
+					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=quiz" <?php if ($type =="quiz") { ?>  class="current"<?php } ?> id="quiz_link">Quizzes <span class="count">(<?php echo $quizNo; ?>)</span></a> |
+				</li>
+				<li>
+					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=survey" <?php if ($type == "survey") { ?>  class="current"<?php } ?>  id="survey_link">Surveys <span class="count">(<?php echo $surveyNo; ?>)</span></a> |
+				</li>
+				<li>
+					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=poll" <?php if ($type == "poll") { ?>  class="current"<?php } ?>  id="survey_link">Polls <span class="count">(<?php echo $pollNo; ?>)</span></a>
+				</li>
 			</ul>
-		
+
 			<div class="tablenav-pages">
-		   		<?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages); ?>	
+		   		<?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages); ?>
 		   	</div>
 		</div>
-		
+
 		<table class="widefat post fixed" cellspacing="0">
 			<thead>
 				<tr>
@@ -47,7 +47,7 @@
 					<th class="manage-column column-title" scope="col">Title</th>
 					<th scope="col" width="75">Status</th>
 					<th scope="col" width="75">Results</th>
-				</tr>			
+				</tr>
 			</thead>
 			<tfoot>
 				<tr>
@@ -55,10 +55,10 @@
 					<th class="manage-column column-title" scope="col">Title</th>
 					<th scope="col" width="75">Status</th>
 					<th scope="col" width="75">Results</th>
-				</tr>			
+				</tr>
 			</tfoot>
 			<tbody>
-				<?php foreach( $results as $result ){ ?>	
+				<?php foreach( $results as $result ){ ?>
 				<tr class="<?php if (isset($result["unviewed_count"]) && $result["unviewed_count"] !== 0){?>unapproved<?php } else { ?>approved<?php  }?>">
 					<th scope="row"><?php echo $result['id']; ?></th>
 					<td class="column-title">
@@ -87,13 +87,13 @@
 							</a>
 						</div>
 					</td>
-				</tr>				
+				</tr>
 				<?php } ?>
 			</tbody>
 		</table>
-		
+
 	</form>
-	
+
 </div>
 
 
