@@ -171,7 +171,7 @@
 		
 		<a name="show_results"></a>
 		<h4>How do I show the results for a particular user?</h4>	
-		<p>Use the shortcode [wpsqt_results username="admin"].  This will list the results for that user that have been marked as Accepted.</p>
+		<p>Use the shortcode <b>[wpsqt_results username="admin"]</b>. This will list the results for that user. If you want to only display <i>accepted</i> results use the shortcode <b>[wpsqt_results username="admin" accepted="1"]</b></p>
 
 	<h3>Sections</h3>
 

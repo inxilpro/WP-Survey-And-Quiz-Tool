@@ -32,7 +32,9 @@ class Wpsqt_Form_Quiz extends Wpsqt_Form {
 							'store_results' => 'yes',
 							'notification_email' => false,
 							'send_user' => 'yes',
-							'finish_message' => false);
+							'finish_message' => false,
+							'pass_finish' => false,
+							'pass_finish_message' => false);
 		}
 		
 		$this->addOption("wpsqt_name", "Name", "text", $options['name'], "What you would like the quiz to be called." )
@@ -49,7 +51,9 @@ class Wpsqt_Form_Quiz extends Wpsqt_Form {
 			 ->addOption("wpsqt_use_pdf", "PDF Certificates","yesno", $options['use_pdf'], "Allow the user to download a PDF certificate.")
 			 ->addOption("wpsqt_store_results", "Save Results", "yesno", $options['store_results'], "If the quiz results should be saved.")
 			 ->addOption("wpsqt_notification_email", "Notification Email", "text", $options['notification_email'], "The email address which is to be notified when the quiz is completed. Emails can be seperated by a comma. <strong>Will override plugin wide option.</strong>", array(), false )
-			 ->addOption("wpsqt_finish_message", "Finish Message", "textarea", $options['finish_message'], "The message to display when the user has successfully finished the quiz. <strong>If empty the default one will be displayed.</strong> <a href=\"#template_tokens\">Click Here</a> to see the tokens that can be used.", array(), false);
+			 ->addOption("wpsqt_finish_message", "Finish Message", "textarea", $options['finish_message'], "The message to display when the user has successfully finished the quiz. <strong>If empty the default one will be displayed.</strong> <a href=\"#template_tokens\">Click Here</a> to see the tokens that can be used.", array(), false)
+			 ->addOption("wpsqt_pass_finish", "Different finish message for pass", "yesno", $options['pass_finish'], "Display a different finish message if the user passes?")
+			 ->addOption("wpsqt_pass_finish_message", "Finish message for pass", "textarea", $options['pass_finish_message'], "The message to display when the user has passed the quiz. <a href=\"#template_tokens\">Click Here</a> to see the tokens that can be used.", array(), false);
 		
 		if ( array_key_exists('id', $options) ){
 			$this->addOption("wpsqt_custom_directory", "Custom Directory Location", "static",  WPSQT_DIR."/pages/custom/".$blog_id."/quiz-".$options['id'] ,false,array(),false);		

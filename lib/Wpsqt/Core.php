@@ -414,11 +414,16 @@ class Wpsqt_Core {
 	public function shortcode_results( $atts ) {
 		global $wpdb;
 		extract( shortcode_atts( array(
-					'username' => false
+					'username' => false,
+					'accepted' => false
 		), $atts) );
 		if ($username != false) {
-			$sql = 'SELECT * FROM `'.WPSQT_TABLE_RESULTS.'` WHERE `person_name` = "'.$username.'" AND `status` = "Accepted"';
+			$sql = 'SELECT * FROM `'.WPSQT_TABLE_RESULTS.'` WHERE `person_name` = "'.$username.'"';
+			if ($accepted != false)
+				$sql .=  'AND `status` = "Accepted"';
 			$return = $wpdb->get_results($sql, 'ARRAY_A');
+			if (empty($return))
+				echo '<p>'.$username.' has no results';
 			foreach ($return as $result) {
 				$sql = 'SELECT * FROM `'.WPSQT_TABLE_QUIZ_SURVEYS.'` WHERE `id` = "'.$result['item_id'].'"';
 				$return = $wpdb->get_results($sql, 'ARRAY_A');
@@ -431,7 +436,7 @@ class Wpsqt_Core {
 						"<br /><br />";
 			}
 		} else {
-			return 'No ID was supplied for this results page. The shortcode should look like [wpsqt_results username="12"';
+			return 'No username was supplied for this results page. The shortcode should look like [wpsqt_results username="admin"]';
 		}
 	}
 }

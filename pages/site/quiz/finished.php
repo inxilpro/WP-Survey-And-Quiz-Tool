@@ -9,7 +9,12 @@ $objTokens->setDefaultValues();
 <h2>Exam Finished</h2>
 
 <?php if ($_SESSION['wpsqt'][$quizName]['details']['finish_display'] == 'Finish message'  ) { ?>
-	<?php if ( isset($_SESSION['wpsqt'][$quizName]['details']['finish_message']) &&
+	<?php if (isset($_SESSION['wpsqt'][$quizName]['details']['pass_finish']) &&
+				$_SESSION['wpsqt'][$quizName]['details']['pass_finish'] == "yes" &&
+				$percentRight >= $_SESSION['wpsqt'][$quizName]['details']['pass_mark']) {
+					$string = $objTokens->doReplacement($_SESSION['wpsqt'][$quizName]['details']['pass_finish_message']);
+					echo nl2br($string);
+	} else if ( isset($_SESSION['wpsqt'][$quizName]['details']['finish_message']) &&
 			  !empty($_SESSION['wpsqt'][$quizName]['details']['finish_message'])) {
 			// PARSE TOKENS
 			$string = $objTokens->doReplacement($_SESSION['wpsqt'][$quizName]['details']['finish_message']);
