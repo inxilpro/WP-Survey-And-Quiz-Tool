@@ -12,6 +12,7 @@
 
 require_once dirname(dirname(dirname(dirname(__FILE__)))).'/wp-load.php';
 require_once WPSQT_DIR.'lib/docraptor.php';
+require_once WPSQT_DIR.'lib/Wpsqt/Tokens.php';
 
 $resultId = filter_input(INPUT_GET, 'id');
 $quizId = filter_input(INPUT_GET,'quizid');

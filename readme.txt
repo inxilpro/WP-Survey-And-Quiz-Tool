@@ -63,6 +63,14 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.6.7 =
+
+* Fixed fatal error on PDF creation
+
+= 2.6.6 =
+
+* Fixed poll results view failing
+
 = 2.6.5 =
 
 * Added limit to one submission for surveys
