@@ -68,6 +68,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 * Fixed poll results view failing
 * Fixed fatal error on PDF creation
 * Fixed likert results on single and total views
+* Add ability to set a different quiz finish message for pass
 
 = 2.6.5 =
 
