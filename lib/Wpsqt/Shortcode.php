@@ -568,8 +568,13 @@ class Wpsqt_Shortcode {
 						$cachedSections[$sectionKey]['questions'][$question['id']]['answers'] = 'None Cached - Not a default question type.';
 					}						
 					continue;
-				}	
-				$givenAnswer = (int) $section['answers'][$question['id']]['given'];
+				}
+				if ($cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Likert") {
+					$givenAnswer = (int) $section['answers'][$question['id']]['given'];
+				} else {
+					$givenAnswer = (int) current($section['answers'][$question['id']]['given']);
+				}
+				
 				$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]++;			}	
 				
 		}

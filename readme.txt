@@ -66,6 +66,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 = 2.6.7 =
 
 * Fixed fatal error on PDF creation
+* Fixed likert results on single and total views
 
 = 2.6.6 =
 
