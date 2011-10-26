@@ -19,14 +19,20 @@ class Wpsqt_Admin extends Wpsqt_Core {
 	 * @since 2.0
 	 */
 	public function __construct(){
-				
 		parent::__construct();
-		add_action( 'admin_menu' , array($this,'admin_menu') );
+		add_action('plugins_loaded', array($this, 'wpsqt_init_menus'));
+
 		add_action( 'admin_init' , array($this,"enqueue_files"));
 		add_action( 'admin_init' , array($this,"adminFilter"));
 		add_action( 'admin_head-media-upload.php', array( $this, 'print_scripts_media_up' ), 11 );
 		add_action( 'admin_notices' , array($this, 'admin_notices') );
 		
+	}
+	
+	public function wpsqt_init_menus() {
+		if(current_user_can('wpsqt-manage')) {
+			add_action( 'admin_menu' , array($this,'admin_menu') );
+		}
 		
 	}
 	

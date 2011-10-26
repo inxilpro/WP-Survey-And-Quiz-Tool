@@ -67,6 +67,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 * Added labels to the pie charts
 * Added ability to change likert scale
+* Added option to choose which role is required to admin WPSQT
 * Removed titles from within chart
 
 = 2.6.6 =

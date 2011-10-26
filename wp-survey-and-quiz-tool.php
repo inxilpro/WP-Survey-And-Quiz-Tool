@@ -150,7 +150,6 @@ function wpsqt_main_install(){
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
 
 }
-
 if (is_admin()){
 	if (is_multisite() && get_option('wpsqt_manual') != 1) {
 		echo '<div class="error">WPSQT is not fully compatible with multisite installations. You will need to create the database tables <a href="'.WPSQT_URL_MAINENTANCE.'&section=debug">manually</a>.</div>';

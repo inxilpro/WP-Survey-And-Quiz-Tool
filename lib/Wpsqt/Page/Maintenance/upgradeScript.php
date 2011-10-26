@@ -41,7 +41,9 @@ if ($needUpdate == '1') {
 		echo '<h4>Updating to 2.6.3</h4>';
 		$wpdb->query("ALTER TABLE  `".WPSQT_TABLE_QUIZ_SURVEYS."` CHANGE  `name`  `name` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
 		$wpdb->query("ALTER TABLE `".WPSQT_TABLE_RESULTS."` ADD `datetaken` VARCHAR(255) NOT NULL AFTER `item_id`");
-		break;
+		case '2.6.6'
+		echo '<h4>Updating to 2.6.7</h4>';
+		update_option("wpsqt_required_role", '');
 	}
 	echo '<p><strong>Updated. Return to the <a href="'.WPSQT_URL_MAIN.'">main page</a> to ensure the notice disappears</strong></p>';
 	update_option('wpsqt_version',WPSQT_VERSION);

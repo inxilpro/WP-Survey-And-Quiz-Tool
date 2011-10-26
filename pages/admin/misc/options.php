@@ -40,6 +40,16 @@
 				<td>This is the group of users you wish to send notification emails to. <b>If selected notification email is not used.</b></td>
 			</tr>
 			<tr>
+				<th scope="row">Usage Role</th>
+				<td><select name="wpsqt_required_role">
+						<option value="none" <?php if ( !isset($requiredRole) || empty($requiredRole) || $requiredRole == 'none') { ?> selected="yes"<?php }?>>None</option>
+						<?php global $wp_roles; foreach($wp_roles->role_names as $role => $name){ ?>
+						<option value="<?php echo $role; ?>" <?php if ($requiredRole == $role) { ?> selected="yes"<?php }?>><?php echo $name; ?></option>
+						<?php } ?>
+				</select></td>
+				<td>This is the group of users allowed to use the WPSQT plugin.</td>
+			</tr>
+			<tr>
 				<th scope="row">Notification Email</th>
 				<td><input type="text" name="wpsqt_email" value="<?php echo $email; ?>" size="30" /></td>
 				<td>This is the email that notifications will be sent to, separate by commas to have more than one. <b>Notification Group will be used instead of it is selected.</b></td>
