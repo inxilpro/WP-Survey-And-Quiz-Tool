@@ -20,6 +20,7 @@ class Wpsqt_Form_Poll extends Wpsqt_Form {
 		if ( empty($options) ){
 			$options = array('name' => false,
 							'limit_one' => false,
+							'limit_one_wp' => false,
 							'finish_display' => false, 
 							'status' => false, 
 							'store_results' => 'yes',
@@ -27,7 +28,8 @@ class Wpsqt_Form_Poll extends Wpsqt_Form {
 		} 
 		
 		$this->addOption("wpsqt_name", "Name", "text", $options['name'], "What you would like the poll to be called." )
-			 ->addOption("wpsqt_limit_one", "Limit to one submission","yesno", $options['limit_one'], "Limit the poll to one submission per IP.")
+			 ->addOption("wpsqt_limit_one", "Limit to one submission per IP","yesno", $options['limit_one'], "Limit the poll to one submission per IP.")
+			 ->addOption("wpsqt_limit_one_wp", "Limit to one submission per WP user","yesno", $options['limit_one_wp'], "Limit the quiz to one submission per WP user. You must have the Use WP Details option below set to yes.")
 			 ->addOption("wpsqt_finish_display", "Finish Display",'select', $options['finish_display'], "What should be displayed on the finishing of the poll.", array("Finish message","Poll results"))
 			 ->addOption("wpsqt_status", "Status", "select", $options['status'], "Status of the poll either enabled where users can take it or disabled where users can't.", array('enabled','disabled'))
 			 ->addOption("wpsqt_store_results", "Save Results", "yesno", $options['store_results'], "If the poll results should be saved.")

@@ -70,6 +70,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 * Added labels to the pie charts
 * Added ability to change likert scale
 * Added option to choose which role is required to admin WPSQT
+* Changed the text of the next button to 'Submit' if on the last section
 * Removed titles from within chart
 * Moved all of the documentation to the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/wiki/_pages">GitHub Wiki</a>
 

@@ -158,36 +158,27 @@ class Wpsqt_Shortcode {
 		}
 		$quizName = $_SESSION['wpsqt']['current_id'];
 
-		// Checks if limiting is enabled and if the user has already taken the poll
-		if ($this->_type == 'poll' && isset($_SESSION['wpsqt'][$quizName]['details']['limit_one']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one'] == 'yes') {
+		// Checks if limiting per IP is enabled and if the user has already taken it
+		if (isset($_SESSION['wpsqt'][$quizName]['details']['limit_one']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one'] == 'yes') {
 			$item_id = $_SESSION['wpsqt'][$quizName]['details']['id'];
 			$ip = $_SERVER['REMOTE_ADDR'];
 			$results = $wpdb->get_results('SELECT * FROM `'.WPSQT_TABLE_RESULTS. '` WHERE `ipaddress` = "'.$ip.'" AND `item_id` = "'.$item_id.'"', ARRAY_A);
 			if (count($results) != 0) {
-				echo 'You appear to have already taken this poll.';
+				echo 'You appear to have already taken this '.$this->_type.'.';
 				return;
 			}
 		}
-
-		// Checks if limiting is enabled and if the user has already taken the quiz
-		if ($this->_type == 'quiz' && isset($_SESSION['wpsqt'][$quizName]['details']['limit_one']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one'] == 'yes') {
+		
+		// Checks if limiting per WP user is enabled and if the user has already taken it
+		if (isset($_SESSION['wpsqt'][$quizName]['details']['limit_one_wp']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one_wp'] == 'yes') {
+			global $user_login;
 			$item_id = $_SESSION['wpsqt'][$quizName]['details']['id'];
-			$ip = $_SERVER['REMOTE_ADDR'];
-			$results = $wpdb->get_results('SELECT * FROM `'.WPSQT_TABLE_RESULTS. '` WHERE `ipaddress` = "'.$ip.'" AND `item_id` = "'.$item_id.'"', ARRAY_A);
-			if (count($results) != 0) {
-				echo 'You appear to have already taken this quiz.';
-				return;
-			}
-		}
-
-		// Checks if limiting is enabled and if the user has already taken the survey
-		if ($this->_type == 'survey' && isset($_SESSION['wpsqt'][$quizName]['details']['limit_one']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one'] == 'yes') {
-			$item_id = $_SESSION['wpsqt'][$quizName]['details']['id'];
-			$ip = $_SERVER['REMOTE_ADDR'];
-			$results = $wpdb->get_results('SELECT * FROM `'.WPSQT_TABLE_RESULTS. '` WHERE `ipaddress` = "'.$ip.'" AND `item_id` = "'.$item_id.'"', ARRAY_A);
-			if (count($results) != 0) {
-				echo 'You appear to have already taken this survey.';
-				return;
+			$results = $wpdb->get_results('SELECT * FROM `'.WPSQT_TABLE_RESULTS. '` WHERE `item_id` = "'.$item_id.'"', ARRAY_A);
+			foreach ($results as $result) {
+				if (isset($result['person_name']) && $result['person_name'] == $user_login) {
+					echo 'You appear to have already taken this '.$this->_type.'.';
+					return;
+				}
 			}
 		}
 

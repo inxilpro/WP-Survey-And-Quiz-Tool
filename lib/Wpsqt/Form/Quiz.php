@@ -21,6 +21,7 @@ class Wpsqt_Form_Quiz extends Wpsqt_Form {
 			$options = array('name' => false,
 							'notificaton_type' => false, 
 							'limit_one' => false,
+							'limit_one_wp' => false,
 							'pass_mark' => '80', 
 							'finish_display' => false, 
 							'status' => false, 
@@ -39,7 +40,8 @@ class Wpsqt_Form_Quiz extends Wpsqt_Form {
 		
 		$this->addOption("wpsqt_name", "Name", "text", $options['name'], "What you would like the quiz to be called." )
 			 ->addOption("wpsqt_notificaton_type", "Complete Notification", "select", $options['notificaton_type'] , "Send a notification email on of completion the quiz by a user.",array('none','instant','instant 100% correct','instant 75% correct','instant 50% correct') )
-			 ->addOption("wpsqt_limit_one", "Limit to one submission","yesno", $options['limit_one'], "Limit the quiz to one submission per IP.")
+			 ->addOption("wpsqt_limit_one", "Limit to one submission per IP","yesno", $options['limit_one'], "Limit the quiz to one submission per IP.")
+			 ->addOption("wpsqt_limit_one_wp", "Limit to one submission per WP user","yesno", $options['limit_one_wp'], "Limit the quiz to one submission per WP user. You must have the Use WP Details option below set to yes.")
 			 ->addOption("wpsqt_pass_mark", "Pass mark", "text", $options['pass_mark'], "What is the pass mark of this quiz (percentage)?")
 			 ->addOption("wpsqt_finish_display", "Finish Display",'select', $options['finish_display'], "What should be displayed on the finishing of the quiz.", array("Finish message","Quiz Review"))
 			 ->addOption("wpsqt_status", "Status", "select", $options['status'], "Status of the quiz either enabled where users can take it or disabled where users can't.", array('enabled','disabled'))
