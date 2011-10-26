@@ -18,7 +18,7 @@
 
 				<?php if ( $question['type'] == "Multiple Choice" ||
 						   $question['type'] == "Dropdown" ) {
-							$googleChartUrl = 'http://chart.apis.google.com/chart?chs=293x185&cht=p';
+							$googleChartUrl = 'http://chart.apis.google.com/chart?chs=400x185&cht=p';
 							$valueArray    = array();
 							$nameArray     = array();
 						   foreach ( $question['answers'] as $answer ) {
@@ -27,8 +27,7 @@
 						   }
 
 							$googleChartUrl .= '&chd=t:'.implode(',', $valueArray);
-							$googleChartUrl .= '&chdl='.implode('|',$nameArray);
-							$googleChartUrl .= '&chtt='.$question['name'];
+							$googleChartUrl .= '&chl='.implode('|',$nameArray);
 							?>
 
 							<img src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" />
@@ -58,6 +57,9 @@
 								$valueArray    = array();
 								$nameArray     = array();
 								$maxValue = 0;
+								$numAnswers = count($question['answers']);
+								
+								// Populates data array
 								foreach ( $question['answers'] as $key => $answer ) {
 									$nameArray[] = $key;
 									$valueArray[] = $answer['count'];
@@ -65,11 +67,11 @@
 									if ($answer['count'] > $maxValue)
 										$maxValue = $answer['count'];
 								}
+								
 								$googleChartUrl .= '&chm=N,000000,0,,10|N,000000,1,,10|N,000000,2,,10'; // Adds the count above bars
 								$googleChartUrl .= '&chds=0,'.(++$maxValue); // Sets scaling to a little bit more than max value
-								$googleChartUrl .= '&chxt=x&chxl=0:|1|2|3|4|5|6|7|8|9|10'; // Sets labelling to x-axis only
+								$googleChartUrl .= '&chxt=x&chxl=0:|'.implode('|', $nameArray); // Sets labelling to x-axis only
 								$googleChartUrl .= '&chd=t:'.implode(',', $valueArray); // Chart data
-								$googleChartUrl .= '&chtt='.$question['name']; // Chart title
 								?><img src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" /><?php
 						  } else {
 								echo 'Something went really wrong, please report this bug to the forum. Here\'s a var dump which might make you feel better.<pre>'; var_dump($question); echo '</pre>';
