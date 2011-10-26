@@ -44,7 +44,7 @@
 						</strong>
 						<div class="row-actions">
 							<span class="view"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=view&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">View</a> | </span>
-							<span class="delete"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=resultsdelete&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">Delete</a></span>
+							<span class="delete"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=resultsdelete&subsection=survey&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">Delete</a></span>
 						</div>
 					</td>
 				</tr>
