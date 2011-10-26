@@ -15,6 +15,8 @@ There will be bugs and faults - hopefully not too many. Bug reports are crucial 
 
 For full changelog and development history, see the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool">GitHub repo</a>.
 
+All documentation can be found on the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/wiki/_pages">GitHub Wiki</a>.
+
 **Features**
 
 * Unlimited Quizzes.
@@ -69,6 +71,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 * Added ability to change likert scale
 * Added option to choose which role is required to admin WPSQT
 * Removed titles from within chart
+* Moved all of the documentation to the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/wiki/_pages">GitHub Wiki</a>
 
 = 2.6.6 =
 

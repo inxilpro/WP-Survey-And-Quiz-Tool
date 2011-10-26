@@ -27,7 +27,6 @@ class Wpsqt_Core {
 		->_addPage(WPSQT_PAGE_MAIN.'&type=poll', "Polls", "Polls", "wpsqt-manage", "Polls", WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_OPTIONS, "Options", "Options", "wpsqt-manage", "Options", WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_MAINTENANCE, 'Maintenance', 'Maintenance', 'wpsqt-manage', 'Maintenance', WPSQT_PAGE_MAIN)
-		->_addPage(WPSQT_PAGE_CONTACT, "Contact", "Contact", 'wpsqt-manage', "Contact", WPSQT_PAGE_MAIN)
 		->_addPage(WPSQT_PAGE_HELP, "Help", "Help", "wpsqt-manage", "Help",WPSQT_PAGE_MAIN);
 
 		add_action("init",array($this, "create_nonce" ) );
