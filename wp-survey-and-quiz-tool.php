@@ -5,7 +5,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: Allows wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 2.6.6
+Version: 2.7
 
 WP Survey And Quiz Tool
 Copyright (C) 2011  Fubra Limited
@@ -34,7 +34,6 @@ define( 'WPSQT_PAGE_QUIZ'            , 'wpsqt-menu-quiz' );
 define( 'WPSQT_PAGE_QUESTIONS'       , 'wpsqt-menu-question' );
 define( 'WPSQT_PAGE_QUIZ_RESULTS'    , 'wpsqt-menu-quiz-results' );
 define( 'WPSQT_PAGE_OPTIONS'         , 'wpsqt-menu-options' ) ;
-define( 'WPSQT_PAGE_CONTACT'         , 'wpsqt-menu-contact' );
 define( 'WPSQT_PAGE_HELP'            , 'wpsqt-menu-help'    );
 define( 'WPSQT_PAGE_SURVEY'          , 'wpsqt-menu-survey'  );
 define( 'WPSQT_PAGE_CATN'            , 'wpsqt-menu-catn' );
@@ -50,7 +49,7 @@ define( 'WPSQT_TABLE_SURVEY_CACHE'   , $wpdb->get_blog_prefix().'wpsqt_survey_ca
 define( 'WPSQT_URL_MAIN'             , admin_url('admin.php?page='.WPSQT_PAGE_MAIN) );
 define( 'WPSQT_URL_MAINENTANCE'      , admin_url('admin.php?page='.WPSQT_PAGE_MAINTENANCE) );
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '2.6.6' );
+define( 'WPSQT_VERSION'              , '2.7' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__).'/' );
 define( 'WPSQT_FILE'     , __FILE__ );
 

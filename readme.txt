@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 2.6.6
+Stable tag: 2.7
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
 == Description ==
@@ -71,6 +71,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 * Added ability to change likert scale
 * Added option to choose which role is required to admin WPSQT
 * Added limit to one submission per WP user
+* Fixed survey result deleting
 * Changed the text of the next button to 'Submit' if on the last section
 * Removed titles from within chart
 * Moved all of the documentation to the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/wiki/_pages">GitHub Wiki</a>
