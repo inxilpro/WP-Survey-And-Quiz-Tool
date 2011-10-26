@@ -53,7 +53,7 @@
 
 							}
 						  } else if ($question['type'] == "Likert") {
-								$googleChartUrl = 'http://chart.apis.google.com/chart?chs=350x250&cht=bvs';
+								$googleChartUrl = 'http://chart.apis.google.com/chart?&cht=bvs';
 								$valueArray    = array();
 								$nameArray     = array();
 								$maxValue = 0;
@@ -67,7 +67,12 @@
 									if ($answer['count'] > $maxValue)
 										$maxValue = $answer['count'];
 								}
-								
+								// Makes chart wider if its an agree/disagree question
+								if (array_key_exists('disagree', $question['answers'])) {
+									$googleChartUrl .= '&chs=500x250&chbh=20,70,10';
+								} else {
+									$googleChartUrl .= '&chs=350x250';
+								}
 								$googleChartUrl .= '&chm=N,000000,0,,10|N,000000,1,,10|N,000000,2,,10'; // Adds the count above bars
 								$googleChartUrl .= '&chds=0,'.(++$maxValue); // Sets scaling to a little bit more than max value
 								$googleChartUrl .= '&chxt=x&chxl=0:|'.implode('|', $nameArray); // Sets labelling to x-axis only

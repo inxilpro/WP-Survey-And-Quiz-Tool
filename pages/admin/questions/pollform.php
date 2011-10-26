@@ -6,7 +6,7 @@ if ( !isset($rowCount) ){
 <div class="wrap">
 
 	<div id="icon-tools" class="icon32"></div>
-	<h2>WP Survey And Quiz Tool - Questions</h2>
+	<h2>WP Survey And Quiz Tool - Poll Questions</h2>
 		
 	<?php require WPSQT_DIR.'pages/admin/misc/navbar.php'; ?>
 	

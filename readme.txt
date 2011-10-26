@@ -63,6 +63,12 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.6.7 =
+
+* Added labels to the pie charts
+* Added ability to change likert scale
+* Removed titles from within chart
+
 = 2.6.6 =
 
 * Fixed poll results view failing
