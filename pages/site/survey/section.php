@@ -41,8 +41,13 @@ foreach ($_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["questions"] as 
 	</div>		
 <?php } ?>
 
-
-	<p><input type='submit' value='Next &raquo;' class='button-secondary' /></p>
+<?php
+if ($sectionKey == (count($_SESSION['wpsqt'][$quizName]['sections']) - 1)) {
+	?><p><input type='submit' value='Submit' class='button-secondary' /></p><?php
+} else {
+	?><p><input type='submit' value='Next &raquo;' class='button-secondary' /></p><?php
+}
+?>
 </form>
 </div>
 <div class="post-content"></div>
