@@ -69,13 +69,14 @@
 								}
 								// Makes chart wider if its an agree/disagree question
 								if (array_key_exists('disagree', $question['answers'])) {
-									$googleChartUrl .= '&chs=500x250&chbh=20,70,10';
+									$googleChartUrl .= '&chs=500x250&chbh=r,70,10';
+									$googleChartUrl .= '&chxt=x&chxl=0:|Strongly Disagree|Disagree|No Opinion|Agree|Strongly Agree'; // Sets labelling to x-axis only
 								} else {
 									$googleChartUrl .= '&chs=350x250';
+									$googleChartUrl .= '&chxt=x&chxl=0:|'.implode('|', $nameArray); // Sets labelling to x-axis only
 								}
 								$googleChartUrl .= '&chm=N,000000,0,,10|N,000000,1,,10|N,000000,2,,10'; // Adds the count above bars
 								$googleChartUrl .= '&chds=0,'.(++$maxValue); // Sets scaling to a little bit more than max value
-								$googleChartUrl .= '&chxt=x&chxl=0:|'.implode('|', $nameArray); // Sets labelling to x-axis only
 								$googleChartUrl .= '&chd=t:'.implode(',', $valueArray); // Chart data
 								?><img src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" /><?php
 						  } else {
