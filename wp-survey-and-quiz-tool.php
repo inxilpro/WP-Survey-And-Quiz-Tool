@@ -5,7 +5,7 @@ Plugin URI: http://catn.com/2010/10/04/wp-survey-and-quiz-tool/
 Description: Allows wordpress owners to create their own web based quizes.
 Author: Fubra Limited
 Author URI: http://www.catn.com
-Version: 2.7
+Version: 2.7.1
 
 WP Survey And Quiz Tool
 Copyright (C) 2011  Fubra Limited
@@ -49,7 +49,7 @@ define( 'WPSQT_TABLE_SURVEY_CACHE'   , $wpdb->get_blog_prefix().'wpsqt_survey_ca
 define( 'WPSQT_URL_MAIN'             , admin_url('admin.php?page='.WPSQT_PAGE_MAIN) );
 define( 'WPSQT_URL_MAINENTANCE'      , admin_url('admin.php?page='.WPSQT_PAGE_MAINTENANCE) );
 define( 'WPSQT_CONTACT_EMAIL'        , 'support@catn.com' );
-define( 'WPSQT_VERSION'              , '2.7' );
+define( 'WPSQT_VERSION'              , '2.7.1' );
 define( 'WPSQT_DIR'                  , dirname(__FILE__).'/' );
 define( 'WPSQT_FILE'     , __FILE__ );
 
@@ -68,6 +68,10 @@ if ( !empty($oldVersion) && (version_compare($oldVersion, WPSQT_VERSION) < 0) ){
 	update_option('wpsqt_update_required',true);
 	update_option('wpsqt_old_version',$oldVersion);
 }
+
+// Make sure admin has the capability
+$role = get_role('administrator');
+$role->add_cap('wpsqt-manage');
 
 /**
  * Class for Installing plugin on activation.
