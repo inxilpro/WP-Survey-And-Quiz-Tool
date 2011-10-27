@@ -19,11 +19,15 @@ class Wpsqt_Page_Main_Resultsdelete_Survey extends Wpsqt_Page_Main_Resultsdelete
 			$cachedResults = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_SURVEY_CACHE."` WHERE `item_id` = '".$_GET['id']."'", ARRAY_A);
 			$cachedQuestions = unserialize($cachedResults[0]['sections']);
 			$cachedQuestions2 = $cachedQuestions[0]['questions'];
-			
+
 			// Decrement the cached counts by the amount found above
 			foreach ($answers as $key => &$answer) {
 				if ($cachedQuestions2[$key]['type'] == 'Likert')
 					$cachedQuestions2[$key]['answers'][$answer['given']]['count']--;
+				if ($cachedQuestions2[$key]['type'] == 'Multiple Choice') {
+					$answerGiven = (int)$answer['given'];
+					$cachedQuestions2[$key]['answers'][$answerGiven]['count']--;
+				}
 			}
 			
 			// Send the updated cached result back to the db

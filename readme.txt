@@ -65,6 +65,11 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.7.2 =
+
+* Fixed deleting survey results when they contain a free text question
+* Fixed deleting survey results for multiple choice question
+
 = 2.7.1 =
 
 * Fix capability issue
