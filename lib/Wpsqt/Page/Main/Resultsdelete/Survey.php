@@ -22,7 +22,8 @@ class Wpsqt_Page_Main_Resultsdelete_Survey extends Wpsqt_Page_Main_Resultsdelete
 			
 			// Decrement the cached counts by the amount found above
 			foreach ($answers as $key => &$answer) {
-				$cachedQuestions2[$key]['answers'][$answer['given']]['count']--;
+				if ($cachedQuestions2[$key]['type'] == 'Likert')
+					$cachedQuestions2[$key]['answers'][$answer['given']]['count']--;
 			}
 			
 			// Send the updated cached result back to the db
