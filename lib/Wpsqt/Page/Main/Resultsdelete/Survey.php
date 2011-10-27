@@ -24,7 +24,7 @@ class Wpsqt_Page_Main_Resultsdelete_Survey extends Wpsqt_Page_Main_Resultsdelete
 			foreach ($answers as $key => &$answer) {
 				if ($cachedQuestions2[$key]['type'] == 'Likert')
 					$cachedQuestions2[$key]['answers'][$answer['given']]['count']--;
-				if ($cachedQuestions2[$key]['type'] == 'Multiple Choice') {
+				if ($cachedQuestions2[$key]['type'] == 'Multiple Choice' || $cachedQuestions2[$key]['type'] == 'Dropdown') {
 					$answerGiven = (int)$answer['given'];
 					$cachedQuestions2[$key]['answers'][$answerGiven]['count']--;
 				}
