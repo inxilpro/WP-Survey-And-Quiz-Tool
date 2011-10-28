@@ -3,7 +3,7 @@ Contributors: Fubra,Backie,olliea95
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUGVV4HY5ZE&lc=GB&item_name=CATN%20Plugins&item_number=catn&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
-Tested up to: 3.2.1
+Tested up to: 3.3-beta2
 Stable tag: 2.7.2
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
@@ -67,8 +67,10 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 = 2.7.3 =
 
+* Fixed error with upgrading
 * Added ability to add a timer for a quiz
 * Addressed several layout issues
+* Tested up to WP 3.3 Beta 2
 
 = 2.7.2 =
 
