@@ -60,6 +60,7 @@ require_once WPSQT_DIR.'lib/Wpsqt/System.php';
 register_activation_hook ( __FILE__, 'wpsqt_main_install' );
 	
 $oldVersion = get_option('wpsqt_version');
+update_option('wpsqt_version',WPSQT_VERSION);
 if ( !get_option('wpsqt_number_of_items') ){
 	update_option('wpsqt_number_of_items',25);
 }
@@ -151,7 +152,6 @@ function wpsqt_main_install(){
 				  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 				  PRIMARY KEY (`id`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
-
 }
 if (is_admin()){
 	if (is_multisite() && get_option('wpsqt_manual') != 1) {

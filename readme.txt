@@ -65,6 +65,10 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.7.4 =
+
+* Fixed upgrade notice not appearing
+
 = 2.7.3 =
 
 * Fixed error with upgrading
