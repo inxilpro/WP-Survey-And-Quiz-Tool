@@ -65,6 +65,11 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.7.3 =
+
+* Added ability to add a timer for a quiz
+* Addressed several layout issues
+
 = 2.7.2 =
 
 * Fixed deleting survey results when they contain a free text, dropdown or multiple question

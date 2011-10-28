@@ -39,6 +39,7 @@ class Wpsqt_Core {
 		
 		add_action('init', array($this,"init"));
 		add_action('admin_bar_menu', array($this,"adminbar"),999);
+		add_action( 'init' , array($this,"enqueue_files"));
 		
 		// Register the top scores widget
 		require_once WPSQT_DIR.'lib/Wpsqt/Widget.php';
@@ -437,5 +438,9 @@ class Wpsqt_Core {
 		} else {
 			return 'No username was supplied for this results page. The shortcode should look like [wpsqt_results username="admin"]';
 		}
+	}
+
+	public function enqueue_files() {
+		wp_enqueue_script("jquery");
 	}
 }

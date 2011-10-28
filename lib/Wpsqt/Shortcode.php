@@ -182,7 +182,6 @@ class Wpsqt_Shortcode {
 			}
 		}
 
-
 		// handle contact form and all the stuff that comes with it.
 		if ( isset($_SESSION['wpsqt'][$quizName]['details']['contact']) && $_SESSION['wpsqt'][$quizName]['details']['contact'] == "yes" && $this->_step <= 1 ){
 			$fields = $wpdb->get_results(
@@ -226,11 +225,45 @@ class Wpsqt_Shortcode {
 			}
 
 		}
-
 		if ( isset($_SESSION['wpsqt'][$quizName]['details']['contact']) && $_SESSION['wpsqt'][$quizName]['details']['contact'] == "yes" ){
 			$this->_key = $this->_step - 1;
 		} else {
 			$this->_key = $this->_step;
+		}
+
+		if ($this->_key == 0) {
+			$timeTaken = 0;
+		} else {
+			$timeTaken = round(microtime(true) - $_SESSION['wpsqt'][$quizName]['start_time'], 0);
+		}
+		if (is_page() || is_single()) {
+			if (isset($_SESSION['wpsqt'][$quizName]['details']['timer']) && $_SESSION['wpsqt'][$quizName]['details']['timer'] != '0' && $_SESSION['wpsqt'][$quizName]['details']['timer'] != "") {
+				$timerVal = (((int) $_SESSION['wpsqt'][$quizName]['details']['timer']) * 60) - $timeTaken;
+				echo '<div class="timer" style="float: right;"></div>';
+				?>
+					<script type="text/javascript">
+						jQuery(document).ready( function(){
+							var timeSecs = <?= $timerVal; ?>;
+							var refreshId = setInterval(function() {
+								if (timeSecs != 0) {
+									timeSecs = timeSecs - 1;
+									var timeMins = timeSecs / 60;
+									timeMins = (timeMins<0?-1:+1)*Math.floor(Math.abs(timeMins)); // Gets rid of the decimal place
+									var timeSecsRem = timeSecs % 60;
+									if (timeMins > 0) {
+										jQuery(".timer").html("Time Left: " + timeMins + " mins and " + timeSecsRem + " seconds");
+									} else {
+										jQuery(".timer").html("Time Left: " + timeSecsRem + " seconds");
+									}
+								} else {
+									jQuery(".quiz").html("Unfortunately you have run out of time for this quiz.");
+									jQuery(".timer").hide();
+								}
+							}, 1000);
+						});
+					</script>
+				<?php
+			}
 		}
 
 		// if we are still here then we are to
@@ -382,6 +415,16 @@ class Wpsqt_Shortcode {
 
 		$quizName = $_SESSION['wpsqt']['current_id'];
 
+		if (isset($_SESSION['wpsqt'][$quizName]['details']['timer']) && $_SESSION['wpsqt'][$quizName]['details']['timer'] != '0' && $_SESSION['wpsqt'][$quizName]['details']['timer'] != "") {
+				?>
+					<script type="text/javascript">
+						jQuery(document).ready( function(){
+							jQuery(".timer").hide();
+						});
+					</script>
+				<?php
+			}
+
 		if ( isset($_SESSION['wpsqt'][$quizName]['details']['use_wp']) && $_SESSION['wpsqt'][$quizName]['details']['use_wp'] == 'yes'){
 			$objUser = wp_get_current_user();
 			$_SESSION['wpsqt'][$quizName]['person']['name'] = $objUser->user_login;
@@ -408,7 +451,7 @@ class Wpsqt_Shortcode {
 					break;
 			}
 
-			foreach ( $quizSection['questions'] as $question ){
+			foreach ( $quizSection['questions'] as $key => $question ){
 				$totalPoints += $question['points'];
 			}
 
