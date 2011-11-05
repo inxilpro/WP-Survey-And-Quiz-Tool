@@ -277,15 +277,15 @@ class Wpsqt_Shortcode {
 			$correct = 0;
 			$pastSectionKey = $this->_key - 1;
 
-			if ( isset($_POST['answers']) ){
-
-				$_SESSION['wpsqt'][$quizName]['sections'][$pastSectionKey]['answers'] = array();
-				$canAutoMark = true;
-				foreach ($_SESSION["wpsqt"][$quizName]["sections"][$pastSectionKey]["questions"] as $questionData ){
-					if ( isset($questionData['required']) && $questionData['required'] == "yes") {
-						$requiredQuestions['exist']++;
-					}
+			$_SESSION['wpsqt'][$quizName]['sections'][$pastSectionKey]['answers'] = array();
+			$canAutoMark = true;
+			foreach ($_SESSION["wpsqt"][$quizName]["sections"][$pastSectionKey]["questions"] as $questionData ){
+				if ( isset($questionData['required']) && $questionData['required'] == "yes") {
+					$requiredQuestions['exist']++;
 				}
+			}
+
+			if ( isset($_POST['answers']) ){
 
 				foreach ( $_POST['answers'] as $questionKey => $givenAnswers ){
 					$answerMarked = array();
