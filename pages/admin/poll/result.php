@@ -24,16 +24,12 @@
 			// GETS ALL THE RESULTS FOR THIS POLL
 			$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
 		} else {
-			echo "I think you have an issue with the shortcode you used. Please copy and paste the poll name to ensure that it is spelt and capitalised correctly.";
+			echo "The WPSQT session variable has obviously not been set. Not sure why this could have happened...";
 		}
 		
 		if (!isset($results) || empty($results)) {
 			echo '<h2>No results yet</h2>';
 		} else {
-			if (!isset($_SESSION['wpsqt'][$pollName]['sections'][0]['questions'])) {
-				echo 'Something went wrong with WPSQT on the poll result page - please report this to the <a href="https://github.com/fubralimited/WP-Survey-And-Quiz-Tool/issues?sort=created&direction=desc&state=open">GitHub issue tracking page</a>. Maybe press back and try again?';
-				exit;
-			}
 			foreach($_SESSION['wpsqt'][$pollName]['sections'] as $section) {
 				foreach($section['questions'] as $question) {
 					foreach ($results as $result) {

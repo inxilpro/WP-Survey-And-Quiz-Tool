@@ -22,7 +22,6 @@ class Wpsqt_Form_Question extends Wpsqt_Form {
 	 * @param array $options The array of values for the fields in the form. If it's empty we'll build a basic one to avoid undefined indexes all over the place.
 	 */
 	public function __construct( $questionTypes, $sections, $options = array() ){
-		
 		if ( empty($options) ) {
 			$options = array('question' => false,
 							 'type' => false,
