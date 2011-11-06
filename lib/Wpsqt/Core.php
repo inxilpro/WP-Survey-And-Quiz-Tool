@@ -36,6 +36,7 @@ class Wpsqt_Core {
 		add_shortcode( 'wpsqt_survey' , array($this, 'shortcode_survey') );
 		add_shortcode( 'wpsqt' , array($this, 'shortcode') );
 		add_shortcode( 'wpsqt_results', array($this, 'shortcode_results') );
+		add_shortcode( 'wpsqt_survey_results', array($this, 'shortcode_survey_results') );
 		
 		add_action('init', array($this,"init"));
 		add_action('admin_bar_menu', array($this,"adminbar"),999);
@@ -437,6 +438,21 @@ class Wpsqt_Core {
 			}
 		} else {
 			return 'No username was supplied for this results page. The shortcode should look like [wpsqt_results username="admin"]';
+		}
+	}
+
+	public function shortcode_survey_results( $atts ) {
+		global $wpdb;
+		extract( shortcode_atts( array(
+					'name' => false
+		), $atts) );
+		if ($name == false) {
+			echo 'No survey name was supplied.';
+		} else {
+			echo 'Results for '.$name;
+			$surveyId = $wpdb->get_row("SELECT `id` FROM `".WPSQT_TABLE_QUIZ_SURVEYS."` WHERE `name` = '".$name."'", ARRAY_A);
+			$surveyId = (int) $surveyId['id'];
+			// Get results and display them.
 		}
 	}
 
