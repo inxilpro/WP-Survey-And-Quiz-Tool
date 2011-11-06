@@ -24,9 +24,11 @@
 			// GETS ALL THE RESULTS FOR THIS POLL
 			$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
 		} else {
-			echo "The WPSQT session variable has obviously not been set. Not sure why this could have happened...";
+			// Weird bug where the $_SESSION['wpsqt'] will not be set unless you view the poll page.
+			echo "A strange bug can sometimes occur here, and it appears it has this time - lucky you!. Go to the page on your website where the poll is located and then refresh this page. You shouldn't have to take the poll yourself, just visit the page it's located on. Then this message should dissapear and results should appear.";
+			exit;
 		}
-		
+
 		if (!isset($results) || empty($results)) {
 			echo '<h2>No results yet</h2>';
 		} else {
