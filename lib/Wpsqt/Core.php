@@ -450,9 +450,27 @@ class Wpsqt_Core {
 			echo 'No survey name was supplied.';
 		} else {
 			echo 'Results for '.$name;
+
+			// Get the ID
 			$surveyId = $wpdb->get_row("SELECT `id` FROM `".WPSQT_TABLE_QUIZ_SURVEYS."` WHERE `name` = '".$name."'", ARRAY_A);
 			$surveyId = (int) $surveyId['id'];
-			// Get results and display them.
+
+			// Get results
+			$result = $wpdb->get_row("SELECT * FROM `".WPSQT_TABLE_SURVEY_CACHE."` WHERE item_id = '".$surveyId."'", ARRAY_A);
+			$sections = unserialize($result['sections']);
+			foreach($sections[0]['questions'] as $questionKey => $question) {
+				if ($question['type'] == 'Free Text') {
+					$uncachedResult = $wpdb->get_results(
+						$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE item_id = %d",
+									   array($_GET['id'])), ARRAY_A
+									);
+					$uncachedresults = $uncachedResult;
+					// Storing all the IDs for free text questions
+					$freetextq[] = $questionKey;
+				}
+			}
+			// Just reuse the same page view that the admin thing uses
+			require_once WPSQT_DIR.'pages/admin/surveys/result.total.script.php';
 		}
 	}
 

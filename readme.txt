@@ -69,6 +69,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 * Fixed upgrade notice not appearing
 * Fixed empty field validation
+* Clarified some error messages
 
 = 2.7.3 =
 
