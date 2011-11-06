@@ -27,7 +27,7 @@
 			echo "I think you have an issue with the shortcode you used. Please copy and paste the poll name to ensure that it is spelt and capitalised correctly.";
 		}
 		
-		if (empty($results)) {
+		if (!isset($results) || empty($results)) {
 			echo '<h2>No results yet</h2>';
 		} else {
 			if (!isset($_SESSION['wpsqt'][$pollName]['sections'][0]['questions'])) {

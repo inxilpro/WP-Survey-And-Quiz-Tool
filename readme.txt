@@ -68,6 +68,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 = 2.7.4 =
 
 * Fixed upgrade notice not appearing
+* Fixed empty field validation
 
 = 2.7.3 =
 
