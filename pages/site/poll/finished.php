@@ -13,7 +13,6 @@ $objTokens->setDefaultValues();
 	if ($_SESSION['wpsqt'][$pollName]['details']['finish_display'] == 'Poll results') {
 		// GETS ALL THE RESULTS FOR THIS POLL
 		$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
-		
 		foreach($_SESSION['wpsqt'][$pollName]['sections'][0]['questions'] as $question) {
 			foreach ($results as $result) {
 				$section = unserialize($result['sections']);
