@@ -165,6 +165,11 @@ class Wpsqt_Shortcode {
 			$results = $wpdb->get_results('SELECT * FROM `'.WPSQT_TABLE_RESULTS. '` WHERE `ipaddress` = "'.$ip.'" AND `item_id` = "'.$item_id.'"', ARRAY_A);
 			if (count($results) != 0) {
 				echo 'You appear to have already taken this '.$this->_type.'.';
+				if ($this->_type == 'poll' && isset($_SESSION['wpsqt'][$quizName]['details']['show_results_limited']) && $_SESSION['wpsqt'][$quizName]['details']['show_results_limited'] == 'yes') {
+					require_once WPSQT_DIR.'/lib/Wpsqt/Page.php';
+					require_once WPSQT_DIR.'/lib/Wpsqt/Page/Main/Results/Poll.php';
+					Wpsqt_Page_Main_Results_Poll::displayResults($item_id);
+				}
 				return;
 			}
 		}

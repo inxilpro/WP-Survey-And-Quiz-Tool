@@ -69,6 +69,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 * Rewritten the poll results backend, now much more reliable
 * Polls with multiple sections now work entirely
+* Allow poll results to be shown if the poll is already taken and limiting is enabled
 
 = 2.7.4 =
 
