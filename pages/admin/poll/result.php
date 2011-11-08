@@ -42,13 +42,26 @@
 						}
 					}
 				}
-				
 			}
+
+			// Calculate totals for each answer
+			// Has to be done in seperate array otherwise stupid referencing issues occur later
+			$answerTotals = array();
+			foreach($questions as $questionKey => $question) {
+				foreach ($question['answers'] as $key => $answer) {
+					if(!isset($answerTotals[$questionKey])) {
+						$answerTotals[$questionKey] = $answer['count'];
+					} else {
+						$answerTotals[$questionKey] = $answerTotals[$questionKey] + $answer['count'];
+					}
+				}
+			}
+
 			foreach($questions as $key => &$question) {
 				$questionInfo = $wpdb->get_row("SELECT `name`, `meta` FROM `".WPSQT_TABLE_QUESTIONS."` WHERE `id` = '".$key."'", ARRAY_A);
 				$question['name'] = $questionInfo['name'];
 				$questionInfo = unserialize($questionInfo['meta']);
-				echo $question['name'];
+				echo '<h3>'.$question['name'].'</h3>';
 				?>
 				<table class="widefat post fixed" cellspacing="0">
 					<thead>
@@ -68,10 +81,11 @@
 					<tbody>
 				
 					<?php
-					foreach($question['answers'] as $key => &$answer) {
+					foreach($question['answers'] as $answerKey => &$answer) {
 						echo '<tr>';
-							echo '<td>'.$questionInfo['answers'][$key]['text'].'</td>';
+							echo '<td>'.$questionInfo['answers'][$answerKey]['text'].'</td>';
 							echo '<td>'.$answer['count'].'</td>';
+							echo '<td>'.round(($answer['count'] / $answerTotals[$key]) * 100, 2) .'%</td>';
 						echo '</tr>';
 					}
 
