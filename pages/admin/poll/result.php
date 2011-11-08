@@ -48,11 +48,35 @@
 				$questionInfo = $wpdb->get_row("SELECT `name`, `meta` FROM `".WPSQT_TABLE_QUESTIONS."` WHERE `id` = '".$key."'", ARRAY_A);
 				$question['name'] = $questionInfo['name'];
 				$questionInfo = unserialize($questionInfo['meta']);
-				foreach($question['answers'] as $key => &$answer) {
-					$answer['text'] = $questionInfo['answers'][$key]['text'];
-				}
+				echo $question['name'];
+				?>
+				<table class="widefat post fixed" cellspacing="0">
+					<thead>
+						<tr>
+							<th class="manage-column column-title" scope="col">Answer</th>
+							<th scope="col" width="75">Votes</th>
+							<th scope="col" width="90">Percentage</th>
+						</tr>			
+					</thead>
+					<tfoot>
+						<tr>
+							<th class="manage-column column-title" scope="col">Answer</th>
+							<th scope="col" width="75">Votes</th>
+							<th scope="col" width="90">Percentage</th>
+						</tr>			
+					</tfoot>
+					<tbody>
+				
+					<?php
+					foreach($question['answers'] as $key => &$answer) {
+						echo '<tr>';
+							echo '<td>'.$questionInfo['answers'][$key]['text'].'</td>';
+							echo '<td>'.$answer['count'].'</td>';
+						echo '</tr>';
+					}
+
+				?></table><?php
 			}
-			echo '<pre>'; var_dump($questions); echo '</pre>';
 		}
 		?>
 		
