@@ -18,84 +18,41 @@
 		
 		<?php
 		$pollName = $quizName;
-		if (isset($_SESSION['wpsqt'][$pollName])) {
-			$pollId = $_SESSION['wpsqt'][$pollName]['details']['id'];
+		$pollId = (int) $_GET['id'];
 			
-			// GETS ALL THE RESULTS FOR THIS POLL
-			$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
-		} else {
-			// Weird bug where the $_SESSION['wpsqt'] will not be set unless you view the poll page.
-			echo "A strange bug can sometimes occur here, and it appears it has this time - lucky you!. Go to the page on your website where the poll is located and then refresh this page. You shouldn't have to take the poll yourself, just visit the page it's located on. Then this message should dissapear and results should appear.";
-			exit;
-		}
+		// GETS ALL THE RESULTS FOR THIS POLL
+		$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
 
 		if (!isset($results) || empty($results)) {
 			echo '<h2>No results yet</h2>';
 		} else {
-			foreach($_SESSION['wpsqt'][$pollName]['sections'] as $section) {
-				foreach($section['questions'] as $question) {
-					foreach ($results as $result) {
-						$section = unserialize($result['sections']);
-						$questionId = $question['id'];
-						$questionAnswer = $section[0]['answers'][$questionId];
-						$questionAnswer = $questionAnswer['given'][0];
-						if (!isset($question['answers'][$questionAnswer]['count'])) {
-							$question['answers'][$questionAnswer]['count'] = 1;
+			$questions = array();
+			foreach($results as $result) {
+				$sections = unserialize($result['sections']);
+				foreach($sections as $section) {
+					$answers = $section['answers'];
+					foreach($answers as $key => $answer) {
+						if (!isset($questions[$key]))
+							$questions[$key] = array();
+						$givenAnswer = (int) $answer['given'][0];
+						if (!isset($questions[$key]['answers'][$givenAnswer]['count'])) {
+							$questions[$key]['answers'][$givenAnswer]['count'] = 1;
 						} else {
-							$question['answers'][$questionAnswer]['count'] += 1;
+							$questions[$key]['answers'][$givenAnswer]['count']++;
 						}
 					}
-					echo '<h3>'.$question['name'].'</h3>';
-					echo <<< EOT
-					<table class="widefat post fixed" cellspacing="0">
-						<thead>
-							<tr>
-								<th class="manage-column column-title" scope="col">Answer</th>
-								<th scope="col" width="75">Votes</th>
-								<th scope="col" width="90">Percentage</th>
-							</tr>			
-						</thead>
-						<tfoot>
-							<tr>
-								<th class="manage-column column-title" scope="col">Answer</th>
-								<th scope="col" width="75">Votes</th>
-								<th scope="col" width="90">Percentage</th>
-							</tr>			
-						</tfoot>
-						<tbody>
-EOT;
-						$total = 0;
-						foreach ($question['answers'] as $answer) {
-							if (!isset($answer['count']))
-								$answer['count'] = '0';
-							$total += $answer['count'];
-						}
-						foreach($question['answers'] as $answer) {
-							if (isset($answer['count'])) {
-								$percentage = $answer['count'] / $total * 100;
-							} else {
-								$percentage = '0';
-							}
-							echo '<tr>';
-							echo '<td>'.$answer['text'].'</td>';
-							if (isset($answer['count'])) {
-								echo '<td>'.$answer['count'].'</td>';
-							} else {
-								echo '<td>0</td>';
-							}
-							echo '<td>'.round($percentage, 2).'%</td>';
-							echo '</tr>';
-						}
-						echo <<< EOT
-							<tr>
-		
-						</tbody>
-					</table>
-EOT;
-		
 				}
-
+				
 			}
+			foreach($questions as $key => &$question) {
+				$questionInfo = $wpdb->get_row("SELECT `name`, `meta` FROM `".WPSQT_TABLE_QUESTIONS."` WHERE `id` = '".$key."'", ARRAY_A);
+				$question['name'] = $questionInfo['name'];
+				$questionInfo = unserialize($questionInfo['meta']);
+				foreach($question['answers'] as $key => &$answer) {
+					$answer['text'] = $questionInfo['answers'][$key]['text'];
+				}
+			}
+			echo '<pre>'; var_dump($questions); echo '</pre>';
 		}
 		?>
 		
