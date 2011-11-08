@@ -68,6 +68,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 = 2.8 =
 
 * Rewritten the poll results backend, now much more reliable
+* Polls with multiple sections now work entirely
 
 = 2.7.4 =
 
