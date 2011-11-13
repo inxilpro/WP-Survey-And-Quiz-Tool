@@ -34,7 +34,6 @@
 					<a href="<?php echo WPSQT_URL_MAIN; ?>&type=poll" <?php if ($type == "poll") { ?>  class="current"<?php } ?>  id="survey_link">Polls <span class="count">(<?php echo $pollNo; ?>)</span></a>
 				</li>
 			</ul>
-
 			<div class="tablenav-pages">
 		   		<?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages); ?>
 		   	</div>

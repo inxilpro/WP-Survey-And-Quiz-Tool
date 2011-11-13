@@ -51,7 +51,7 @@ class Wpsqt_Page_Main extends Wpsqt_Page {
 		foreach( $results as &$result ){
 			//$result = 
 		}
-		$numberOfPages = 1;//wpsqt_functions_pagenation_pagecount($totalNo, $itemsPerPage);
+		$numberOfPages = Wpsqt_Core::getPaginationCount($totalNo, $itemsPerPage);
 		
 		$this->_pageVars = array( 'results' =>$results,
 								  'numberOfPages' => $numberOfPages,
