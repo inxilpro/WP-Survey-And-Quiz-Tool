@@ -24,11 +24,13 @@ class Wpsqt_Page_Main_Results_Poll extends Wpsqt_Page_Main_Results {
 					foreach($answers as $key => $answer) {
 						if (!isset($questions[$key]))
 							$questions[$key] = array();
-						$givenAnswer = (int) $answer['given'][0];
-						if (!isset($questions[$key]['answers'][$givenAnswer]['count'])) {
-							$questions[$key]['answers'][$givenAnswer]['count'] = 1;
-						} else {
-							$questions[$key]['answers'][$givenAnswer]['count']++;
+						foreach($answer['given'] as $given) {
+							$givenAnswer = (int) $given;
+							if (!isset($questions[$key]['answers'][$givenAnswer]['count'])) {
+								$questions[$key]['answers'][$givenAnswer]['count'] = 1;
+							} else {
+								$questions[$key]['answers'][$givenAnswer]['count']++;
+							}
 						}
 					}
 				}
