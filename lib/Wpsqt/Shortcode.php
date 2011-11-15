@@ -618,15 +618,28 @@ class Wpsqt_Shortcode {
 					continue;
 				}
 				if ($cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Likert") {
-					$givenAnswer = (int) $section['answers'][$question['id']]['given'];
+					if(isset($section['answers'][$question['id']])) {
+						$givenAnswer = (int) $section['answers'][$question['id']]['given'];
+					} else {
+						$givenAnswer = NULL;
+					}
 				} else {
-					$givenAnswer = (int) current($section['answers'][$question['id']]['given']);
+					if(isset($section['answers'][$question['id']])) {
+						$givenAnswer = (int) current($section['answers'][$question['id']]['given']);
+					} else {
+						$givenAnswer = NULL;
+					}
 				}
 				if ($question['likertscale'] == 'Agree/Disagree') {
-				 	$givenAnswer = $section['answers'][$question['id']]['given'];
+				 	if(isset($section['answers'][$question['id']])) {
+						$givenAnswer = $section['answers'][$question['id']]['given'];
+					} else {
+						$givenAnswer = NULL;
+					}
 				}
-				$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]++;			}
-
+				if (isset($cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]))
+					$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]++;
+			}
 		}
 		if ( !empty($surveyResults) ){
 			$wpdb->query(
