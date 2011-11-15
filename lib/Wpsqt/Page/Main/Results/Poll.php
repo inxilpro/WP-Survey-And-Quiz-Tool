@@ -49,11 +49,10 @@ class Wpsqt_Page_Main_Results_Poll extends Wpsqt_Page_Main_Results {
 				}
 			}
 
-			foreach($questions as $key => &$question) {
+			foreach($questions as $key => $question) {
 				$questionInfo = $wpdb->get_row("SELECT `name`, `meta` FROM `".WPSQT_TABLE_QUESTIONS."` WHERE `id` = '".$key."'", ARRAY_A);
-				$question['name'] = $questionInfo['name'];
+				echo '<h3>'.$questionInfo['name'].'</h3>';
 				$questionInfo = unserialize($questionInfo['meta']);
-				echo '<h3>'.$question['name'].'</h3>';
 				?>
 				<table class="widefat post fixed" cellspacing="0">
 					<thead>

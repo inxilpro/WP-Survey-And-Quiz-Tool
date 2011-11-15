@@ -69,6 +69,7 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 * Fixed pagination on quiz/survey list
 * Fixed poll results for multiple questions
+* Optimisation on several sections
 
 = 2.8 =
 
