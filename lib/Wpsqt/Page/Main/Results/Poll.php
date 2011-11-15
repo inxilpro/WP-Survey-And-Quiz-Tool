@@ -11,7 +11,7 @@ class Wpsqt_Page_Main_Results_Poll extends Wpsqt_Page_Main_Results {
 	public function displayResults($pollId) {
 		global $wpdb;
 
-		$results = $wpdb->get_results("SELECT * FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
+		$results = $wpdb->get_results("SELECT `sections` FROM `".WPSQT_TABLE_RESULTS."` WHERE `item_id` = '".$pollId."'", ARRAY_A);
 
 		if (!isset($results) || empty($results)) {
 			echo '<h2>No results yet</h2>';

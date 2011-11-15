@@ -65,6 +65,10 @@ Any further issues then feel free to create a thread on the <a href="http://word
 
 == ChangeLog ==
 
+= 2.8.1 =
+
+* Fixed pagination on quiz/survey list
+
 = 2.8 =
 
 * Rewritten the poll results backend, now much more reliable
